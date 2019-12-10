@@ -7,7 +7,7 @@ eureka:
     hostname: localhost
   client:
     service-url:
-      defaultzone: http://49.235.255.145:8761, http://49.234.96.26:8762
+      defaultzone: http://49.235.255.145:8761/eureka, http://49.234.96.26:8761/eureka
 
 spring:
   application:
