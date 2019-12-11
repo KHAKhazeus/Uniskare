@@ -1,9 +1,9 @@
 server:
-  port: 7632
+  port: 7956
 
 spring:
   application:
-    name: skill-provider
+    name: order-provider
 eureka:
   client:
     fetch-registry: true
