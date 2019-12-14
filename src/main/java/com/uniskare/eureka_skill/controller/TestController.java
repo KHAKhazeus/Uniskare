@@ -7,6 +7,7 @@ package com.uniskare.eureka_skill.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.uniskare.eureka_skill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/test")
+@CrossOrigin //跨域
+@RequestMapping("/test") //基路径
 public class TestController {
 
     @Autowired
