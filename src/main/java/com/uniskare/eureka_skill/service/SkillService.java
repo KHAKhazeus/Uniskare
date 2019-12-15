@@ -1,10 +1,15 @@
 package com.uniskare.eureka_skill.service;
 
-import com.alibaba.fastjson.JSONArray;
 import com.uniskare.eureka_skill.entity.Skill;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public interface SkillService {
-    public List<Skill> findAll();
+    public Skill save(Skill skill);
+    public Page<Skill> findAll(Pageable pageable);
+    public Optional<Skill> findById(int skillId);
+    public void deleteById(int skillId);
 }

@@ -4,9 +4,12 @@ import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 @Service
 public class SkillServiceImpl implements SkillService {
@@ -15,7 +18,23 @@ public class SkillServiceImpl implements SkillService {
     private SkillRepo skillRepo;
 
     @Override
-    public List<Skill> findAll() {
-        return (List<Skill>)skillRepo.findAll();
+    public Skill save(Skill skill) {
+        return skillRepo.save(skill);
     }
+
+    @Override
+    public Page<Skill> findAll(Pageable pageable) {
+        return skillRepo.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Skill> findById(int skillId) {
+        return skillRepo.findById(skillId);
+    }
+
+    @Override
+    public void deleteById(int skillId) {
+        skillRepo.deleteById(skillId);
+    }
+
 }
