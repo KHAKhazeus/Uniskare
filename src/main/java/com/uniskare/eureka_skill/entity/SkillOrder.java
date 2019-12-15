@@ -18,6 +18,19 @@ public class SkillOrder {
     private Timestamp orderTime;
     private double value;
 
+    public SkillOrder(int skillId, String userId, Byte state, Timestamp orderTime, double value) {
+        this.skillId = skillId;
+        this.userId = userId;
+        this.state = state;
+        this.orderTime = orderTime;
+        this.value = value;
+    }
+
+
+
+    public SkillOrder() {
+    }
+
     @Id
     @Column(name = "order_id")
     public int getOrderId() {

@@ -29,6 +29,11 @@ public class OrderController {
     }
 
 //    用户下单？创建一个订单
+    @RequestMapping(value = "/new_order", method = RequestMethod.POST)
+    public BaseResponse newOrder(@RequestBody JSONObject body)
+    {
+        return orderService.newOrder(body);
+    }
 
 //    用户付款
     @RequestMapping(value="/pay", method = RequestMethod.POST)

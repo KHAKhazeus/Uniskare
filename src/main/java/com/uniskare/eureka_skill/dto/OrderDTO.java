@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor(access=AccessLevel.PUBLIC)
 public class OrderDTO {
     private String skill_cover;
-    private BigDecimal price;
+    private double price;
     private Timestamp order_time;
     private String skiller_name;
     private String skill_title;
