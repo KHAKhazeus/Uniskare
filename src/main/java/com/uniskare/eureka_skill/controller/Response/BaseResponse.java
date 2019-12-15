@@ -26,4 +26,12 @@ public class BaseResponse {
         this.path = path;//跳转的url?
         this.data = data;//真实数据
     }
+
+    public BaseResponse(int status, String error,String message, Object data)
+    {
+        this.status = status;//状态码
+        this.error = error;//错误信息
+        this.message = message;//插入成功之类的
+        this.data = data;//真实数据
+    }
 }
