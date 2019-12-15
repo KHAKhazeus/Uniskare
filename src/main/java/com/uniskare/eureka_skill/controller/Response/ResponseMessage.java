@@ -4,7 +4,7 @@ package com.uniskare.eureka_skill.controller.Response;
  * @author : SCH001
  * @description :
  */
-public class Message {
+public class ResponseMessage {
     public static final String LOGIN_SUCCESS="login success";
     public static final String QUERY_SUCCESS="query success";
     public static final String UPDATE_SUCCESS="update success";
