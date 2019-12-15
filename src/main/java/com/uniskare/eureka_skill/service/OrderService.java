@@ -15,4 +15,6 @@ public interface OrderService {
 //    public boolean changeOrderState(JSONObject json, Byte state);
 
     public BaseResponse operateOrder(JSONObject json, Byte state);
+
+    public BaseResponse newOrder(JSONObject json);
 }

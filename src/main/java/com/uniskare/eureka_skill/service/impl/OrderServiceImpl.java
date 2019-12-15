@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.sql.Timestamp;
 
@@ -60,14 +61,22 @@ public class OrderServiceImpl implements OrderService {
             String user_id = jsonObject.getString(USER_ID);
             Byte order_state = jsonObject.getByte(ORDER_STATUS);
 
-            List<SkillOrder> skillOrders = orderRepo.findAllByUserIdAndState(user_id, order_state);
+            List<SkillOrder> skillOrders;
+            if(order_state!=-1)
+            {
+                //取对应状态的用户订单
+                skillOrders = orderRepo.findAllByUserIdAndState(user_id, order_state);
+            }else{
+                //全都要
+                skillOrders = orderRepo.findAllByUserId(user_id);
+            }
             JSONArray jsonArray = new JSONArray();
             for(SkillOrder skillOrder: skillOrders)
             {
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
                 User user = userRepo.getOne(skill.getUserId());
 
-                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice(),skillOrder.getOrderTime(),
+                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skillOrder.getValue(),skillOrder.getOrderTime(),
                         user.getUniNickName(),skill.getTitle());
 
                 jsonArray.add(orderDTO);
@@ -101,6 +110,28 @@ public class OrderServiceImpl implements OrderService {
         catch (Exception e)
         {
             return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    public BaseResponse newOrder(JSONObject json)
+    {
+        try{
+            int skill_id = json.getIntValue(SKILL_ID);
+            String user_id = json.getString(USER_ID);
+            Timestamp order_time = json.getTimestamp(ORDER_TIME);
+            double val = json.getDouble(ORDER_VALUE);
+
+            SkillOrder skillOrder = new SkillOrder(skill_id,user_id,ORDER_STATUS_PLACED,
+                    order_time, val);
+
+            orderRepo.save(skillOrder);
+            return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.INSERT_SUCCESS,null);
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.NOT_ACCEPTABLE, e.toString(),
+                    ResponseMessage.OPERATION_FAIL, null);
         }
     }
 }
