@@ -22,7 +22,7 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
-
+    //TODO 封装返回的data
     @GetMapping(path="/all")
     public Page<Skill> getAllSkills(@RequestParam("page") int page) {
         return skillService.findAll(PageRequest.of(page, 2));
