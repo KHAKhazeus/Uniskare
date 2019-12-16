@@ -15,9 +15,10 @@ spring:
 eureka:
   instance:
     hostname: Uniskare1
+    prefer-ip-address: false
   client:
     service-url:
-      defaultZone: http://Uniskare2:8991/eureka
+      defaultZone: http://Uniskare2:8991/eureka/
 
 ---
 spring:
@@ -25,9 +26,10 @@ spring:
 eureka:
   instance:
     hostname: Uniskare2
+    prefer-ip-address: false
   client:
     service-url:
-      defaultZone: http://Uniskare1:8991/eureka
+      defaultZone: http://Uniskare1:8991/eureka/
 #eureka:
 #  server:
 #    # 续期时间，即扫描失效服务的间隔时间（缺省为60*1000ms）
