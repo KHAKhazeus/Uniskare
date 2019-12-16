@@ -13,12 +13,19 @@ import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.OrderRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
+import com.uniskare.eureka_skill.service.Helper.BackendException;
+import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
 
@@ -57,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseResponse getOrdersByState(JSONObject jsonObject)
     {
+
         try{
             String user_id = jsonObject.getString(USER_ID);
             Byte order_state = jsonObject.getByte(ORDER_STATUS);
@@ -70,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
                 //全都要
                 skillOrders = orderRepo.findAllByUserId(user_id);
             }
-            JSONArray jsonArray = new JSONArray();
+            List<OrderDTO> jsonArray = new ArrayList<>();
             for(SkillOrder skillOrder: skillOrders)
             {
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
@@ -81,8 +89,22 @@ public class OrderServiceImpl implements OrderService {
 
                 jsonArray.add(orderDTO);
             }
+
+            //index & size
+            //todo: 前端好像需要发页码
+            //这里可以自己撸一个分页器
+            //这里直接0
+            Pageable pageable = PageRequest.of(0, 5);
+            List<OrderDTO> dtoPage = MyPageHelper.convert2Page(jsonArray, pageable);
+//            int start = (int)pageable.getOffset();
+//            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
+//            Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(
+//                    jsonArray.subList(start, end), pageable, jsonArray.size()
+//            );
+
+
             return new BaseResponse(
-                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,jsonArray
+                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,dtoPage
             );
         }catch (Exception e){
             System.out.println(e.toString());
@@ -101,7 +123,14 @@ public class OrderServiceImpl implements OrderService {
             int order_id = json.getIntValue(ORDER_ID);
             SkillOrder skillOrder = orderRepo.getOne(order_id);
 
-            assert skillOrder.getState() + 1 == state;
+            // 不是debug状态哦
+//            assert skillOrder.getState() + 1 == state;
+            if(skillOrder.getState() + 1 != state)
+            {
+                if(!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
+                    throw new BackendException("Order State is not correct Or Order has been finished!");
+            }
+//            System.out.println(skillOrder.getState()+" "+ state);
 
             skillOrder.setState(state);
             orderRepo.save(skillOrder);
@@ -118,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
         try{
             int skill_id = json.getIntValue(SKILL_ID);
             String user_id = json.getString(USER_ID);
+            //2019-12-17 10:30:10
             Timestamp order_time = json.getTimestamp(ORDER_TIME);
             double val = json.getDouble(ORDER_VALUE);
 
