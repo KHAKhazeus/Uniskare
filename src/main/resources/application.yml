@@ -6,8 +6,6 @@ spring:
   application:
     name: Uniskare-Eureka-Server
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -19,7 +17,7 @@ eureka:
     instance-id: Eureka_server_1
   client:
     service-url:
-      defaultZone: http://49.234.96.26:8991/eureka
+      defaultZone: http://Uniskare2:8991/eureka
 
 ---
 spring:
@@ -29,7 +27,7 @@ eureka:
     instance-id: Eureka_server_2
   client:
     service-url:
-      defaultZone: http://49.235.255.145:8991/eureka
+      defaultZone: http://Uniskare1:8991/eureka
 #eureka:
 #  server:
 #    # 续期时间，即扫描失效服务的间隔时间（缺省为60*1000ms）
