@@ -14,7 +14,7 @@ spring:
   profiles: peer1
 eureka:
   instance:
-    instance-id: Eureka_server_1
+    hostname: Uniskare1
   client:
     service-url:
       defaultZone: http://Uniskare2:8991/eureka
@@ -24,7 +24,7 @@ spring:
   profiles: peer2
 eureka:
   instance:
-    instance-id: Eureka_server_2
+    hostname: Uniskare2
   client:
     service-url:
       defaultZone: http://Uniskare1:8991/eureka
