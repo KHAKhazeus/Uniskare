@@ -13,6 +13,8 @@ import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.OrderRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
+import com.uniskare.eureka_skill.service.Helper.BackendException;
+import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,11 +95,12 @@ public class OrderServiceImpl implements OrderService {
             //这里可以自己撸一个分页器
             //这里直接0
             Pageable pageable = PageRequest.of(0, 5);
-            int start = (int)pageable.getOffset();
-            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
-            Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(
-                    jsonArray.subList(start, end), pageable, jsonArray.size()
-            );
+            List<OrderDTO> dtoPage = MyPageHelper.convert2Page(jsonArray, pageable);
+//            int start = (int)pageable.getOffset();
+//            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
+//            Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(
+//                    jsonArray.subList(start, end), pageable, jsonArray.size()
+//            );
 
 
             return new BaseResponse(
@@ -120,7 +123,14 @@ public class OrderServiceImpl implements OrderService {
             int order_id = json.getIntValue(ORDER_ID);
             SkillOrder skillOrder = orderRepo.getOne(order_id);
 
-            assert skillOrder.getState() + 1 == state;
+            // 不是debug状态哦
+//            assert skillOrder.getState() + 1 == state;
+            if(skillOrder.getState() + 1 != state)
+            {
+                if(!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
+                    throw new BackendException("Order State is not correct Or Order has been finished!");
+            }
+//            System.out.println(skillOrder.getState()+" "+ state);
 
             skillOrder.setState(state);
             orderRepo.save(skillOrder);
@@ -137,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
         try{
             int skill_id = json.getIntValue(SKILL_ID);
             String user_id = json.getString(USER_ID);
+            //2019-12-17 10:30:10
             Timestamp order_time = json.getTimestamp(ORDER_TIME);
             double val = json.getDouble(ORDER_VALUE);
 
