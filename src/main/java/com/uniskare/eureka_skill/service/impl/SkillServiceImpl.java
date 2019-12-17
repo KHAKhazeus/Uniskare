@@ -40,14 +40,26 @@ public class SkillServiceImpl implements SkillService {
         skillRepo.deleteById(skillId);
     }
 
+    /**
+     *
+     * @param skill
+     * @return 1表示有相应技能，0表示没有
+     */
     @Override
-    public void updateSkill(Skill skill) {
+    public boolean updateSkill(Skill skill) {
         Optional<Skill> oldSkillOpt = skillRepo.findById(skill.getSkillId());
+        //看原来的update只update了这些内容
         if(oldSkillOpt.isPresent()) {
             Skill oldSkill = oldSkillOpt.get();
+            oldSkill.setTitle(skill.getTitle());
+            oldSkill.setContent(skill.getContent());
+            oldSkill.setFullType(skill.getFullType());
+            oldSkill.setSubtype(skill.getSubtype());
+            oldSkill.setSubsubtype(skill.getSubsubtype());
+            skillRepo.save(oldSkill);
+            return true;
         }
-        // Todo:更新哪些内容、
-        // skillRepo.save(oldSkill);
+        return false;
     }
 
 }

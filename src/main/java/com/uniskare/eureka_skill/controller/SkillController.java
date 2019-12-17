@@ -1,5 +1,6 @@
 package com.uniskare.eureka_skill.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
@@ -29,11 +30,24 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
-    //TODO 封装返回的data
     @GetMapping(path="/all")
-    public Page<Skill> getAllSkills(@RequestParam("page") int page) {
+    public BaseResponse getAllSkills(@RequestParam("page") int page) {
 
-        return skillService.findAll(PageRequest.of(page, 2));
+
+        try {
+            Page<Skill> result =  skillService.findAll(PageRequest.of(page, 2));
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/skill/all"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
     }
 
     //save总是返回skill，感觉这里无法判断是不是插入成功，这里一定成功，只能捕捉一下excep，前端可以判断skill格式不对或者网络问题导致的失败
@@ -58,7 +72,15 @@ public class SkillController {
     @PutMapping(path="/update")
     public BaseResponse updateSkill(@RequestBody Skill skill) {
         try {
+            //这里如果没有找到skillId对应的技能的话需要区分返回吗？
             skillService.updateSkill(skill);
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.UPDATE_SUCCESS
+                    , "/skill/update"
+                    , null);
+            return baseResponse;
         }
         catch (Exception e)
         {
@@ -89,7 +111,21 @@ public class SkillController {
         }
     }
 
+    //Todo: 要用到like的特性
+    @GetMapping("/search")
+    public BaseResponse searchSkills(@RequestParam("page") int page,@RequestParam("name") String name) {
+        return null;
+    }
 
+    //Todo: jpa参数匹配问题
+    @GetMapping("all/{type}")
+    public BaseResponse getSkillByType(@PathVariable("type") String type) {
+        return null;
+    }
 
-
+    //Todo：为什么以前要用到UserId
+    @RequestMapping("/{skillId")
+    public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
+        return null;
+    }
 }

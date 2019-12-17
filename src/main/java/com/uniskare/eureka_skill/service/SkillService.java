@@ -15,5 +15,5 @@ public interface SkillService {
     public Page<Skill> findAll(Pageable pageable);
     public Optional<Skill> findById(int skillId);
     public void deleteById(int skillId);
-    public void updateSkill(Skill skill);
+    public boolean updateSkill(Skill skill);
 }
