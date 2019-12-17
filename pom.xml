@@ -11,13 +11,13 @@
     <groupId>com.uniskare</groupId>
     <artifactId>eureka_user</artifactId>
     <version>0.0.1</version>
-    <name>eureka_order</name>
+    <name>eureka_user</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
-        <docker.image.prefix>eureka_user</docker.image.prefix>
+        <docker.image.prefix>uniskare_eureka_user</docker.image.prefix>
     </properties>
 
     <dependencies>
