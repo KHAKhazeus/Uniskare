@@ -1,9 +1,9 @@
 server:
   port: 8899
-  ssl:
-    key-store: classpath:1913993_www.uniskare.xyz.pfx
-    key-store-password: nlKLbOq3
-    key-store-type: PKCS12
+#  ssl:
+#    key-store: classpath:1913993_www.uniskare.xyz.pfx
+#    key-store-password: nlKLbOq3
+#    key-store-type: PKCS12
 
 eureka:
   client:
@@ -18,10 +18,13 @@ spring:
     name: gateway-provider
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: api-user-service
-          uri: http://49.234.96.26:7956
+          uri: lb://user-provider
           predicates:
-            - Path=/user/**
+            - Path=/test/**
 
 
