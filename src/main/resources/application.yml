@@ -5,6 +5,9 @@ spring:
   application:
     name: user-provider
 eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 49.234.96.26
   client:
     fetch-registry: true
     register-with-eureka: true
