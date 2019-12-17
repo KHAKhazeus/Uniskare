@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
-
+/**
+ * @author : Bhy
+ * @description ：
+ */
 @Service
 public class SkillServiceImpl implements SkillService {
     @Autowired // This means to get the bean called userRepository
@@ -35,6 +38,16 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public void deleteById(int skillId) {
         skillRepo.deleteById(skillId);
+    }
+
+    @Override
+    public void updateSkill(Skill skill) {
+        Optional<Skill> oldSkillOpt = skillRepo.findById(skill.getSkillId());
+        if(oldSkillOpt.isPresent()) {
+            Skill oldSkill = oldSkillOpt.get();
+        }
+        // Todo:更新哪些内容、
+        // skillRepo.save(oldSkill);
     }
 
 }

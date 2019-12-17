@@ -84,9 +84,9 @@ public class OrderServiceImpl implements OrderService {
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
                 User user = userRepo.getOne(skill.getUserId());
 
-                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skillOrder.getValue(),skillOrder.getOrderTime(),
-                        user.getUniNickName(),skill.getTitle());
-
+//                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skillOrder.getValue(),skillOrder.getOrderTime(),
+//                        user.getUniNickName(),skill.getTitle());
+                OrderDTO orderDTO = new OrderDTO();
                 jsonArray.add(orderDTO);
             }
 
