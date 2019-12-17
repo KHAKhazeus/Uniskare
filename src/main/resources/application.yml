@@ -1,6 +1,9 @@
 server:
   port: 8899
-
+  ssl:
+    key-store: classpath:1913993_www.uniskare.xyz.pfx
+    key-store-password: nlKLbOq3
+    key-store-type: PKCS12
 
 eureka:
   client:
