@@ -1,5 +1,9 @@
 node {
 
+    stage('Preparation') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/gateway_dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'uniskare_remote_server', url: 'https://github.com/KHAKhazeus/Uniskare/']]])
+        }
+
     stage('Build') {
         withMaven(jdk: 'default', maven: 'default') {
             sh 'mvn clean package docker:build'
