@@ -2,6 +2,7 @@ package com.uniskare.eureka_skill.entity;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -31,12 +32,23 @@ public class Skill {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name ="uni_unid")
+    @JoinColumn(name ="user_id",referencedColumnName="uni_uuid", insertable=false, updatable=false)
     public User getUser() {
         return user;
     }
     public void setUser(User user) {this.user = user;}
 
+    public String getUserAvatar() {
+        if(user != null) {
+            return user.getUniAvatarUrl();
+        }
+        else {
+            return null;
+        }
+    }
+    public void setUserAvatar(User user) {
+
+    }
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")
     public int getSkillId() {
@@ -184,7 +196,7 @@ public class Skill {
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
         return skillId == skill.skillId &&
-                Objects.equals(userId, skill.userId) &&
+//                Objects.equals(userId, skill.userId) &&
                 Objects.equals(cover, skill.cover) &&
                 Objects.equals(video, skill.video) &&
                 Objects.equals(title, skill.title) &&
@@ -199,8 +211,9 @@ public class Skill {
                 Objects.equals(date, skill.date);
     }
 
+    //去userId
     @Override
     public int hashCode() {
-        return Objects.hash(skillId, userId, cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, score, date);
+        return Objects.hash(skillId,  cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, score, date);
     }
 }

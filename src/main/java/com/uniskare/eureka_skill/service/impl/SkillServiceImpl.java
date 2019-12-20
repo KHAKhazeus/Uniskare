@@ -1,5 +1,6 @@
 package com.uniskare.eureka_skill.service.impl;
 
+import com.uniskare.eureka_skill.dto.SkillDTO;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.service.SkillService;
@@ -26,8 +27,8 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Page<Skill> findAll(Pageable pageable) {
-        return skillRepo.findAll(pageable);
+    public Page<SkillDTO> findAll(Pageable pageable) {
+        return skillRepo.findAllProjectedBy(pageable);
     }
 
     @Override

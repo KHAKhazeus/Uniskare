@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
+import com.uniskare.eureka_skill.dto.SkillDTO;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.service.SkillService;
@@ -35,7 +36,7 @@ public class SkillController {
 
 
         try {
-            Page<Skill> result =  skillService.findAll(PageRequest.of(page, 2));
+            Page<SkillDTO> result =  skillService.findAll(PageRequest.of(page, 2));
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE
