@@ -1,10 +1,7 @@
 package com.uniskare.eureka_skill.service;
 
-import com.uniskare.eureka_skill.dto.SkillDTO;
+import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.entity.Skill;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 /**
@@ -12,11 +9,11 @@ import java.util.Optional;
  * @description ：
  */
 public interface SkillService {
-    public Skill save(Skill skill);
-    public Page<SkillDTO> findAll(Pageable pageable);
+    public BaseResponse save(Skill skill);
+    public BaseResponse findAll(int page);
     public Optional<Skill> findById(int skillId);
-    public void deleteById(int skillId);
-    public boolean updateSkill(Skill skill);
-    public Page<SkillDTO> findByFullType(String fullType, Pageable pageable);
-    public Page<SkillDTO> findByFullTypeAndSubtype(String fullType, String subtype, Pageable pageable);
+    public BaseResponse deleteById(int skillId);
+    public BaseResponse updateSkill(Skill skill);
+    public BaseResponse findByFullType(String fullType, int page);
+    public BaseResponse findByFullTypeAndSubtype(String fullType, String subtype, int page);
 }
