@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -24,6 +26,16 @@ public class Skill {
     private String subsubtype;
     private BigDecimal score;
     private Timestamp date;
+
+
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name ="uni_unid")
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {this.user = user;}
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")
@@ -160,6 +172,7 @@ public class Skill {
     public Timestamp getDate() {
         return date;
     }
+
 
     public void setDate(Timestamp date) {
         this.date = date;
