@@ -38,17 +38,7 @@ public class Skill {
     }
     public void setUser(User user) {this.user = user;}
 
-    public String getUserAvatar() {
-        if(user != null) {
-            return user.getUniAvatarUrl();
-        }
-        else {
-            return null;
-        }
-    }
-    public void setUserAvatar(User user) {
 
-    }
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")
     public int getSkillId() {

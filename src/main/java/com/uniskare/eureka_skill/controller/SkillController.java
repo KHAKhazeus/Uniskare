@@ -11,6 +11,7 @@ import com.uniskare.eureka_skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class SkillController {
 
 
         try {
-            Page<SkillDTO> result =  skillService.findAll(PageRequest.of(page, 2));
+            Page<SkillDTO> result =  skillService.findAll(PageRequest.of(page, 2, Sort.by("date").descending()));
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE
@@ -122,7 +123,7 @@ public class SkillController {
     @GetMapping("all/{fullType}")
     public BaseResponse getSkillByFullType(@PathVariable("fullType") String fullType,@RequestParam("page") int page) {
         try {
-            Page<Skill> result = skillService.findByFullType(fullType,PageRequest.of(page,2));
+            Page<SkillDTO> result = skillService.findByFullType(fullType,PageRequest.of(page,2));
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
@@ -141,7 +142,7 @@ public class SkillController {
     @GetMapping("all/{fullType}/{subType})")
     public BaseResponse getSkillBySubType(@PathVariable("fullType") String fullType, @PathVariable("subType") String subtype,@RequestParam("page") int page) {
         try {
-            Page<Skill> result = skillService.findByFullTypeAndSubtype(fullType,subtype,PageRequest.of(page,2));
+            Page<SkillDTO> result = skillService.findByFullTypeAndSubtype(fullType,subtype,PageRequest.of(page,2));
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK

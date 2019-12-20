@@ -8,8 +8,6 @@ import com.uniskare.eureka_skill.entity.User;
  */
 public interface SkillDTO {
     String getSkillId();
-    String getUserAvatar();
-
     String getContent();
     String getTitle();
     String getCover();

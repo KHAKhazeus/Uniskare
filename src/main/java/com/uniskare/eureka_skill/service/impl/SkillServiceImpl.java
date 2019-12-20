@@ -64,12 +64,12 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Page<Skill> findByFullType(String fullType, Pageable pageable) {
+    public Page<SkillDTO> findByFullType(String fullType, Pageable pageable) {
         return skillRepo.findByFullType(fullType,pageable);
     }
 
     @Override
-    public Page<Skill> findByFullTypeAndSubtype(String fullType, String subtype, Pageable pageable) {
+    public Page<SkillDTO> findByFullTypeAndSubtype(String fullType, String subtype, Pageable pageable) {
         return skillRepo.findByFullTypeAndSubtype(fullType,subtype,pageable);
     }
 
