@@ -38,6 +38,7 @@ public class Skill {
     }
     public void setUser(User user) {this.user = user;}
 
+    
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")

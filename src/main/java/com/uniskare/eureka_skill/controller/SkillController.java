@@ -63,9 +63,9 @@ public class SkillController {
         return skillService.findByFullTypeAndSubtype(fullType,subtype,page);
     }
     //Todo：为什么以前要用到UserId
-    @RequestMapping("/{skillId")
+    @GetMapping("/{skillId}")
     public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
-        return null;
+        return skillService.findById(skillId);
     }
 
     //Todo: 要用到like的特性

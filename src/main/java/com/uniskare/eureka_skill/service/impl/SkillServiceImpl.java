@@ -164,10 +164,30 @@ public class SkillServiceImpl implements SkillService {
         }
     }
 
-
+    //skill详情，无需返回dto
     @Override
-    public Optional<Skill> findById(int skillId) {
-        return skillRepo.findById(skillId);
+    public BaseResponse findById(int skillId) {
+
+        try{
+            Optional<Skill> optResult = skillRepo.findById(skillId);
+            Skill result = null;
+            if(optResult.isPresent())
+                result = optResult.get();
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/skill"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+
     }
+
+
 
 }
