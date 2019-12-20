@@ -118,11 +118,43 @@ public class SkillController {
     }
 
     //Todo: jpa参数匹配问题
-    @GetMapping("all/{type}")
-    public BaseResponse getSkillByType(@PathVariable("type") String type) {
-        return null;
+    @GetMapping("all/{fullType}")
+    public BaseResponse getSkillByFullType(@PathVariable("fullType") String fullType,@RequestParam("page") int page) {
+        try {
+            Page<Skill> result = skillService.findByFullType(fullType,PageRequest.of(page,2));
+
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/skill/all"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
     }
 
+    @GetMapping("all/{fullType}/{subType})")
+    public BaseResponse getSkillBySubType(@PathVariable("fullType") String fullType, @PathVariable("subType") String subtype,@RequestParam("page") int page) {
+        try {
+            Page<Skill> result = skillService.findByFullTypeAndSubtype(fullType,subtype,PageRequest.of(page,2));
+
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/skill/all"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
     //Todo：为什么以前要用到UserId
     @RequestMapping("/{skillId")
     public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
