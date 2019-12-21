@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 /**
@@ -12,6 +14,17 @@ import java.util.Objects;
 public class StarSkill {
     private int skillId;
     private String starId;
+
+    private Skill skill;
+    @ManyToOne
+    @JoinColumn(name = "skill_id",insertable=false,updatable=false)
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")

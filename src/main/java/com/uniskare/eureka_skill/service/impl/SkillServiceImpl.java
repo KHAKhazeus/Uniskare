@@ -1,12 +1,10 @@
 package com.uniskare.eureka_skill.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.SkillDTO;
-import com.uniskare.eureka_skill.dto.SkillDetailDTO;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.Comment;
 import com.uniskare.eureka_skill.repository.CommentRepo;
@@ -193,7 +191,8 @@ public class SkillServiceImpl implements SkillService {
         }
     }
 
-    //skill详情，返回图片和评论，评论需要连User表
+    //skill详情，返回图片和评论，评论需要连接User表
+    //由于是详情，没有任何dto有关操作，全部内容都返回了
     @Override
     public BaseResponse findById(int skillId) {
 
@@ -203,9 +202,6 @@ public class SkillServiceImpl implements SkillService {
             if(optResult.isPresent())
                 skill = optResult.get();
             List<Comment> comments = commentRepo.findBySkillId(skill.getSkillId());
-            SkillDetailDTO result = new SkillDetailDTO();
-            result.setSkill(skill);
-            result.setComments(comments);
             JSONObject jsonObject = new JSONObject();
             jsonObject.fluentPut("SKILL",skill).fluentPut("COMMENTS",comments);
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
@@ -222,6 +218,8 @@ public class SkillServiceImpl implements SkillService {
         }
 
     }
+
+
 
 
 
