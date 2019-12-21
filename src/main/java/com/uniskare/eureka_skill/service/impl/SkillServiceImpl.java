@@ -191,6 +191,25 @@ public class SkillServiceImpl implements SkillService {
         }
     }
 
+    @Override
+    public BaseResponse findByUserId(String userId, int page) {
+        try {
+            Page<SkillDTO> result = skillRepo.findByUserId(userId,PageRequest.of(page,pageSize));
+
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/search"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
     //skill详情，返回图片和评论，评论需要连接User表
     //由于是详情，没有任何dto有关操作，全部内容都返回了
     @Override

@@ -16,4 +16,5 @@ public interface SkillRepo extends JpaRepository<Skill, Integer> {
     Page<SkillDTO> findByFullType(String fullType, Pageable pageable);
     Page<SkillDTO> findByFullTypeAndSubtype(String fullType,String subType,Pageable pageable);
     Page<SkillDTO> findByTitleContaining(String title,Pageable pageable);
+    Page<SkillDTO> findByUserId(String userId,Pageable pageable);
 }

@@ -87,12 +87,17 @@ public class SkillController {
     public BaseResponse unstarSkill(@PathVariable("userId") String userId,@PathVariable("skillId") int skillId) {
         return starSkillService.unstarSkill(userId,skillId);
     }
-    //未使用dto
+    //未使用dto，以及这个接口很奇怪
     @GetMapping("/star/skill/{id}")
     public BaseResponse getStarSkill(@RequestParam("page") int page,@PathVariable("id") String userId) {
         return starSkillService.getStarSkill(page,userId);
     }
-
+    //也是原来user系统下的，
+    //这个接口路径也很奇怪，用了dto
+    @GetMapping("/information/{id}/skills")
+    public BaseResponse getSkillsByUserId(@PathVariable("id") String userId,@RequestParam("page") int page) {
+        return skillService.findByUserId(userId,page);
+    }
 
 
 }
