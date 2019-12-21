@@ -7,6 +7,7 @@ import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.SkillDTO;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.repository.SkillRepo;
+import com.uniskare.eureka_skill.service.CommentService;
 import com.uniskare.eureka_skill.service.SkillService;
 import com.uniskare.eureka_skill.service.StarSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import com.uniskare.eureka_skill.entity.Comment;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,6 +36,9 @@ public class SkillController {
 
     @Autowired
     private StarSkillService starSkillService;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping(path="/all")
     public BaseResponse getAllSkills(@RequestParam("page") int page) {
@@ -98,6 +102,14 @@ public class SkillController {
     public BaseResponse getSkillsByUserId(@PathVariable("id") String userId,@RequestParam("page") int page) {
         return skillService.findByUserId(userId,page);
     }
-
-
+    //评论：
+    @PostMapping("/comment/insert")
+    public BaseResponse insertComment (@RequestBody Comment comment) {
+        return commentService.insertComment(comment);
+    }
+    //未使用dto
+    @GetMapping("/belongToSkill/{skillId}")
+    public BaseResponse getCommentBySkillId(@PathVariable("skillId") int skillId) {
+        return commentService.getCommentBySkillId(skillId);
+    }
 }
