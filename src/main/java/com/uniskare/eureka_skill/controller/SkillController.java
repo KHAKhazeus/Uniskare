@@ -62,7 +62,7 @@ public class SkillController {
     public BaseResponse getSkillBySubType(@PathVariable("fullType") String fullType, @PathVariable("subType") String subtype,@RequestParam("page") int page) {
         return skillService.findByFullTypeAndSubtype(fullType,subtype,page);
     }
-    //Todo：要返回图片吗？
+
     @GetMapping("/{skillId}")
     public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
         return skillService.findById(skillId);

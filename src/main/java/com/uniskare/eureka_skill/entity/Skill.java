@@ -34,8 +34,8 @@ public class Skill {
 
     private User user;
     private List<SkillPic> skillPics = new ArrayList<>();
-    private List<Comment> comments = new ArrayList<>();
-    //只在返回技能详情的一个接口用到
+
+    //只在返回技能详情的一个接口用到，comment不能用此方法，缺少信息
     @OneToMany
     @JoinColumn(name = "skill_id")
     public List<SkillPic> getSkillPics() {
@@ -45,14 +45,6 @@ public class Skill {
         this.skillPics = skillPics;
     }
 
-    @OneToMany
-    @JoinColumn(name = "skill_id")
-    public List<Comment> getComments() {
-        return comments;
-    }
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
 
 
     @ManyToOne
