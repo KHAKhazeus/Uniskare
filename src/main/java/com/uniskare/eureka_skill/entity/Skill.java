@@ -2,9 +2,12 @@ package com.uniskare.eureka_skill.entity;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,6 +33,27 @@ public class Skill {
 
 
     private User user;
+    private List<SkillPic> skillPics = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
+    //只在返回技能详情的一个接口用到
+    @OneToMany
+    @JoinColumn(name = "skill_id")
+    public List<SkillPic> getSkillPics() {
+        return skillPics;
+    }
+    public void setSkillPics(List<SkillPic> skillPics) {
+        this.skillPics = skillPics;
+    }
+
+    @OneToMany
+    @JoinColumn(name = "skill_id")
+    public List<Comment> getComments() {
+        return comments;
+    }
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
 
     @ManyToOne
     @JoinColumn(name ="user_id",referencedColumnName="uni_uuid", insertable=false, updatable=false)
@@ -37,6 +61,8 @@ public class Skill {
         return user;
     }
     public void setUser(User user) {this.user = user;}
+
+
 
 
 
@@ -188,7 +214,7 @@ public class Skill {
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
         return skillId == skill.skillId &&
-//                Objects.equals(userId, skill.userId) &&
+                Objects.equals(userId, skill.userId) &&
                 Objects.equals(cover, skill.cover) &&
                 Objects.equals(video, skill.video) &&
                 Objects.equals(title, skill.title) &&
@@ -206,6 +232,6 @@ public class Skill {
     //去userId
     @Override
     public int hashCode() {
-        return Objects.hash(skillId,  cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, score, date);
+        return Objects.hash(skillId,userId, cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, score, date);
     }
 }
