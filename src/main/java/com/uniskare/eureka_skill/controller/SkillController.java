@@ -62,17 +62,18 @@ public class SkillController {
     public BaseResponse getSkillBySubType(@PathVariable("fullType") String fullType, @PathVariable("subType") String subtype,@RequestParam("page") int page) {
         return skillService.findByFullTypeAndSubtype(fullType,subtype,page);
     }
-    //Todo：为什么以前要用到UserId
+    //Todo：要返回图片吗？
     @GetMapping("/{skillId}")
     public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
         return skillService.findById(skillId);
     }
 
-    //Todo: 要用到like的特性
+    //保持和原来接口一样了
     @GetMapping("/search")
     public BaseResponse searchSkills(@RequestParam("page") int page,@RequestParam("name") String name) {
-        return null;
+        return skillService.searchSkillByTitle(name,page);
     }
+
 
 
 }

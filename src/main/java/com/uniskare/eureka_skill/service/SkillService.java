@@ -15,4 +15,5 @@ public interface SkillService {
     public BaseResponse updateSkill(Skill skill);
     public BaseResponse findByFullType(String fullType, int page);
     public BaseResponse findByFullTypeAndSubtype(String fullType, String subtype, int page);
+    public BaseResponse searchSkillByTitle(String title,int page);
 }

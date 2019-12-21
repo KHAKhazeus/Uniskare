@@ -38,7 +38,7 @@ public class Skill {
     }
     public void setUser(User user) {this.user = user;}
 
-    
+
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "skill_id")
@@ -180,6 +180,7 @@ public class Skill {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
 
     @Override
     public boolean equals(Object o) {
