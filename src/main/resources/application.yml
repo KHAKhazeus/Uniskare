@@ -4,6 +4,16 @@ server:
 spring:
   application:
     name: order-provider
+  rabbitmq:
+    host: 121.199.0.20
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      direct:
+        acknowledge-mode: MANUAL
+      simple:
+        acknowledge-mode: MANUAL
 eureka:
   client:
     fetch-registry: true

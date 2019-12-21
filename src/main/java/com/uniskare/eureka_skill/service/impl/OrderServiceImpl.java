@@ -127,6 +127,8 @@ public class OrderServiceImpl implements OrderService {
 //            assert skillOrder.getState() + 1 == state;
             if(skillOrder.getState() + 1 != state)
             {
+                //如果不是取消订单操作，那么订单的状态每次都会加1
+                //如果是取消订单操作，那么订单一定不是完成（finished）状态
                 if(!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
                     throw new BackendException("Order State is not correct Or Order has been finished!");
             }
