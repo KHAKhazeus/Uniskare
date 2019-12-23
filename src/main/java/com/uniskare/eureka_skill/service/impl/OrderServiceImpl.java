@@ -16,6 +16,9 @@ import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
 import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
+import com.uniskare.eureka_skill.service.impl.RMQ.RMQConfig;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -45,6 +48,10 @@ public class OrderServiceImpl implements OrderService {
     private SkillRepo skillRepo;
     @Autowired
     private UserRepo userRepo;
+
+    //RMQ
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public JSONArray getAllOrders()
@@ -156,7 +163,11 @@ public class OrderServiceImpl implements OrderService {
             SkillOrder skillOrder = new SkillOrder(skill_id,user_id,ORDER_STATUS_PLACED,
                     order_time, val);
 
-            orderRepo.save(skillOrder);
+            skillOrder = orderRepo.save(skillOrder);
+            //向RMQ队列发送订单号
+            System.out.println(skillOrder.getOrderId());
+            sendMsgToRMQ(skillOrder.getOrderId());
+
             return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
                     ResponseMessage.INSERT_SUCCESS,null);
         }
@@ -172,14 +183,38 @@ public class OrderServiceImpl implements OrderService {
     //新建订单时会发一条消息
     public void sendMsgToRMQ(int order_id)
     {
-
+        // 通过广播模式发布延时消息 延时 持久化消息 消费后销毁 这里无需指定路由，会广播至每个绑定此交换机的队列
+        rabbitTemplate.convertAndSend(RMQConfig.Delay_Exchange_Name, "",order_id, message ->{
+            System.out.println("正在向RMQ发送请求 " + order_id);
+            message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+            message.getMessageProperties().setDelay(ORDER_TIME_OUT);   // 毫秒为单位，指定此消息的延时时长
+            return message;
+        });
     }
 
     //消费者调用
     //判断是否已经付款
     //若未付款直接取消
+
+    /**
+     *
+     * @param order_id 要取消的订单id
+     * @return 如果成功取消该订单或者该订单已经
+     */
     public void handleOrderWhenTimeOut(int order_id)
     {
-
+        SkillOrder order = orderRepo.findByOrderId(order_id);
+        if(order == null)
+        {
+            System.out.println("未找到该订单，该订单可能已被取消！");
+            return;
+        }
+        if(order.getState().equals(ORDER_STATUS_PLACED))
+        {
+            orderRepo.delete(order);
+            System.out.println("成功取消");
+        }else {
+            System.out.println("该订单已经支付");
+        }
     }
 }

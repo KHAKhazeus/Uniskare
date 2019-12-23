@@ -17,4 +17,6 @@ public interface OrderService {
     public BaseResponse operateOrder(JSONObject json, Byte state);
 
     public BaseResponse newOrder(JSONObject json);
+
+    public void handleOrderWhenTimeOut(int order_id);
 }

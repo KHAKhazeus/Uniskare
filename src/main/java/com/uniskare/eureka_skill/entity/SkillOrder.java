@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -33,6 +35,7 @@ public class SkillOrder {
 
     @Id
     @Column(name = "order_id")
+    @GeneratedValue(strategy = GenerationType.AUTO) // 加上才可以拿到generate的id
     public int getOrderId() {
         return orderId;
     }
