@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.uniskare</groupId>
     <artifactId>eureka_order</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <name>eureka_order</name>
     <description>Demo project for Spring Boot</description>
 
@@ -79,6 +79,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>ebfbb63dc1d5-releases</name>
+            <url>http://khakhazeus.cn:8081/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
