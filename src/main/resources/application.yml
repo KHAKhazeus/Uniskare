@@ -1,9 +1,9 @@
 server:
-  port: 7956
+  port: 7979
 
 spring:
   application:
-    name: order-provider
+    name: communication-provider
 eureka:
   client:
     fetch-registry: true
