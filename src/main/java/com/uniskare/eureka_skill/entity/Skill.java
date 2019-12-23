@@ -1,5 +1,9 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,7 +12,7 @@ import java.util.Objects;
  * @author : SCH001
  * @description :
  */
-@javax.persistence.Entity
+@Entity
 public class Skill {
     private int skillId;
     private String userId;
@@ -22,11 +26,12 @@ public class Skill {
     private String fullType;
     private String subtype;
     private String subsubtype;
+    private Byte status;
     private BigDecimal score;
     private Timestamp date;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "skill_id")
+    @Id
+    @Column(name = "skill_id")
     public int getSkillId() {
         return skillId;
     }
@@ -35,8 +40,8 @@ public class Skill {
         this.skillId = skillId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "user_id")
+    @Basic
+    @Column(name = "user_id")
     public String getUserId() {
         return userId;
     }
@@ -45,8 +50,8 @@ public class Skill {
         this.userId = userId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "cover")
+    @Basic
+    @Column(name = "cover")
     public String getCover() {
         return cover;
     }
@@ -55,8 +60,8 @@ public class Skill {
         this.cover = cover;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "video")
+    @Basic
+    @Column(name = "video")
     public String getVideo() {
         return video;
     }
@@ -65,8 +70,8 @@ public class Skill {
         this.video = video;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "title")
+    @Basic
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -75,8 +80,8 @@ public class Skill {
         this.title = title;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "content")
+    @Basic
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -85,8 +90,8 @@ public class Skill {
         this.content = content;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "price")
+    @Basic
+    @Column(name = "price")
     public BigDecimal getPrice() {
         return price;
     }
@@ -95,8 +100,8 @@ public class Skill {
         this.price = price;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "unit")
+    @Basic
+    @Column(name = "unit")
     public String getUnit() {
         return unit;
     }
@@ -105,8 +110,8 @@ public class Skill {
         this.unit = unit;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "model")
+    @Basic
+    @Column(name = "model")
     public Integer getModel() {
         return model;
     }
@@ -115,8 +120,8 @@ public class Skill {
         this.model = model;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "full_type")
+    @Basic
+    @Column(name = "full_type")
     public String getFullType() {
         return fullType;
     }
@@ -125,8 +130,8 @@ public class Skill {
         this.fullType = fullType;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "subtype")
+    @Basic
+    @Column(name = "subtype")
     public String getSubtype() {
         return subtype;
     }
@@ -135,8 +140,8 @@ public class Skill {
         this.subtype = subtype;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "subsubtype")
+    @Basic
+    @Column(name = "subsubtype")
     public String getSubsubtype() {
         return subsubtype;
     }
@@ -145,8 +150,18 @@ public class Skill {
         this.subsubtype = subsubtype;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "score")
+    @Basic
+    @Column(name = "status")
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    @Basic
+    @Column(name = "score")
     public BigDecimal getScore() {
         return score;
     }
@@ -155,8 +170,8 @@ public class Skill {
         this.score = score;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "date")
+    @Basic
+    @Column(name = "date")
     public Timestamp getDate() {
         return date;
     }
@@ -182,12 +197,13 @@ public class Skill {
                 Objects.equals(fullType, skill.fullType) &&
                 Objects.equals(subtype, skill.subtype) &&
                 Objects.equals(subsubtype, skill.subsubtype) &&
+                Objects.equals(status, skill.status) &&
                 Objects.equals(score, skill.score) &&
                 Objects.equals(date, skill.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skillId, userId, cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, score, date);
+        return Objects.hash(skillId, userId, cover, video, title, content, price, unit, model, fullType, subtype, subsubtype, status, score, date);
     }
 }
