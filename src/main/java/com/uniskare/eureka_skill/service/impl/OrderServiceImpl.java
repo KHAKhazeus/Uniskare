@@ -166,4 +166,20 @@ public class OrderServiceImpl implements OrderService {
                     ResponseMessage.OPERATION_FAIL, null);
         }
     }
+
+
+    //todo
+    //新建订单时会发一条消息
+    public void sendMsgToRMQ(int order_id)
+    {
+
+    }
+
+    //消费者调用
+    //判断是否已经付款
+    //若未付款直接取消
+    public void handleOrderWhenTimeOut(int order_id)
+    {
+
+    }
 }
