@@ -29,7 +29,7 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: user_module
-          uri: lb:http://user-provider
-          predicates:
-            - Path=/test/**
+      - id: user_module
+        uri: lb:http://user-provider
+        predicates:
+        - Path=/test/**
