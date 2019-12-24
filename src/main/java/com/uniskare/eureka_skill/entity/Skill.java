@@ -1,14 +1,8 @@
 package com.uniskare.eureka_skill.entity;
 
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,6 +15,8 @@ import java.util.Objects;
  */
 @Entity
 public class Skill {
+    @Id
+    @Column(name = "skill_id")
     private int skillId;
     private String userId;
     private String cover;
@@ -68,6 +64,7 @@ public class Skill {
 
     @Id
     @Column(name = "skill_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getSkillId() {
         return skillId;
     }
