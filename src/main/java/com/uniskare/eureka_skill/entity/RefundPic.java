@@ -8,21 +8,21 @@ import java.util.Objects;
  * @description :
  */
 @Entity
-@Table(name = "comment_pic", schema = "sedb", catalog = "")
-@IdClass(CommentPicPK.class)
-public class CommentPic {
-    private int commentId;
+@Table(name = "refund_pic", schema = "sedb", catalog = "")
+@IdClass(RefundPicPK.class)
+public class RefundPic {
+    private int refundId;
     private int pindex;
     private String url;
 
     @Id
-    @Column(name = "comment_id")
-    public int getCommentId() {
-        return commentId;
+    @Column(name = "refund_id")
+    public int getRefundId() {
+        return refundId;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setRefundId(int refundId) {
+        this.refundId = refundId;
     }
 
     @Id
@@ -49,14 +49,14 @@ public class CommentPic {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CommentPic that = (CommentPic) o;
-        return commentId == that.commentId &&
-                pindex == that.pindex &&
-                Objects.equals(url, that.url);
+        RefundPic refundPic = (RefundPic) o;
+        return refundId == refundPic.refundId &&
+                pindex == refundPic.pindex &&
+                Objects.equals(url, refundPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, pindex, url);
+        return Objects.hash(refundId, pindex, url);
     }
 }

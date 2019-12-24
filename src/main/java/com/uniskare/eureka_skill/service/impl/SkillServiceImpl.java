@@ -46,7 +46,8 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse save(JSONObject skill) {
         try {
-            Skill insertSkill = new Skill();
+
+            Skill insertSkill;
             String userId = skill.getString(USER_ID);
             String content = skill.getString(CONTENT);
             String title = skill.getString(TITLE);
@@ -55,24 +56,33 @@ public class SkillServiceImpl implements SkillService {
             BigDecimal price = skill.getBigDecimal(PRICE);
             String unit = skill.getString(UNIT);
             String cover = skill.getString(COVER);
-            BigDecimal score  = skill.getBigDecimal(SCORE);
             JSONArray images = skill.getJSONArray(IMAGES);
             Timestamp date = skill.getTimestamp(DATE);
-            insertSkill.setContent(content);
-            insertSkill.setUserId(userId);
-            insertSkill.setDate(date);
-            insertSkill.setScore(score);
-            insertSkill.setCover(cover);
-            insertSkill.setPrice(price);
-            insertSkill.setFullType(fullType);
-            insertSkill.setTitle(title);
-            insertSkill.setSubtype(subType);
+
+
+            int skill_id = skill.getIntValue(SKILL_ID);
+            if(skill_id == -1){
+                insertSkill = new Skill();
+                insertSkill.setUserId(userId);
+                insertSkill.setScore(BigDecimal.valueOf(5.0));
+            }else{
+                insertSkill = skillRepo.findBySkillId(skill_id);
+            }
             insertSkill.setUnit(unit);
+            insertSkill.setCover(cover);
+            insertSkill.setTitle(title);
+            insertSkill.setFullType(fullType);
+            insertSkill.setPrice(price);
+            insertSkill.setSubtype(subType);
+            insertSkill.setDate(date);
+            insertSkill.setContent(content);
+
+
             Skill result = skillRepo.save(insertSkill);
             SkillPic skillPic = new SkillPic();
             skillPic.setSkillId(result.getSkillId());        
             for(int i =0;i < images.size();i++){
-                skillPic.setIndex(i);
+                skillPic.setPindex(i);
                 skillPic.setUrl(images.getString(0));
                 skillPicRepo.save(skillPic);
             }
