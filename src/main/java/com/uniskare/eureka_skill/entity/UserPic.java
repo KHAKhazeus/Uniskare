@@ -12,7 +12,7 @@ import java.util.Objects;
 @IdClass(UserPicPK.class)
 public class UserPic {
     private int userId;
-    private int index;
+    private int pindex;
     private String url;
 
     @Id
@@ -26,13 +26,13 @@ public class UserPic {
     }
 
     @Id
-    @Column(name = "index")
-    public int getIndex() {
-        return index;
+    @Column(name = "pindex")
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
     @Basic
@@ -51,12 +51,12 @@ public class UserPic {
         if (o == null || getClass() != o.getClass()) return false;
         UserPic userPic = (UserPic) o;
         return userId == userPic.userId &&
-                index == userPic.index &&
+                pindex == userPic.pindex &&
                 Objects.equals(url, userPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, index, url);
+        return Objects.hash(userId, pindex, url);
     }
 }
