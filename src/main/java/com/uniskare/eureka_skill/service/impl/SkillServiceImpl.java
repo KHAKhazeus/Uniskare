@@ -1,13 +1,16 @@
 package com.uniskare.eureka_skill.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.SkillDTO;
-import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.Comment;
+import com.uniskare.eureka_skill.entity.Skill;
+import com.uniskare.eureka_skill.entity.SkillPic;
 import com.uniskare.eureka_skill.repository.CommentRepo;
+import com.uniskare.eureka_skill.repository.SkillPicRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+
+import static com.uniskare.eureka_skill.service.Helper.Const.*;
+
 /**
  * @author : Bhy
  * @description ：
@@ -31,13 +38,45 @@ public class SkillServiceImpl implements SkillService {
     //技能详情获取评论所需
     @Autowired
     private CommentRepo commentRepo;
+    @Autowired
+    private SkillPicRepo skillPicRepo;
 
     private int pageSize = 10;
     //save总是返回skill，感觉这里无法判断是不是插入成功，这里一定成功，只能捕捉一下excep，前端可以判断skill格式不对或者网络问题导致的失败
     @Override
-    public BaseResponse save(Skill skill) {
+    public BaseResponse save(JSONObject skill) {
         try {
-            Skill result = skillRepo.save(skill);
+            Skill insertSkill = new Skill();
+            String userId = skill.getString(USER_ID);
+            String content = skill.getString(CONTENT);
+            String title = skill.getString(TITLE);
+            String fullType = skill.getString(FULL_TYPE);
+            String subType = skill.getString(SUB_TYPE);
+            BigDecimal price = skill.getBigDecimal(PRICE);
+            String unit = skill.getString(UNIT);
+            String cover = skill.getString(COVER);
+            BigDecimal score  = skill.getBigDecimal(SCORE);
+            JSONArray images = skill.getJSONArray(IMAGES);
+            Timestamp date = skill.getTimestamp(DATE);
+            insertSkill.setContent(content);
+            insertSkill.setUserId(userId);
+            insertSkill.setDate(date);
+            insertSkill.setScore(score);
+            insertSkill.setCover(cover);
+            insertSkill.setPrice(price);
+            insertSkill.setFullType(fullType);
+            insertSkill.setTitle(title);
+            insertSkill.setSubtype(subType);
+            insertSkill.setUnit(unit);
+            Skill result = skillRepo.save(insertSkill);
+            SkillPic skillPic = new SkillPic();
+            skillPic.setSkillId(result.getSkillId());        
+            for(int i =0;i < images.size();i++){
+                skillPic.setIndex(i);
+                skillPic.setUrl(images.getString(0));
+                skillPicRepo.save(skillPic);
+            }
+
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE

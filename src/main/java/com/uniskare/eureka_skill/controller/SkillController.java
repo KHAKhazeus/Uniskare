@@ -1,27 +1,14 @@
 package com.uniskare.eureka_skill.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
-import com.uniskare.eureka_skill.controller.Response.Code;
-import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
-import com.uniskare.eureka_skill.dto.SkillDTO;
+import com.uniskare.eureka_skill.entity.Comment;
 import com.uniskare.eureka_skill.entity.Skill;
-import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.service.CommentService;
 import com.uniskare.eureka_skill.service.SkillService;
 import com.uniskare.eureka_skill.service.StarSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.uniskare.eureka_skill.entity.Comment;
-
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
 /**
  * @author : Bhy
  * @description ：
@@ -47,7 +34,7 @@ public class SkillController {
     }
 
     @PostMapping(path="/insert")
-    public BaseResponse insertSkill(@RequestBody Skill skill) {
+    public BaseResponse insertSkill(@RequestBody JSONObject skill) {
         return skillService.save(skill);
     }
     //原api未指明id，保持一样。就是说此时提交的skill必须有id
