@@ -1,6 +1,5 @@
 package com.uniskare.eureka_skill.repository;
 
-import com.uniskare.eureka_skill.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
