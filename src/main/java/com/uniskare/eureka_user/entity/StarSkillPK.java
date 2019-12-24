@@ -1,18 +1,16 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 public class StarSkillPK implements Serializable {
     private int skillId;
     private String starId;
 
-    @javax.persistence.Column(name = "skill_id")
-    @javax.persistence.Id
+    @Column(name = "skill_id")
+    @Id
     public int getSkillId() {
         return skillId;
     }
@@ -21,8 +19,8 @@ public class StarSkillPK implements Serializable {
         this.skillId = skillId;
     }
 
-    @javax.persistence.Column(name = "star_id")
-    @javax.persistence.Id
+    @Column(name = "star_id")
+    @Id
     public String getStarId() {
         return starId;
     }

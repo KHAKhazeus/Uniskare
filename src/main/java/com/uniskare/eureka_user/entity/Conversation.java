@@ -1,12 +1,12 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
+@Entity
 public class Conversation {
     private int conversationId;
     private String userId;
@@ -14,8 +14,8 @@ public class Conversation {
     private Byte onTop;
     private Integer unread;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "conversation_id")
+    @Id
+    @Column(name = "conversation_id")
     public int getConversationId() {
         return conversationId;
     }
@@ -24,8 +24,8 @@ public class Conversation {
         this.conversationId = conversationId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "user_id")
+    @Basic
+    @Column(name = "user_id")
     public String getUserId() {
         return userId;
     }
@@ -34,8 +34,8 @@ public class Conversation {
         this.userId = userId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "other_id")
+    @Basic
+    @Column(name = "other_id")
     public String getOtherId() {
         return otherId;
     }
@@ -44,8 +44,8 @@ public class Conversation {
         this.otherId = otherId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "on_top")
+    @Basic
+    @Column(name = "on_top")
     public Byte getOnTop() {
         return onTop;
     }
@@ -54,8 +54,8 @@ public class Conversation {
         this.onTop = onTop;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "unread")
+    @Basic
+    @Column(name = "unread")
     public Integer getUnread() {
         return unread;
     }

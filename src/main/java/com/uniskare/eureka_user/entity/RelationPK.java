@@ -1,18 +1,16 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 public class RelationPK implements Serializable {
     private String followId;
     private String fanId;
 
-    @javax.persistence.Column(name = "follow_id")
-    @javax.persistence.Id
+    @Column(name = "follow_id")
+    @Id
     public String getFollowId() {
         return followId;
     }
@@ -21,8 +19,8 @@ public class RelationPK implements Serializable {
         this.followId = followId;
     }
 
-    @javax.persistence.Column(name = "fan_id")
-    @javax.persistence.Id
+    @Column(name = "fan_id")
+    @Id
     public String getFanId() {
         return fanId;
     }

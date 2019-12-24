@@ -1,20 +1,17 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "star_skill", schema = "sedb", catalog = "")
-@javax.persistence.IdClass(StarSkillPK.class)
+@Entity
+@Table(name = "star_skill", schema = "sedb", catalog = "")
+@IdClass(StarSkillPK.class)
 public class StarSkill {
     private int skillId;
     private String starId;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "skill_id")
+    @Id
+    @Column(name = "skill_id")
     public int getSkillId() {
         return skillId;
     }
@@ -23,8 +20,8 @@ public class StarSkill {
         this.skillId = skillId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "star_id")
+    @Id
+    @Column(name = "star_id")
     public String getStarId() {
         return starId;
     }

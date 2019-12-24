@@ -1,21 +1,18 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "moment_pic", schema = "sedb", catalog = "")
-@javax.persistence.IdClass(MomentPicPK.class)
+@Entity
+@Table(name = "moment_pic", schema = "sedb", catalog = "")
+@IdClass(MomentPicPK.class)
 public class MomentPic {
     private int momentId;
     private int index;
     private String url;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "moment_id")
+    @Id
+    @Column(name = "moment_id")
     public int getMomentId() {
         return momentId;
     }
@@ -24,8 +21,8 @@ public class MomentPic {
         this.momentId = momentId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "index")
+    @Id
+    @Column(name = "index")
     public int getIndex() {
         return index;
     }
@@ -34,8 +31,8 @@ public class MomentPic {
         this.index = index;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "url")
+    @Basic
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }

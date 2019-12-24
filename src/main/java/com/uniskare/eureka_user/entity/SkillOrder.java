@@ -4,10 +4,6 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 @Entity
 @Table(name = "skill_order", schema = "sedb", catalog = "")
 public class SkillOrder {

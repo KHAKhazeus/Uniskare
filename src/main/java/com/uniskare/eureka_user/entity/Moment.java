@@ -1,13 +1,13 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
+@Entity
 public class Moment {
     private int momentId;
     private String userId;
@@ -15,8 +15,8 @@ public class Moment {
     private Byte canSee;
     private Timestamp time;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "moment_id")
+    @Id
+    @Column(name = "moment_id")
     public int getMomentId() {
         return momentId;
     }
@@ -25,8 +25,8 @@ public class Moment {
         this.momentId = momentId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "user_id")
+    @Basic
+    @Column(name = "user_id")
     public String getUserId() {
         return userId;
     }
@@ -35,8 +35,8 @@ public class Moment {
         this.userId = userId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "content")
+    @Basic
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -45,8 +45,8 @@ public class Moment {
         this.content = content;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "can_see")
+    @Basic
+    @Column(name = "can_see")
     public Byte getCanSee() {
         return canSee;
     }
@@ -55,8 +55,8 @@ public class Moment {
         this.canSee = canSee;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "time")
+    @Basic
+    @Column(name = "time")
     public Timestamp getTime() {
         return time;
     }

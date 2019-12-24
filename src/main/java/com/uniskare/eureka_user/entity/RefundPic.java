@@ -4,21 +4,21 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "skill_pic", schema = "sedb", catalog = "")
-@IdClass(SkillPicPK.class)
-public class SkillPic {
-    private int skillId;
+@Table(name = "refund_pic", schema = "sedb", catalog = "")
+@IdClass(RefundPicPK.class)
+public class RefundPic {
+    private int refundId;
     private int index;
     private String url;
 
     @Id
-    @Column(name = "skill_id")
-    public int getSkillId() {
-        return skillId;
+    @Column(name = "refund_id")
+    public int getRefundId() {
+        return refundId;
     }
 
-    public void setSkillId(int skillId) {
-        this.skillId = skillId;
+    public void setRefundId(int refundId) {
+        this.refundId = refundId;
     }
 
     @Id
@@ -45,14 +45,14 @@ public class SkillPic {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SkillPic skillPic = (SkillPic) o;
-        return skillId == skillPic.skillId &&
-                index == skillPic.index &&
-                Objects.equals(url, skillPic.url);
+        RefundPic refundPic = (RefundPic) o;
+        return refundId == refundPic.refundId &&
+                index == refundPic.index &&
+                Objects.equals(url, refundPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skillId, index, url);
+        return Objects.hash(refundId, index, url);
     }
 }

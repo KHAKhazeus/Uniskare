@@ -5,19 +5,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserLikeMomentPK implements Serializable {
-    private int momentId;
+public class UserPicPK implements Serializable {
     private String userId;
-
-    @Column(name = "moment_id")
-    @Id
-    public int getMomentId() {
-        return momentId;
-    }
-
-    public void setMomentId(int momentId) {
-        this.momentId = momentId;
-    }
+    private int picIndex;
 
     @Column(name = "user_id")
     @Id
@@ -29,17 +19,27 @@ public class UserLikeMomentPK implements Serializable {
         this.userId = userId;
     }
 
+    @Column(name = "pic_index")
+    @Id
+    public int getPicIndex() {
+        return picIndex;
+    }
+
+    public void setPicIndex(int picIndex) {
+        this.picIndex = picIndex;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserLikeMomentPK that = (UserLikeMomentPK) o;
-        return momentId == that.momentId &&
-                Objects.equals(userId, that.userId);
+        UserPicPK userPicPK = (UserPicPK) o;
+        return picIndex == userPicPK.picIndex &&
+                Objects.equals(userId, userPicPK.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(momentId, userId);
+        return Objects.hash(userId, picIndex);
     }
 }

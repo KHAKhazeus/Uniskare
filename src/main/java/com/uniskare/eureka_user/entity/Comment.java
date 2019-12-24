@@ -1,13 +1,13 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
+@Entity
 public class Comment {
     private int commentId;
     private String userId;
@@ -16,8 +16,8 @@ public class Comment {
     private String content;
     private Timestamp time;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "comment_id")
+    @Id
+    @Column(name = "comment_id")
     public int getCommentId() {
         return commentId;
     }
@@ -26,8 +26,8 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "user_id")
+    @Basic
+    @Column(name = "user_id")
     public String getUserId() {
         return userId;
     }
@@ -36,8 +36,8 @@ public class Comment {
         this.userId = userId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "skill_id")
+    @Basic
+    @Column(name = "skill_id")
     public Integer getSkillId() {
         return skillId;
     }
@@ -46,8 +46,8 @@ public class Comment {
         this.skillId = skillId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "score")
+    @Basic
+    @Column(name = "score")
     public Integer getScore() {
         return score;
     }
@@ -56,8 +56,8 @@ public class Comment {
         this.score = score;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "content")
+    @Basic
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -66,8 +66,8 @@ public class Comment {
         this.content = content;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "time")
+    @Basic
+    @Column(name = "time")
     public Timestamp getTime() {
         return time;
     }

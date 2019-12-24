@@ -5,18 +5,18 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class CommentPicPK implements Serializable {
-    private int commentId;
+public class RefundPicPK implements Serializable {
+    private int refundId;
     private int index;
 
-    @Column(name = "comment_id")
+    @Column(name = "refund_id")
     @Id
-    public int getCommentId() {
-        return commentId;
+    public int getRefundId() {
+        return refundId;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setRefundId(int refundId) {
+        this.refundId = refundId;
     }
 
     @Column(name = "index")
@@ -33,13 +33,13 @@ public class CommentPicPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CommentPicPK that = (CommentPicPK) o;
-        return commentId == that.commentId &&
+        RefundPicPK that = (RefundPicPK) o;
+        return refundId == that.refundId &&
                 index == that.index;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, index);
+        return Objects.hash(refundId, index);
     }
 }

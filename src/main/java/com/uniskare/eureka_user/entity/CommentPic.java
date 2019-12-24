@@ -1,21 +1,18 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "comment_pic", schema = "sedb", catalog = "")
-@javax.persistence.IdClass(CommentPicPK.class)
+@Entity
+@Table(name = "comment_pic", schema = "sedb", catalog = "")
+@IdClass(CommentPicPK.class)
 public class CommentPic {
     private int commentId;
     private int index;
     private String url;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "comment_id")
+    @Id
+    @Column(name = "comment_id")
     public int getCommentId() {
         return commentId;
     }
@@ -24,8 +21,8 @@ public class CommentPic {
         this.commentId = commentId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "index")
+    @Id
+    @Column(name = "index")
     public int getIndex() {
         return index;
     }
@@ -34,8 +31,8 @@ public class CommentPic {
         this.index = index;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "url")
+    @Basic
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }

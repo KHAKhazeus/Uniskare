@@ -1,19 +1,19 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
+@Entity
 public class Message {
     private int conversationId;
     private String content;
     private String date;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "conversation_id")
+    @Id
+    @Column(name = "conversation_id")
     public int getConversationId() {
         return conversationId;
     }
@@ -22,8 +22,8 @@ public class Message {
         this.conversationId = conversationId;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "content")
+    @Basic
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -32,8 +32,8 @@ public class Message {
         this.content = content;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "date")
+    @Basic
+    @Column(name = "date")
     public String getDate() {
         return date;
     }

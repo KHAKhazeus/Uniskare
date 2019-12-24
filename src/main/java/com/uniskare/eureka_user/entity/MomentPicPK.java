@@ -1,18 +1,16 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 public class MomentPicPK implements Serializable {
     private int momentId;
     private int index;
 
-    @javax.persistence.Column(name = "moment_id")
-    @javax.persistence.Id
+    @Column(name = "moment_id")
+    @Id
     public int getMomentId() {
         return momentId;
     }
@@ -21,8 +19,8 @@ public class MomentPicPK implements Serializable {
         this.momentId = momentId;
     }
 
-    @javax.persistence.Column(name = "index")
-    @javax.persistence.Id
+    @Column(name = "index")
+    @Id
     public int getIndex() {
         return index;
     }

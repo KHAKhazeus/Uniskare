@@ -1,19 +1,19 @@
 package com.uniskare.eureka_user.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
-@javax.persistence.Entity
-@javax.persistence.IdClass(RelationPK.class)
+@Entity
+@IdClass(RelationPK.class)
 public class Relation {
     private String followId;
     private String fanId;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "follow_id")
+    @Id
+    @Column(name = "follow_id")
     public String getFollowId() {
         return followId;
     }
@@ -22,8 +22,8 @@ public class Relation {
         this.followId = followId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "fan_id")
+    @Id
+    @Column(name = "fan_id")
     public String getFanId() {
         return fanId;
     }
