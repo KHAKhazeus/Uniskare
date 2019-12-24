@@ -20,6 +20,12 @@ public class MomentController {
     @Autowired
     MomentService momentService;
 
+    //todo:点赞？
+    @RequestMapping(value = "/star_moment", method = RequestMethod.POST)
+    public BaseResponse starMoment(@RequestBody JSONObject body) {
+        return null;
+    }
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public BaseResponse insertMoment(@RequestBody JSONObject body) {
         //Moment
@@ -39,7 +45,7 @@ public class MomentController {
         return momentService.getAllMoments(watcher_id, page);
     }
 
-    @RequestMapping(value = "/all/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public BaseResponse getOnesMoments(@PathVariable("userId") String userId,
                                    @RequestParam("page") int page,@RequestParam(USER_ID) String watcher_id)
     {

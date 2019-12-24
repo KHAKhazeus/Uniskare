@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface MomentRepo extends JpaRepository<Moment, Integer> {
     List<Moment> findAllByUserId(String user_id);
+    Moment findByMomentId(int mom_id);
 }

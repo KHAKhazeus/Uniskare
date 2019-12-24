@@ -15,7 +15,7 @@ public class Const {
     public final static String DATE = "date";
 
     public final static String PICTURES = "pictures";
-    public final static String MOM_ID = "mom_id";
+    public final static String MOM_ID = "moment_id";
 
     public final static String ORDER_STATUS = "state";
     public final static String ORDER_TIME = "order_time";

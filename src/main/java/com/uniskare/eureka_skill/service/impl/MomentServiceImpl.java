@@ -8,20 +8,18 @@ import com.uniskare.eureka_skill.dto.MomentShow;
 import com.uniskare.eureka_skill.entity.Moment;
 import com.uniskare.eureka_skill.entity.MomentPic;
 import com.uniskare.eureka_skill.entity.User;
-import com.uniskare.eureka_skill.entity.UserLikeMomentPK;
 import com.uniskare.eureka_skill.repository.MomentPicRepo;
 import com.uniskare.eureka_skill.repository.MomentRepo;
 import com.uniskare.eureka_skill.repository.UserLikeMomRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
-import com.uniskare.eureka_skill.service.Helper.Const;
 import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.MomentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.Timestamp;
@@ -60,6 +58,8 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @Modifying
+    @Transactional //执行删除和保存操作？需要事务？！  好像是应该让 delete和save分开，否则有重复主键的风险？不太懂
     public BaseResponse updateMoment(JSONObject body) {
         try {
             getOrNewMoment(body, false);
@@ -147,6 +147,8 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @Modifying
+    @Transactional//删除好像就要....
     public BaseResponse deleteMoment(int mom_id) {
         try{
             //图片和动态
@@ -154,7 +156,7 @@ public class MomentServiceImpl implements MomentService {
             momentRepo.deleteById(mom_id);
         }catch (Exception e)
         {
-            return new BaseResponse(null, e.getMessage());
+            return new BaseResponse(null, e.getMessage() + "删除失败？");
         }
         return new BaseResponse(null);
     }
@@ -171,15 +173,16 @@ public class MomentServiceImpl implements MomentService {
         if(!insert)
         {
             int mom_id = body.getIntValue(MOM_ID);
-            moment = new Moment(mom_id,user_id,content,can_see,timestamp);
+            moment = momentRepo.findByMomentId(mom_id);
+            System.out.println("动态: " + moment + " "+mom_id);
         }else {
             moment = new Moment(user_id,content,can_see,timestamp);
         }
 
         JSONArray pics = body.getJSONArray(PICTURES);
-        insertPictures(pics, moment.getMomentId());
-
         momentRepo.save(moment);
+        //todo：图片有可能插入失败
+        insertPictures(pics, moment.getMomentId());
 
         return moment;
     }
@@ -209,7 +212,7 @@ public class MomentServiceImpl implements MomentService {
             }
         }catch (Exception e)
         {
-            throw new BackendException("图片插入或者更新出错");
+            throw new BackendException("图片插入或者更新出错" + e.getMessage());
         }
     }
 }
