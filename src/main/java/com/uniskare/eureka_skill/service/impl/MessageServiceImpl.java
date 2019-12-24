@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.dto.MessageInfo;
 import com.uniskare.eureka_skill.entity.Conversation;
 import com.uniskare.eureka_skill.entity.Message;
+import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.ConversationRepo;
 import com.uniskare.eureka_skill.repository.MessageRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;

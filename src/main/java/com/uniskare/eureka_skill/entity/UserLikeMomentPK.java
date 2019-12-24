@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.AllArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,6 +9,7 @@ import java.util.Objects;
  * @author : SCH001
  * @description :
  */
+@AllArgsConstructor
 public class UserLikeMomentPK implements Serializable {
     private int momentId;
     private String userId;

@@ -8,8 +8,14 @@ public class Const {
     public final static String USER_ID = "user_id";
     public final static String OTHER_ID = "other_id";
 
+    public final static String CAN_SEE = "can_see";
+    public final static String MOM_TIME = "time";
+
     public final static String CONTENT = "content";
     public final static String DATE = "date";
+
+    public final static String PICTURES = "pictures";
+    public final static String MOM_ID = "mom_id";
 
     public final static String ORDER_STATUS = "state";
     public final static String ORDER_TIME = "order_time";
@@ -17,6 +23,8 @@ public class Const {
     public final static String ORDER_VALUE = "value";
 
     public final static String SKILL_ID = "skill_id";
+
+    public final static int NUM_PER_PAGE = 10;
 
     //订单的状态， enum不太好用
     public final static Byte ORDER_STATUS_CANCELED = 0; // 已取消

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static com.uniskare.eureka_skill.service.Helper.Const.NUM_PER_PAGE;
+
 /**
  * @author : SCH001
  * @description :
@@ -29,5 +31,12 @@ public class MyPageHelper{
         );
 
         return dtoPage.getContent();
+    }
+
+    //默认每页NUM_PER_PAGE个
+    public static <T> List<T> convert2Page(List<T> list, int page)
+    {
+        Pageable pageable = PageRequest.of(page, NUM_PER_PAGE);
+        return convert2Page(list, pageable);
     }
 }

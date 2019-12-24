@@ -6,9 +6,9 @@ package com.uniskare.eureka_skill.dto;
  */
 import com.uniskare.eureka_skill.entity.Conversation;
 import com.uniskare.eureka_skill.entity.Message;
+import com.uniskare.eureka_skill.entity.User;
 import lombok.Data;
 
-//摘自jue chen 大佬
 @Data
 public class MessageInfo {
     int conversationId;

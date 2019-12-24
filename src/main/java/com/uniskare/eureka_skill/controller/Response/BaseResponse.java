@@ -41,4 +41,11 @@ public class BaseResponse {
         status = Code.OK;
         error = Code.NO_ERROR_MESSAGE;
     }
+
+    public BaseResponse(Object data, String errorMsg)
+    {
+        this.data = data;
+        status = Code.BAD_REQUEST;
+        error = errorMsg;
+    }
 }

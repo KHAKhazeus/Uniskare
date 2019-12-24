@@ -10,6 +10,9 @@ import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 public interface MomentService {
     public BaseResponse insertMoment(JSONObject body);
     public BaseResponse updateMoment(JSONObject body);
-    public BaseResponse deleteMoment(JSONObject body);
-    public BaseResponse getMoments(JSONObject body);
+
+    public BaseResponse getOnesMoments(String user_id, int page, String watcher_id);
+    public BaseResponse getAllMoments(String watcher_id, int page);
+
+    public BaseResponse deleteMoment(int mom_id);
 }

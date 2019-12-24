@@ -8,6 +8,7 @@ import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.OrderDTO;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillOrder;
+import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.OrderRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
