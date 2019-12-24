@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class UserPicPK implements Serializable {
     private int userId;
-    private int index;
+    private int pindex;
 
     @Column(name = "user_id")
     @Id
@@ -23,14 +23,14 @@ public class UserPicPK implements Serializable {
         this.userId = userId;
     }
 
-    @Column(name = "index")
+    @Column(name = "pindex")
     @Id
-    public int getIndex() {
-        return index;
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
     @Override
@@ -39,11 +39,11 @@ public class UserPicPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         UserPicPK userPicPK = (UserPicPK) o;
         return userId == userPicPK.userId &&
-                index == userPicPK.index;
+                pindex == userPicPK.pindex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, index);
+        return Objects.hash(userId, pindex);
     }
 }

@@ -1,21 +1,22 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * @author : SCH001
  * @description :
  */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "comment_pic", schema = "sedb", catalog = "")
-@javax.persistence.IdClass(CommentPicPK.class)
+@Entity
+@Table(name = "comment_pic", schema = "sedb", catalog = "")
+@IdClass(CommentPicPK.class)
 public class CommentPic {
     private int commentId;
-    private int index;
+    private int pindex;
     private String url;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "comment_id")
+    @Id
+    @Column(name = "comment_id")
     public int getCommentId() {
         return commentId;
     }
@@ -24,18 +25,18 @@ public class CommentPic {
         this.commentId = commentId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "index")
-    public int getIndex() {
-        return index;
+    @Id
+    @Column(name = "pindex")
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "url")
+    @Basic
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -50,12 +51,12 @@ public class CommentPic {
         if (o == null || getClass() != o.getClass()) return false;
         CommentPic that = (CommentPic) o;
         return commentId == that.commentId &&
-                index == that.index &&
+                pindex == that.pindex &&
                 Objects.equals(url, that.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, index, url);
+        return Objects.hash(commentId, pindex, url);
     }
 }

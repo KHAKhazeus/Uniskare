@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,10 +11,10 @@ import java.util.Objects;
  */
 public class SkillPicPK implements Serializable {
     private int skillId;
-    private int index;
+    private int pindex;
 
-    @javax.persistence.Column(name = "skill_id")
-    @javax.persistence.Id
+    @Column(name = "skill_id")
+    @Id
     public int getSkillId() {
         return skillId;
     }
@@ -21,14 +23,14 @@ public class SkillPicPK implements Serializable {
         this.skillId = skillId;
     }
 
-    @javax.persistence.Column(name = "index")
-    @javax.persistence.Id
-    public int getIndex() {
-        return index;
+    @Column(name = "pindex")
+    @Id
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
     @Override
@@ -37,11 +39,11 @@ public class SkillPicPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         SkillPicPK that = (SkillPicPK) o;
         return skillId == that.skillId &&
-                index == that.index;
+                pindex == that.pindex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skillId, index);
+        return Objects.hash(skillId, pindex);
     }
 }
