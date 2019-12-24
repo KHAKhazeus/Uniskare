@@ -34,4 +34,11 @@ public class BaseResponse {
         this.message = message;//插入成功之类的
         this.data = data;//真实数据
     }
+
+    public BaseResponse(Object data)
+    {
+        this.data = data;
+        status = Code.OK;
+        error = Code.NO_ERROR_MESSAGE;
+    }
 }

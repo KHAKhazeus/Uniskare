@@ -1,5 +1,9 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Objects;
 
 /**
@@ -7,6 +11,7 @@ import java.util.Objects;
  * @description :
  */
 @javax.persistence.Entity
+@NoArgsConstructor
 public class Conversation {
     private int conversationId;
     private String userId;
@@ -14,8 +19,21 @@ public class Conversation {
     private Byte onTop;
     private Integer unread;
 
+    public Conversation(String userId, String otherId) {
+        this.userId = userId;
+        this.otherId = otherId;
+        this.onTop = 0;
+        this.unread = 0;
+    }
+
+    public void incUnread(int inc)
+    {
+        this.unread += inc;
+    }
+
     @javax.persistence.Id
     @javax.persistence.Column(name = "conversation_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getConversationId() {
         return conversationId;
     }

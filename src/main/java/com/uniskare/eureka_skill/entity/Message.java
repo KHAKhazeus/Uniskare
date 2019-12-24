@@ -1,5 +1,9 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
 /**
@@ -7,6 +11,9 @@ import java.util.Objects;
  * @description :
  */
 @javax.persistence.Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
     private int conversationId;
     private String content;

@@ -6,6 +6,10 @@ package com.uniskare.eureka_skill.service.Helper;
  */
 public class Const {
     public final static String USER_ID = "user_id";
+    public final static String OTHER_ID = "other_id";
+
+    public final static String CONTENT = "content";
+    public final static String DATE = "date";
 
     public final static String ORDER_STATUS = "state";
     public final static String ORDER_TIME = "order_time";

@@ -4,6 +4,9 @@ package com.uniskare.eureka_skill.dto;
  * @author : SCH001
  * @description :
  */
+import com.uniskare.eureka_skill.entity.Conversation;
+import com.uniskare.eureka_skill.entity.Message;
+import com.uniskare.eureka_skill.entity.User;
 import lombok.Data;
 
 //摘自jue chen 大佬
@@ -28,5 +31,12 @@ public class MessageInfo {
         this.timeStr = timeStr;
         this.unread = unread;
         isTouchMove = false;
+    }
+
+    public MessageInfo(User friend, Message message, Conversation conversation)
+    {
+        this(conversation.getConversationId(),friend.getUniUuid(),friend.getUniNickName(),friend.getUniAvatarUrl(),
+                message.getContent(),message.getDate(),conversation.getUnread()
+                );
     }
 }
