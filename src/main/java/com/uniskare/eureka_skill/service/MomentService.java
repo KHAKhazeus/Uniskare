@@ -15,4 +15,6 @@ public interface MomentService {
     public BaseResponse getAllMoments(String watcher_id, int page);
 
     public BaseResponse deleteMoment(int mom_id);
+
+    public BaseResponse starMoment(JSONObject body);
 }

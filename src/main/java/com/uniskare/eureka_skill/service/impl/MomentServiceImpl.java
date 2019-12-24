@@ -8,6 +8,7 @@ import com.uniskare.eureka_skill.dto.MomentShow;
 import com.uniskare.eureka_skill.entity.Moment;
 import com.uniskare.eureka_skill.entity.MomentPic;
 import com.uniskare.eureka_skill.entity.User;
+import com.uniskare.eureka_skill.entity.UserLikeMoment;
 import com.uniskare.eureka_skill.repository.MomentPicRepo;
 import com.uniskare.eureka_skill.repository.MomentRepo;
 import com.uniskare.eureka_skill.repository.UserLikeMomRepo;
@@ -158,6 +159,18 @@ public class MomentServiceImpl implements MomentService {
         {
             return new BaseResponse(null, e.getMessage() + "删除失败？");
         }
+        return new BaseResponse(null);
+    }
+
+    @Override
+    public BaseResponse starMoment(JSONObject body) {
+        String user_id = body.getString(USER_ID);
+        int mom_id = body.getIntValue(MOM_ID);
+
+        UserLikeMoment userLikeMoment = new UserLikeMoment(user_id, mom_id);
+
+        userLikeMomRepo.save(userLikeMoment);
+
         return new BaseResponse(null);
     }
 

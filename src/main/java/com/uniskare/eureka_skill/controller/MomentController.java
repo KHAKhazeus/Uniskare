@@ -23,7 +23,7 @@ public class MomentController {
     //todo:点赞？
     @RequestMapping(value = "/star_moment", method = RequestMethod.POST)
     public BaseResponse starMoment(@RequestBody JSONObject body) {
-        return null;
+        return momentService.starMoment(body);
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
