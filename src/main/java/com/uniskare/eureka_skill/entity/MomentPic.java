@@ -1,5 +1,8 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,6 +13,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "moment_pic", schema = "sedb", catalog = "")
 @IdClass(MomentPicPK.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class MomentPic {
     private int momentId;
     private int pindex;

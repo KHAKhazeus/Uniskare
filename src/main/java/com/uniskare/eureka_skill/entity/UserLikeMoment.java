@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
 /**
@@ -9,9 +11,16 @@ import java.util.Objects;
 @javax.persistence.Entity
 @javax.persistence.Table(name = "user_like_moment", schema = "sedb", catalog = "")
 @javax.persistence.IdClass(UserLikeMomentPK.class)
+@NoArgsConstructor
 public class UserLikeMoment {
     private int momentId;
     private String userId;
+
+
+    public UserLikeMoment(String userId, int momentId) {
+        this.momentId = momentId;
+        this.userId = userId;
+    }
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "moment_id")

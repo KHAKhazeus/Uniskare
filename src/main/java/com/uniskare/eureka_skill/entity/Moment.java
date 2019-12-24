@@ -1,5 +1,10 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -8,6 +13,8 @@ import java.util.Objects;
  * @description :
  */
 @javax.persistence.Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Moment {
     private int momentId;
     private String userId;
@@ -15,8 +22,17 @@ public class Moment {
     private Byte canSee;
     private Timestamp time;
 
+
+    public Moment(String userId, String content, Byte canSee, Timestamp time) {
+        this.userId = userId;
+        this.content = content;
+        this.canSee = canSee;
+        this.time = time;
+    }
+
     @javax.persistence.Id
     @javax.persistence.Column(name = "moment_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getMomentId() {
         return momentId;
     }

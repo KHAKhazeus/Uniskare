@@ -17,11 +17,12 @@ public class User {
     private String uniNickName;
     private Byte uniSex;
     private String uniIndiSign;
-    private Byte uniIsStu;
+    private Integer uniIsStu;
     private String uniSchool;
     private String uniPhoneNum;
     private Byte changeNickName;
     private Byte changeAvatar;
+//    private Byte uniPassPhone;
 
     @Id
     @Column(name = "uni_uuid")
@@ -75,11 +76,11 @@ public class User {
 
     @Basic
     @Column(name = "uni_is_stu")
-    public Byte getUniIsStu() {
+    public Integer getUniIsStu() {
         return uniIsStu;
     }
 
-    public void setUniIsStu(Byte uniIsStu) {
+    public void setUniIsStu(Integer uniIsStu) {
         this.uniIsStu = uniIsStu;
     }
 
@@ -122,6 +123,7 @@ public class User {
     public void setChangeAvatar(Byte changeAvatar) {
         this.changeAvatar = changeAvatar;
     }
+
 
     @Override
     public boolean equals(Object o) {
