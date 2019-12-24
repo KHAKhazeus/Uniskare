@@ -1,21 +1,22 @@
 package com.uniskare.eureka_skill.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * @author : SCH001
  * @description :
  */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "moment_pic", schema = "sedb", catalog = "")
-@javax.persistence.IdClass(MomentPicPK.class)
+@Entity
+@Table(name = "moment_pic", schema = "sedb", catalog = "")
+@IdClass(MomentPicPK.class)
 public class MomentPic {
     private int momentId;
-    private int index;
+    private int pindex;
     private String url;
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "moment_id")
+    @Id
+    @Column(name = "moment_id")
     public int getMomentId() {
         return momentId;
     }
@@ -24,18 +25,18 @@ public class MomentPic {
         this.momentId = momentId;
     }
 
-    @javax.persistence.Id
-    @javax.persistence.Column(name = "index")
-    public int getIndex() {
-        return index;
+    @Id
+    @Column(name = "pindex")
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
-    @javax.persistence.Basic
-    @javax.persistence.Column(name = "url")
+    @Basic
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -50,12 +51,12 @@ public class MomentPic {
         if (o == null || getClass() != o.getClass()) return false;
         MomentPic momentPic = (MomentPic) o;
         return momentId == momentPic.momentId &&
-                index == momentPic.index &&
+                pindex == momentPic.pindex &&
                 Objects.equals(url, momentPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(momentId, index, url);
+        return Objects.hash(momentId, pindex, url);
     }
 }
