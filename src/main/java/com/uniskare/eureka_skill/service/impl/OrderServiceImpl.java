@@ -5,31 +5,26 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
+import com.uniskare.eureka_skill.repository.OrderRepo;
+import com.uniskare.eureka_skill.repository.SkillRepo;
+import com.uniskare.eureka_skill.service.Helper.Const;
+import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
+import com.uniskare.eureka_skill.service.OrderService;
 import com.uniskare.eureka_skill.dto.OrderDTO;
-import com.uniskare.eureka_skill.entity.Message;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillOrder;
 import com.uniskare.eureka_skill.entity.User;
-import com.uniskare.eureka_skill.repository.OrderRepo;
-import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
-import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
-import com.uniskare.eureka_skill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
-
-import static com.uniskare.eureka_skill.service.Helper.Const.*;
 
 /**
  * @author : SCH001
@@ -53,9 +48,9 @@ public class OrderServiceImpl implements OrderService {
         JSONArray jsonArray = new JSONArray();
         for(SkillOrder order:orders)
         {
-            jsonArray.add(new JSONObject().fluentPut(ORDER_STATUS, order.getState())
-                    .fluentPut(ORDER_ID, order.getOrderId())
-                    .fluentPut(ORDER_TIME, order.getOrderTime())
+            jsonArray.add(new JSONObject().fluentPut(Const.ORDER_STATUS, order.getState())
+                    .fluentPut(Const.ORDER_ID, order.getOrderId())
+                    .fluentPut(Const.ORDER_TIME, order.getOrderTime())
             );
         }
         return jsonArray;
@@ -66,8 +61,8 @@ public class OrderServiceImpl implements OrderService {
     {
 
         try{
-            String user_id = jsonObject.getString(USER_ID);
-            Byte order_state = jsonObject.getByte(ORDER_STATUS);
+            String user_id = jsonObject.getString(Const.USER_ID);
+            Byte order_state = jsonObject.getByte(Const.ORDER_STATUS);
 
             List<SkillOrder> skillOrders;
             if(order_state!=-1)
@@ -120,14 +115,14 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse operateOrder(JSONObject json, Byte state)
     {
         try{
-            int order_id = json.getIntValue(ORDER_ID);
+            int order_id = json.getIntValue(Const.ORDER_ID);
             SkillOrder skillOrder = orderRepo.getOne(order_id);
 
             // 不是debug状态哦
 //            assert skillOrder.getState() + 1 == state;
             if(skillOrder.getState() + 1 != state)
             {
-                if(!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
+                if(!state.equals(Const.ORDER_STATUS_CANCELED) || skillOrder.getState().equals(Const.ORDER_STATUS_FINISHED))
                     throw new BackendException("Order State is not correct Or Order has been finished!");
             }
 //            System.out.println(skillOrder.getState()+" "+ state);
@@ -145,13 +140,13 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse newOrder(JSONObject json)
     {
         try{
-            int skill_id = json.getIntValue(SKILL_ID);
-            String user_id = json.getString(USER_ID);
+            int skill_id = json.getIntValue(Const.SKILL_ID);
+            String user_id = json.getString(Const.USER_ID);
             //2019-12-17 10:30:10
-            Timestamp order_time = json.getTimestamp(ORDER_TIME);
-            double val = json.getDouble(ORDER_VALUE);
+            Timestamp order_time = json.getTimestamp(Const.ORDER_TIME);
+            double val = json.getDouble(Const.ORDER_VALUE);
 
-            SkillOrder skillOrder = new SkillOrder(skill_id,user_id,ORDER_STATUS_PLACED,
+            SkillOrder skillOrder = new SkillOrder(skill_id,user_id, Const.ORDER_STATUS_PLACED,
                     order_time, val);
 
             orderRepo.save(skillOrder);
