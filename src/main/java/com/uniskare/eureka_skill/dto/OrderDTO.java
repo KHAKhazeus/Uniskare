@@ -15,12 +15,14 @@ import java.sql.Timestamp;
 //data transfer object, 面向数据传输, 展示给前端看的类
 
 @Data
-@AllArgsConstructor(access=AccessLevel.PUBLIC)
+@AllArgsConstructor
 public class OrderDTO {
     private String skill_cover;
     private double price;
+    private String unit;   //
+    private String userId;
     private Timestamp order_time;
-    private String skiller_name;
+    private String content;   //
     private String skill_title;
 
     public OrderDTO()

@@ -1,9 +1,6 @@
 package com.uniskare.eureka_skill.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -21,6 +18,7 @@ public class Refund {
 
     @Id
     @Column(name = "refund_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getRefundId() {
         return refundId;
     }

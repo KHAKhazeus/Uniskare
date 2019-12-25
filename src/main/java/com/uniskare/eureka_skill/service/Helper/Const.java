@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.service.Helper;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 /**
  * @author : SCH001
  * @description :
@@ -11,6 +13,10 @@ public class Const {
     public final static String ORDER_TIME = "order_time";
     public final static String ORDER_ID = "order_id";
     public final static String ORDER_VALUE = "value";
+    public final static String PAGE = "page";
+    public final static String PICS = "images";
+    public final static String CONTENT = "content";
+    public final static String TIME="time";
 
     //默认30分钟超时
     public final static int ORDER_TIME_OUT = 30*60*100;
@@ -24,4 +30,5 @@ public class Const {
     public final static Byte ORDER_STATUS_TAKEN = 3; //技客接单 & 用户未确认
     public final static Byte ORDER_STATUS_CONFIRMED = 4; //用户确认 未评论
     public final static Byte ORDER_STATUS_FINISHED = 5; // 用户评论，订单完成
+    public final static Byte ORDER_STATUS_REFUND=6; //退款中
 }

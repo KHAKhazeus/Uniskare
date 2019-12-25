@@ -2,6 +2,7 @@ package com.uniskare.eureka_skill.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,4 +70,25 @@ public class OrderController {
     {
         return orderService.operateOrder(body, ORDER_STATUS_FINISHED);
     }
+
+    @RequestMapping(value = "/refund", method = RequestMethod.POST)
+    public BaseResponse applyRefund(@RequestBody JSONObject jsonObject){
+        return orderService.applyRefund(jsonObject);
+    }
+
+    @RequestMapping(value = "/{userId}/refund_request",method = RequestMethod.GET)
+    public BaseResponse getRefund(@PathVariable("userId") String userId){
+
+    }
+
+    @RequestMapping(value = "/{userId}/applu",method = RequestMethod.GET)
+    public BaseResponse getApply(@PathVariable("userId") String userId){
+
+    }
+
+    @RequestMapping(value = "/{refundId}/info",method = RequestMethod.GET)
+    public BaseResponse getRefundInfo(@PathVariable("refundId") int refundId){
+
+    }
+
 }

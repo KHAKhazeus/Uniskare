@@ -6,13 +6,8 @@ import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.OrderDTO;
-import com.uniskare.eureka_skill.entity.Message;
-import com.uniskare.eureka_skill.entity.Skill;
-import com.uniskare.eureka_skill.entity.SkillOrder;
-import com.uniskare.eureka_skill.entity.User;
-import com.uniskare.eureka_skill.repository.OrderRepo;
-import com.uniskare.eureka_skill.repository.SkillRepo;
-import com.uniskare.eureka_skill.repository.UserRepo;
+import com.uniskare.eureka_skill.entity.*;
+import com.uniskare.eureka_skill.repository.*;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
 import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
@@ -48,6 +43,10 @@ public class OrderServiceImpl implements OrderService {
     private SkillRepo skillRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private RefundRepo refundRepo;
+    @Autowired
+    private RefundPicRepo refundPicRepo;
 
     //RMQ
     @Autowired
@@ -75,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         try{
             String user_id = jsonObject.getString(USER_ID);
             Byte order_state = jsonObject.getByte(ORDER_STATUS);
-
+            int page = jsonObject.getIntValue(PAGE);
             List<SkillOrder> skillOrders;
             if(order_state!=-1)
             {
@@ -91,8 +90,8 @@ public class OrderServiceImpl implements OrderService {
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
                 User user = userRepo.getOne(skill.getUserId());
 
-                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skillOrder.getValue(),skillOrder.getOrderTime(),
-                        user.getUniNickName(),skill.getTitle());
+                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice().doubleValue(),skill.getUnit(),skill.getUserId(),skillOrder.getOrderTime(),
+                        skill.getContent(),skill.getTitle());
 
                 jsonArray.add(orderDTO);
             }
@@ -101,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
             //todo: 前端好像需要发页码
             //这里可以自己撸一个分页器
             //这里直接0
-            Pageable pageable = PageRequest.of(0, 5);
+            Pageable pageable = PageRequest.of(page, 5);
             List<OrderDTO> dtoPage = MyPageHelper.convert2Page(jsonArray, pageable);
 //            int start = (int)pageable.getOffset();
 //            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
@@ -178,6 +177,48 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public BaseResponse applyRefund(JSONObject jsonObject) {
+        try{
+
+            int orderId = jsonObject.getIntValue(ORDER_ID);
+            String userId = jsonObject.getString(USER_ID);
+            Timestamp date = jsonObject.getTimestamp(TIME);
+            JSONArray jsonArray = jsonObject.getJSONArray(PICS);
+            String content = jsonObject.getString(CONTENT);
+            Refund refund = new Refund();
+            refund.setOrderId(orderId);
+            refund.setReason(content);
+            refund.setTime(date);
+            refundRepo.save(refund);
+            RefundPic refundPic = new RefundPic();
+            refundPic.setRefundId(refund.getRefundId());
+
+            for(int i =0;i<jsonArray.size();i++){
+                refundPic.setIndex(i);
+                refundPic.setUrl(jsonArray.getString(i));
+                refundPicRepo.save(refundPic);
+            }
+
+            SkillOrder skillOrder = orderRepo.findByOrderId(orderId);
+            skillOrder.setState(ORDER_STATUS_REFUND);
+            orderRepo.save(skillOrder);
+
+            return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.INSERT_SUCCESS,null);
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.NOT_ACCEPTABLE, e.toString(),
+                    ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse getOrderRequestDTOs(String userId, Boolean isRefund) {
+
+    }
+
 
     //todo
     //新建订单时会发一条消息
@@ -217,4 +258,6 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("该订单已经支付");
         }
     }
+
+
 }

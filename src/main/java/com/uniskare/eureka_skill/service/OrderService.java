@@ -2,6 +2,7 @@ package com.uniskare.eureka_skill.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 
 public interface OrderService {
@@ -19,4 +20,8 @@ public interface OrderService {
     public BaseResponse newOrder(JSONObject json);
 
     public void handleOrderWhenTimeOut(int order_id);
+
+    public BaseResponse applyRefund(JSONObject jsonObject);
+
+    public BaseResponse getOrderRequestDTOs(String userId, Boolean isRefund);
 }
