@@ -5,10 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @author : Bhy
  * @description ：
  */
 public interface StarSkillRepo extends JpaRepository<StarSkill,Integer> {
     Page<StarSkill> findByStarId(String starId, Pageable pageable);
+    List<StarSkill> findByStarIdAndSkillId(String starId, int skillId);
 }

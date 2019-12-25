@@ -11,11 +11,11 @@ import com.uniskare.eureka_skill.entity.Skill;
 public interface SkillService {
     public BaseResponse save(JSONObject skill);
     public BaseResponse findAll(int page);
-    public BaseResponse findById(int skillId);
+    public BaseResponse findById(int skillId,String userId);
     public BaseResponse deleteById(int skillId);
     public BaseResponse updateSkill(Skill skill);
     public BaseResponse findByFullType(String fullType, int page);
-    public BaseResponse findByFullTypeAndSubtype(String fullType, String subtype, int page);
+    public BaseResponse findByFullTypeAndSubtype(String fullType,String subtype, int page);
     public BaseResponse searchSkillByTitle(String title,int page);
     public BaseResponse findByUserId(String userId, int page);
 }

@@ -48,19 +48,21 @@ public class SkillController {
     }
 
 
-    @GetMapping("all/{fullType}")
-    public BaseResponse getSkillByFullType(@PathVariable("fullType") String fullType,@RequestParam("page") int page) {
+    @GetMapping("all/fullType")
+    public BaseResponse getSkillByFullType(@RequestParam("fullType") String fullType,
+                                           @RequestParam("page") int page) {
         return skillService.findByFullType(fullType,page);
     }
 
-    @GetMapping("all/{fullType}/{subType})")
-    public BaseResponse getSkillBySubType(@PathVariable("fullType") String fullType, @PathVariable("subType") String subtype,@RequestParam("page") int page) {
+    @GetMapping("all/fullType/subType)")
+    public BaseResponse getSkillBySubType(@RequestParam("fullType") String fullType,
+                                          @RequestParam("subtype") String subtype,@RequestParam("page") int page) {
         return skillService.findByFullTypeAndSubtype(fullType,subtype,page);
     }
     //未使用dto
-    @GetMapping("/{skillId}")
-    public BaseResponse getSkillByskillId(@PathVariable("skillId") int skillId) {
-        return skillService.findById(skillId);
+    @GetMapping("/{skillId}/{userId}")
+    public BaseResponse getSkillBySkillId(@PathVariable("skillId") int skillId,@PathVariable("userId") String userId) {
+        return skillService.findById(skillId,userId);
     }
 
     //保持和原来接口一样

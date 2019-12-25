@@ -9,9 +9,11 @@ import com.uniskare.eureka_skill.dto.SkillDTO;
 import com.uniskare.eureka_skill.entity.Comment;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillPic;
+import com.uniskare.eureka_skill.entity.StarSkill;
 import com.uniskare.eureka_skill.repository.CommentRepo;
 import com.uniskare.eureka_skill.repository.SkillPicRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
+import com.uniskare.eureka_skill.repository.StarSkillRepo;
 import com.uniskare.eureka_skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,8 @@ public class SkillServiceImpl implements SkillService {
     private CommentRepo commentRepo;
     @Autowired
     private SkillPicRepo skillPicRepo;
+    @Autowired
+    private StarSkillRepo starSkillRepo;
 
     private int pageSize = 10;
     //save总是返回skill，感觉这里无法判断是不是插入成功，这里一定成功，只能捕捉一下excep，前端可以判断skill格式不对或者网络问题导致的失败
@@ -205,8 +209,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public BaseResponse findByFullTypeAndSubtype(String fullType, String subtype, int page) {
+    public BaseResponse findByFullTypeAndSubtype(String fullType,String subtype, int page) {
         try {
+
             Page<SkillDTO> result = skillRepo.findByFullTypeAndSubtype(fullType,subtype,PageRequest.of(page,pageSize));
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
@@ -226,7 +231,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse searchSkillByTitle(String title, int page) {
         try {
-            Page<SkillDTO> result = skillRepo.findByTitleContaining(title,PageRequest.of(page,pageSize));
+            Page<SkillDTO> result = skillRepo.findByTitleLike("%"+title+"%",PageRequest.of(page,pageSize));
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
@@ -264,7 +269,7 @@ public class SkillServiceImpl implements SkillService {
     //skill详情，返回图片和评论，评论需要连接User表
     //由于是详情，没有任何dto有关操作，全部内容都返回了
     @Override
-    public BaseResponse findById(int skillId) {
+    public BaseResponse findById(int skillId,String userId) {
 
         try{
             Optional<Skill> optResult = skillRepo.findById(skillId);
@@ -272,8 +277,10 @@ public class SkillServiceImpl implements SkillService {
             if(optResult.isPresent())
                 skill = optResult.get();
             List<Comment> comments = commentRepo.findBySkillId(skill.getSkillId());
+            List<StarSkill> result = starSkillRepo.findByStarIdAndSkillId(userId,skillId);
+            int size = result.size();
             JSONObject jsonObject = new JSONObject();
-            jsonObject.fluentPut("SKILL",skill).fluentPut("COMMENTS",comments);
+            jsonObject.fluentPut("SKILL",skill).fluentPut("COMMENTS",comments).fluentPut("IsSTAR",size);
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE
