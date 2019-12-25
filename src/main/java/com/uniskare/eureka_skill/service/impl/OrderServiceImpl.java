@@ -6,6 +6,7 @@ import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.OrderDTO;
+import com.uniskare.eureka_skill.dto.OrderPageDTO;
 import com.uniskare.eureka_skill.entity.Message;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillOrder;
@@ -14,6 +15,7 @@ import com.uniskare.eureka_skill.repository.OrderRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
+import com.uniskare.eureka_skill.service.Helper.Const;
 import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
 import com.uniskare.eureka_skill.service.impl.RMQ.RMQConfig;
@@ -109,9 +111,11 @@ public class OrderServiceImpl implements OrderService {
 //                    jsonArray.subList(start, end), pageable, jsonArray.size()
 //            );
 
+            OrderPageDTO ret = new OrderPageDTO(dtoPage, NUM_PER_PAGE,(jsonArray.size()-1)/NUM_PER_PAGE);
+
 
             return new BaseResponse(
-                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,dtoPage
+                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,ret
             );
         }catch (Exception e){
             System.out.println(e.toString());
