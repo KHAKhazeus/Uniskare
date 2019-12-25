@@ -5,12 +5,15 @@ package com.uniskare.eureka_skill.controller;
  * @description :
  */
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.service.OrderService;
+import com.uniskare.eureka_skill.service.impl.OrderServiceImpl;
+import com.uniskare.eureka_skill.service.impl.RMQ.RMQConfig;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import static com.uniskare.eureka_skill.service.Helper.Const.ORDER_ID;
 
 @RestController
 @CrossOrigin //跨域
@@ -18,14 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
 
     @GetMapping("/all")
     public JSONArray findAll(){return this.orderService.getAllOrders();}
 
-    @GetMapping("/hello")
-    public String hello(){
+    @RequestMapping(value="/rmq", method = RequestMethod.POST)
+    public String hello(@RequestBody JSONObject body){
+        int order_id = body.getIntValue(ORDER_ID);
+        orderService.sendMsgToRMQ(order_id);
         return "Hello JUE CHEN";
     }
 }

@@ -12,6 +12,11 @@ public class Const {
     public final static String ORDER_ID = "order_id";
     public final static String ORDER_VALUE = "value";
 
+    public final static int NUM_PER_PAGE = 5;
+
+    //默认30分钟超时
+    public final static int ORDER_TIME_OUT = 30*60*100;
+
     public final static String SKILL_ID = "skill_id";
 
     //订单的状态， enum不太好用

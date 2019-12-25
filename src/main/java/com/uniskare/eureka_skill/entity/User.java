@@ -18,8 +18,7 @@ public class User {
     private Byte uniSex;
     private String uniIndiSign;
     private Byte uniIsStu;
-    private Byte uniIsPass;
-    private Byte uniPassPhone;
+    private String uniSchool;
     private String uniPhoneNum;
     private Byte changeNickName;
     private Byte changeAvatar;
@@ -85,23 +84,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "uni_is_pass")
-    public Byte getUniIsPass() {
-        return uniIsPass;
+    @Column(name = "uni_school")
+    public String getUniSchool() {
+        return uniSchool;
     }
 
-    public void setUniIsPass(Byte uniIsPass) {
-        this.uniIsPass = uniIsPass;
-    }
-
-    @Basic
-    @Column(name = "uni_pass_phone")
-    public Byte getUniPassPhone() {
-        return uniPassPhone;
-    }
-
-    public void setUniPassPhone(Byte uniPassPhone) {
-        this.uniPassPhone = uniPassPhone;
+    public void setUniSchool(String uniSchool) {
+        this.uniSchool = uniSchool;
     }
 
     @Basic
@@ -145,8 +134,7 @@ public class User {
                 Objects.equals(uniSex, user.uniSex) &&
                 Objects.equals(uniIndiSign, user.uniIndiSign) &&
                 Objects.equals(uniIsStu, user.uniIsStu) &&
-                Objects.equals(uniIsPass, user.uniIsPass) &&
-                Objects.equals(uniPassPhone, user.uniPassPhone) &&
+                Objects.equals(uniSchool, user.uniSchool) &&
                 Objects.equals(uniPhoneNum, user.uniPhoneNum) &&
                 Objects.equals(changeNickName, user.changeNickName) &&
                 Objects.equals(changeAvatar, user.changeAvatar);
@@ -154,6 +142,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uniUuid, uniAvatarUrl, uniNickName, uniSex, uniIndiSign, uniIsStu, uniIsPass, uniPassPhone, uniPhoneNum, changeNickName, changeAvatar);
+        return Objects.hash(uniUuid, uniAvatarUrl, uniNickName, uniSex, uniIndiSign, uniIsStu, uniSchool, uniPhoneNum, changeNickName, changeAvatar);
     }
 }
