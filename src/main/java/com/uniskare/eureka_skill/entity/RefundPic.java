@@ -3,16 +3,12 @@ package com.uniskare.eureka_skill.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 @Entity
 @Table(name = "refund_pic", schema = "sedb", catalog = "")
 @IdClass(RefundPicPK.class)
 public class RefundPic {
     private int refundId;
-    private int index;
+    private int pindex;
     private String url;
 
     @Id
@@ -26,13 +22,13 @@ public class RefundPic {
     }
 
     @Id
-    @Column(name = "index")
-    public int getIndex() {
-        return index;
+    @Column(name = "pindex")
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
     @Basic
@@ -51,12 +47,12 @@ public class RefundPic {
         if (o == null || getClass() != o.getClass()) return false;
         RefundPic refundPic = (RefundPic) o;
         return refundId == refundPic.refundId &&
-                index == refundPic.index &&
+                pindex == refundPic.pindex &&
                 Objects.equals(url, refundPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(refundId, index, url);
+        return Objects.hash(refundId, pindex, url);
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 public interface OrderRepo extends JpaRepository<SkillOrder, Integer>{
     public List<SkillOrder> findAllByUserIdAndState(String userId, Byte status);
     public List<SkillOrder> findAllByUserId(String user_id);
+    public List<SkillOrder> findAllByState(Byte status);
 
     public SkillOrder findByOrderId(int order_id);
 }

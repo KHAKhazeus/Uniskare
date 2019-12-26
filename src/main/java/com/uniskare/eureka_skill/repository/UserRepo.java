@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description :
  */
 public interface UserRepo extends JpaRepository<User, String> {
-
+    User findByUniUuid(String userId);
 }

@@ -5,13 +5,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * @author : SCH001
- * @description :
- */
 public class RefundPicPK implements Serializable {
     private int refundId;
-    private int index;
+    private int pindex;
 
     @Column(name = "refund_id")
     @Id
@@ -23,14 +19,14 @@ public class RefundPicPK implements Serializable {
         this.refundId = refundId;
     }
 
-    @Column(name = "index")
+    @Column(name = "pindex")
     @Id
-    public int getIndex() {
-        return index;
+    public int getPindex() {
+        return pindex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setPindex(int pindex) {
+        this.pindex = pindex;
     }
 
     @Override
@@ -39,11 +35,11 @@ public class RefundPicPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         RefundPicPK that = (RefundPicPK) o;
         return refundId == that.refundId &&
-                index == that.index;
+                pindex == that.pindex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(refundId, index);
+        return Objects.hash(refundId, pindex);
     }
 }

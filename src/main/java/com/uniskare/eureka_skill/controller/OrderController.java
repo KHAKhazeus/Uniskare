@@ -77,18 +77,18 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/{userId}/refund_request",method = RequestMethod.GET)
-    public BaseResponse getRefund(@PathVariable("userId") String userId){
-
+    public BaseResponse getRefund(@PathVariable("userId") String userId,@RequestParam("page") int page){
+        return orderService.getOrderRequestDTOs(userId,page,true);
     }
 
-    @RequestMapping(value = "/{userId}/applu",method = RequestMethod.GET)
-    public BaseResponse getApply(@PathVariable("userId") String userId){
-
+    @RequestMapping(value = "/{userId}/apply",method = RequestMethod.GET)
+    public BaseResponse getApply(@PathVariable("userId") String userId,@RequestParam("page") int page){
+        return orderService.getOrderRequestDTOs(userId,page,false);
     }
 
     @RequestMapping(value = "/{refundId}/info",method = RequestMethod.GET)
     public BaseResponse getRefundInfo(@PathVariable("refundId") int refundId){
-
+        return orderService.getRefundInfo(refundId);
     }
 
 }

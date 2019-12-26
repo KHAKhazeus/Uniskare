@@ -18,6 +18,8 @@ public class Const {
     public final static String CONTENT = "content";
     public final static String TIME="time";
 
+    public final static int NUM_PER_PAGE = 5;
+
     //默认30分钟超时
     public final static int ORDER_TIME_OUT = 30*60*100;
 
@@ -31,4 +33,7 @@ public class Const {
     public final static Byte ORDER_STATUS_CONFIRMED = 4; //用户确认 未评论
     public final static Byte ORDER_STATUS_FINISHED = 5; // 用户评论，订单完成
     public final static Byte ORDER_STATUS_REFUND=6; //退款中
+
+    public final static Byte WAIT_FOR_SKILLER_CONFIRM=0; //等待技客确认退款
+    public final static Byte SKILLER_DENIED=1; //技客拒绝退款
 }

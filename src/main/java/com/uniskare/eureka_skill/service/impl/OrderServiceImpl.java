@@ -5,10 +5,21 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
-import com.uniskare.eureka_skill.dto.OrderDTO;
+import com.uniskare.eureka_skill.dto.*;
+
 import com.uniskare.eureka_skill.entity.*;
 import com.uniskare.eureka_skill.repository.*;
+
+import com.uniskare.eureka_skill.entity.Message;
+import com.uniskare.eureka_skill.entity.Skill;
+import com.uniskare.eureka_skill.entity.SkillOrder;
+import com.uniskare.eureka_skill.entity.User;
+import com.uniskare.eureka_skill.repository.OrderRepo;
+import com.uniskare.eureka_skill.repository.SkillRepo;
+import com.uniskare.eureka_skill.repository.UserRepo;
+
 import com.uniskare.eureka_skill.service.Helper.BackendException;
+import com.uniskare.eureka_skill.service.Helper.Const;
 import com.uniskare.eureka_skill.service.Helper.MyPageHelper;
 import com.uniskare.eureka_skill.service.OrderService;
 import com.uniskare.eureka_skill.service.impl.RMQ.RMQConfig;
@@ -23,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
@@ -91,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
                 User user = userRepo.getOne(skill.getUserId());
 
                 OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice().doubleValue(),skill.getUnit(),skill.getUserId(),skillOrder.getOrderTime(),
-                        skill.getContent(),skill.getTitle());
+                        skill.getContent(),skill.getTitle(),skillOrder.getState(),skillOrder.getOrderId());
 
                 jsonArray.add(orderDTO);
             }
@@ -108,9 +120,11 @@ public class OrderServiceImpl implements OrderService {
 //                    jsonArray.subList(start, end), pageable, jsonArray.size()
 //            );
 
+            OrderPageDTO ret = new OrderPageDTO(dtoPage, NUM_PER_PAGE,(jsonArray.size()-1)/NUM_PER_PAGE);
+
 
             return new BaseResponse(
-                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,dtoPage
+                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,ret
             );
         }catch (Exception e){
             System.out.println(e.toString());
@@ -189,13 +203,14 @@ public class OrderServiceImpl implements OrderService {
             Refund refund = new Refund();
             refund.setOrderId(orderId);
             refund.setReason(content);
+            refund.setStatus((byte)WAIT_FOR_SKILLER_CONFIRM);
             refund.setTime(date);
             refundRepo.save(refund);
             RefundPic refundPic = new RefundPic();
             refundPic.setRefundId(refund.getRefundId());
 
             for(int i =0;i<jsonArray.size();i++){
-                refundPic.setIndex(i);
+                refundPic.setPindex(i);
                 refundPic.setUrl(jsonArray.getString(i));
                 refundPicRepo.save(refundPic);
             }
@@ -215,8 +230,89 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BaseResponse getOrderRequestDTOs(String userId, Boolean isRefund) {
+    public BaseResponse getOrderRequestDTOs(String userId,int page, Boolean isRefund) {
+        try{
 
+            List<SkillOrder> skillOrders;
+            if(!isRefund){
+                skillOrders = orderRepo.findAllByState(ORDER_STATUS_PAID);
+            }else{
+                skillOrders = orderRepo.findAllByState(ORDER_STATUS_REFUND);
+            }
+
+            List<OrderRequestDTO> jsonArray = new ArrayList<>();
+            for(SkillOrder skillOrder: skillOrders)
+            {
+                Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
+                String skillerId = skill.getUserId();
+                if(!skillerId.equals(userId)){
+                    continue;
+                }
+                User user = userRepo.findByUniUuid(skillOrder.getUserId());
+                Refund refund = null;
+                if(isRefund){
+                    refund = refundRepo.findByOrderId(skillOrder.getOrderId());
+                }
+                OrderRequestDTO orderRequestDTO = new OrderRequestDTO(skill.getTitle(),
+                        skill.getPrice().doubleValue(),skill.getUnit(),skillOrder.getOrderId(),
+                        user.getUniAvatarUrl(),user.getUniUuid(),user.getUniNickName(),
+                        isRefund?refund.getRefundId():-1);
+                jsonArray.add(orderRequestDTO);
+            }
+
+            //index & size
+            //todo: 前端好像需要发页码
+            //这里可以自己撸一个分页器
+            //这里直接0
+            Pageable pageable = PageRequest.of(page, 5);
+            List<OrderRequestDTO> dtoPage = MyPageHelper.convert2Page(jsonArray, pageable);
+//            int start = (int)pageable.getOffset();
+//            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
+//            Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(
+//                    jsonArray.subList(start, end), pageable, jsonArray.size()
+//            );
+
+            OrderRequestPageDTO ret = new OrderRequestPageDTO(dtoPage, NUM_PER_PAGE,(jsonArray.size()-1)/NUM_PER_PAGE);
+
+
+            return new BaseResponse(
+                    null, Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.QUERY_SUCCESS,null,ret
+            );
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return new BaseResponse(
+                    null, Code.BAD_REQUEST, e.toString(),null, null, null
+            );
+        }
+    }
+
+    @Override
+    public BaseResponse getRefundInfo(int refundId) {
+        try{
+            Refund refund = refundRepo.findByRefundId(refundId);
+            List<RefundPic> pics = refundPicRepo.findByRefundId(refundId);
+            RefundDTO refundDTO = new RefundDTO();
+            List<String> image = new ArrayList<>();
+            SkillOrder order = orderRepo.findByOrderId(refund.getOrderId());
+            Skill skill = skillRepo.findBySkillId(order.getSkillId());
+            image.add(pics.get(0).getUrl());
+            image.add(pics.get(1).getUrl());
+            refundDTO.setContent(refund.getReason());
+            refundDTO.setImages(image);
+            refundDTO.setOrderId(refund.getOrderId());
+            refundDTO.setSkillTitle(skill.getTitle());
+            refundDTO.setRefundId(refundId);
+            return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.QUERY_SUCCESS,refundDTO);
+
+
+
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return new BaseResponse(
+                    null, Code.BAD_REQUEST, e.toString(),null, null, null
+            );
+        }
     }
 
 

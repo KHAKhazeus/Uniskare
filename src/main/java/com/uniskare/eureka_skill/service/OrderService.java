@@ -23,5 +23,7 @@ public interface OrderService {
 
     public BaseResponse applyRefund(JSONObject jsonObject);
 
-    public BaseResponse getOrderRequestDTOs(String userId, Boolean isRefund);
+    public BaseResponse getOrderRequestDTOs(String userId,int page, Boolean isRefund);
+
+    public BaseResponse getRefundInfo(int refundId);
 }

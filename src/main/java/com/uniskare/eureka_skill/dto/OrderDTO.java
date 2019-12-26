@@ -24,6 +24,8 @@ public class OrderDTO {
     private Timestamp order_time;
     private String content;   //
     private String skill_title;
+    private int status;
+    private int orderId;
 
     public OrderDTO()
     {
