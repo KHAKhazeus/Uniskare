@@ -1,7 +1,6 @@
 package com.uniskare.eureka_skill.repository;
 
 import com.uniskare.eureka_skill.entity.SkillOrder;
-import com.uniskare.eureka_skill.entity.SkillOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.uniskare</groupId>
     <artifactId>eureka_order</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <name>eureka_order</name>
     <description>Demo project for Spring Boot</description>
 
@@ -21,6 +21,18 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>2.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>spring-mock-mvc</artifactId>
+            <version>2.5.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -34,6 +46,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
         </dependency>
 
 
@@ -66,6 +84,23 @@
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.1-groovy-2.4-rc-2</version>
+            <scope>test</scope></dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-spring</artifactId>
+            <version>1.1-groovy-2.4-rc-2</version>
+            <scope>test</scope>
+        </dependency>
 
         <!--    Rabbit MQ    -->
         <dependency>
@@ -86,8 +121,51 @@
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>ebfbb63dc1d5-releases</name>
+            <url>http://khakhazeus.cn:8081/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>2.1.2.RELEASE</version>
+                <extensions>true</extensions>
+                <configuration>
+<!--                    <packageWithBaseClasses>com.uniskare.eureka_skill</packageWithBaseClasses>-->
+                    <baseClassForTests>com.uniskare.eureka_skill.OrderRestBase</baseClassForTests>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-contract-verifier</artifactId>
+                        <version>2.1.2.RELEASE</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.jayway.restassured</groupId>
+                        <artifactId>rest-assured</artifactId>
+                        <version>2.5.0</version>
+                        <scope>compile</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.jayway.restassured</groupId>
+                        <artifactId>spring-mock-mvc</artifactId>
+                        <version>2.5.0</version>
+                        <scope>compile</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.librec</groupId>
+                        <artifactId>librec-core</artifactId>
+                        <version>2.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

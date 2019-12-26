@@ -13,9 +13,6 @@ import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 import static com.uniskare.eureka_skill.service.Helper.Const.ORDER_ID;
 
 @RestController
