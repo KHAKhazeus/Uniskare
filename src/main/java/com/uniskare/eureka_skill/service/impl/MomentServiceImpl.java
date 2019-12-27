@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
+import com.uniskare.eureka_skill.dto.MomentInfo;
 import com.uniskare.eureka_skill.dto.MomentShow;
+import com.uniskare.eureka_skill.dto.PageDTO;
 import com.uniskare.eureka_skill.entity.Moment;
 import com.uniskare.eureka_skill.entity.MomentPic;
 import com.uniskare.eureka_skill.entity.User;
@@ -140,7 +142,9 @@ public class MomentServiceImpl implements MomentService {
 
             List<MomentShow> momentShows = transformMom(moments, null, false,watcher_id);
 
-            List<MomentShow> ret =MyPageHelper.convert2Page(momentShows, page);
+            List<MomentShow> momentShowsList =MyPageHelper.convert2Page(momentShows, page);
+
+            PageDTO ret = new PageDTO(momentShowsList, NUM_PER_PAGE, (moments.size() - 1) / NUM_PER_PAGE);
 
             return new BaseResponse(ret);
         }catch (Exception e)
@@ -169,9 +173,15 @@ public class MomentServiceImpl implements MomentService {
         String user_id = body.getString(USER_ID);
         int mom_id = body.getIntValue(MOM_ID);
 
-        UserLikeMoment userLikeMoment = new UserLikeMoment(user_id, mom_id);
+        UserLikeMoment userLikeMoment = userLikeMomRepo.findByUserIdAndMomentId(user_id,mom_id);
+        if(userLikeMoment==null){
+            userLikeMoment = new UserLikeMoment(user_id, mom_id);
+            userLikeMomRepo.save(userLikeMoment);
+        }else{
+            userLikeMomRepo.delete(userLikeMoment);
+        }
 
-        userLikeMomRepo.save(userLikeMoment);
+
 
         return new BaseResponse(null);
     }
@@ -184,14 +194,19 @@ public class MomentServiceImpl implements MomentService {
             String user_id = body.getString(USER_ID);
             int mom_id = body.getIntValue(MOM_ID);
 
-            userLikeMomRepo.deleteByMomentIdAndUserId(mom_id,user_id);
+            userLikeMomRepo.deleteByMomentIdAndUserId(mom_id, user_id);
 //            userLikeMomRepo.flush();
             return SucResponse(null);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return ErrResponse(e.getMessage());
         }
+    }
+
+    public BaseResponse getMomentInfo(int momentId) {
+        Moment moment = momentRepo.findByMomentId(momentId);
+        List<MomentPic> momentPics = momentPicRepo.findAllByMomentId(momentId);
+        MomentInfo momentInfo = new MomentInfo(moment,momentPics);
+        return new BaseResponse(momentInfo);
     }
 
 
@@ -199,7 +214,6 @@ public class MomentServiceImpl implements MomentService {
     private Moment getOrNewMoment(JSONObject body, boolean insert) throws BackendException {
         String user_id = body.getString(USER_ID);
         String content = body.getString(CONTENT);
-        Byte can_see = body.getByte(CAN_SEE);
         Timestamp timestamp = body.getTimestamp(MOM_TIME);
 
         Moment moment;
@@ -209,9 +223,9 @@ public class MomentServiceImpl implements MomentService {
             moment = momentRepo.findByMomentId(mom_id);
             System.out.println("动态: " + moment + " "+mom_id);
         }else {
-            moment = new Moment(user_id,content,can_see,timestamp);
+            moment = new Moment(user_id,content,(byte)0,timestamp);
         }
-
+        moment.setContent(content);
         JSONArray pics = body.getJSONArray(PICTURES);
         momentRepo.save(moment);
         //todo：图片有可能插入失败

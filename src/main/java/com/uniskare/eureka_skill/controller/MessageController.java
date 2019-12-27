@@ -18,13 +18,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin //跨域
-@RequestMapping("/message") //基路径
+@RequestMapping("/comm") //基路径
 public class MessageController {
 
     @Autowired
     MessageService messageService;
 
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/message/insert", method = RequestMethod.POST)
     public BaseResponse insertMessage(@RequestBody JSONObject body)
     {
         //todo
@@ -32,7 +32,7 @@ public class MessageController {
         return new BaseResponse(Code.OK,null,null,id);
     }
 
-    @RequestMapping(value = "/select/{user_id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/message/select/{user_id}",method = RequestMethod.GET)
     public BaseResponse selectChatInfo(@PathVariable("user_id") String id){
         System.out.println(id);
         List<MessageInfo> messageInfos = messageService.getChatInfo(id);

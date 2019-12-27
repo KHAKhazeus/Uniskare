@@ -17,5 +17,8 @@ public interface MomentService {
     public BaseResponse deleteMoment(int mom_id);
 
     public BaseResponse starMoment(JSONObject body);
+
     public BaseResponse unstarMoment(JSONObject body);
+
+    public BaseResponse getMomentInfo(int momentId);
 }
