@@ -8,4 +8,8 @@ import java.util.List;
 public interface RefundRepo extends JpaRepository<Refund,Integer> {
     Refund findByOrderId(int orderId);
     Refund findByRefundId(int refundId);
+
+    List<Refund> findByStatus(Byte status);
+
+    void deleteByRefundId(int refundId);
 }

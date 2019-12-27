@@ -98,10 +98,10 @@ public class OrderServiceImpl implements OrderService {
             List<OrderDTO> jsonArray = new ArrayList<>();
             for (SkillOrder skillOrder : skillOrders) {
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
-                User user = userRepo.getOne(skill.getUserId());
+//                User user = userRepo.getOne(skill.getUserId());
 
 
-                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice().doubleValue(),skill.getUnit(),skill.getUserId(),skillOrder.getOrderTime(),
+                OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice(),skill.getUnit(),skill.getUserId(),skillOrder.getOrderTime(),
                         skill.getContent(),skill.getTitle(),skillOrder.getState(),skillOrder.getOrderId(),skillOrder.getSkillId());
 
 
@@ -140,24 +140,30 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse operateOrder(JSONObject json, Byte state) {
         try {
             int order_id = json.getIntValue(Const.ORDER_ID);
-            SkillOrder skillOrder = orderRepo.getOne(order_id);
-
-            // 不是debug状态哦
-//            assert skillOrder.getState() + 1 == state;
-            if (skillOrder.getState() + 1 != state) {
-                //如果不是取消订单操作，那么订单的状态每次都会加1
-                //如果是取消订单操作，那么订单一定不是完成（finished）状态
-                if (!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
-                    throw new BackendException("Order State is not correct Or Order has been finished!");
-            }
-//            System.out.println(skillOrder.getState()+" "+ state);
-
-            skillOrder.setState(state);
-            orderRepo.save(skillOrder);
+            changeOrderState(order_id, state);
             return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE, ResponseMessage.UPDATE_SUCCESS, null);
         } catch (Exception e) {
             return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
         }
+
+    }
+
+    @Override
+    public void changeOrderState(int order_id, Byte state) throws BackendException {
+        SkillOrder skillOrder = orderRepo.getOne(order_id);
+
+        // 不是debug状态哦
+//            assert skillOrder.getState() + 1 == state;
+        if (skillOrder.getState() + 1 != state) {
+            //如果不是取消订单操作，那么订单的状态每次都会加1
+            //如果是取消订单操作，那么订单一定不是完成（finished）状态
+            if (!state.equals(ORDER_STATUS_CANCELED) || skillOrder.getState().equals(ORDER_STATUS_FINISHED))
+                throw new BackendException("Order State is not correct Or Order has been finished!");
+        }
+//            System.out.println(skillOrder.getState()+" "+ state);
+
+        skillOrder.setState(state);
+        orderRepo.save(skillOrder);
     }
 
     public BaseResponse newOrder(JSONObject json) {

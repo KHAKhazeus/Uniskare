@@ -25,6 +25,9 @@ public class Const {
 
     public final static String SKILL_ID = "skill_id";
 
+
+    public final static String REFUND_ID = "refund_id";
+
     //订单的状态， enum不太好用
     public final static Byte ORDER_STATUS_CANCELED = 0; // 已取消
     public final static Byte ORDER_STATUS_PLACED = 1; //(订单初始状态)下单(PLACE AN ORDER)未付款

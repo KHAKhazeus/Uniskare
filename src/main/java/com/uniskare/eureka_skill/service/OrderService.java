@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
+import com.uniskare.eureka_skill.service.Helper.BackendException;
 
 public interface OrderService {
     //测试接口
@@ -13,9 +14,9 @@ public interface OrderService {
     public BaseResponse getOrdersByState(JSONObject jsonObject);
 
 
-//    public boolean changeOrderState(JSONObject json, Byte state);
-
     public BaseResponse operateOrder(JSONObject json, Byte state);
+
+    void changeOrderState(int order_id, Byte state) throws BackendException;
 
     public BaseResponse newOrder(JSONObject json);
 

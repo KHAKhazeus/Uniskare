@@ -34,4 +34,15 @@ public class BaseResponse {
         this.message = message;//插入成功之类的
         this.data = data;//真实数据
     }
+
+    //
+    public static BaseResponse ErrResponse(String errMsg)
+    {
+        return new BaseResponse(Code.BAD_REQUEST,null,errMsg,null);
+    }
+
+    public static BaseResponse SucResponse(Object data)
+    {
+        return new BaseResponse(Code.OK, null, null, data);
+    }
 }

@@ -1,5 +1,8 @@
 package com.uniskare.eureka_skill.dto;
 
+import com.uniskare.eureka_skill.entity.Skill;
+import com.uniskare.eureka_skill.entity.SkillOrder;
+import com.uniskare.eureka_skill.entity.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,11 +21,11 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class OrderDTO {
     private String skill_cover;
-    private double price;
+    private BigDecimal price;
     private String unit;   //
     private String userId;
     private Timestamp order_time;
-    private String content;   //
+    private String skill_content;   //
     private String skill_title;
     private int status;
     private int orderId;
@@ -30,5 +33,14 @@ public class OrderDTO {
 
     public OrderDTO()
     {
+    }
+
+    public OrderDTO(Skill skill, User customer, SkillOrder order)
+    {
+        this(
+                skill.getCover(), skill.getPrice(), skill.getUnit(),
+                customer.getUniUuid(), order.getOrderTime(), skill.getContent(), skill.getTitle(),
+                order.getState(), order.getOrderId(), skill.getSkillId()
+        );
     }
 }

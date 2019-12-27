@@ -2,6 +2,7 @@ package com.uniskare.eureka_skill.service.Helper;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -27,5 +28,11 @@ public class MyPageHelper{
         );
 
         return dtoPage.getContent();
+    }
+
+    public static <T> List<T> convert2Page(List<T> list, int page)
+    {
+        Pageable pageable = PageRequest.of(page, Const.NUM_PER_PAGE);
+        return convert2Page(list, pageable);
     }
 }
