@@ -177,12 +177,15 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @Modifying
+    @Transactional
     public BaseResponse unstarMoment(JSONObject body) {
         try {
             String user_id = body.getString(USER_ID);
             int mom_id = body.getIntValue(MOM_ID);
 
             userLikeMomRepo.deleteByMomentIdAndUserId(mom_id,user_id);
+//            userLikeMomRepo.flush();
             return SucResponse(null);
         }
         catch (Exception e)
