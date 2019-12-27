@@ -11,11 +11,11 @@ import org.springframework.data.domain.Pageable;
  * @description ：
  */
 public interface SkillRepo extends JpaRepository<Skill, Integer> {
-    Page<SkillDTO> findAllProjectedBy(Pageable pageable);
+    Page<SkillDTO> findByStatus(Pageable pageable,Byte status);
     Skill findBySkillId(int skill_id);
-    Page<SkillDTO> findByFullType(String fullType, Pageable pageable);
-    Page<SkillDTO> findByFullTypeAndSubtype(String fullType,String subType,Pageable pageable);
-    Page<SkillDTO> findByTitleContaining(String title,Pageable pageable);
-    Page<SkillDTO> findByTitleLike(String title,Pageable pageable);
+    Page<SkillDTO> findByFullTypeAndStatus(String fullType, Pageable pageable,Byte status);
+    Page<SkillDTO> findByFullTypeAndSubtypeAndStatus(String fullType,String subType,Pageable pageable,Byte status);
+    Page<SkillDTO> findByTitleLikeAndStatus(String title,Pageable pageable,Byte status);
     Page<SkillDTO> findByUserId(String userId,Pageable pageable);
+
 }

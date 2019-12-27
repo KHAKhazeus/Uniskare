@@ -18,4 +18,9 @@ public interface SkillService {
     public BaseResponse findByFullTypeAndSubtype(String fullType,String subtype, int page);
     public BaseResponse searchSkillByTitle(String title,int page);
     public BaseResponse findByUserId(String userId, int page);
+
+    public BaseResponse passSkill(int skillId);
+    public BaseResponse notPassSkill(int skillId);
+    public BaseResponse cancelSkill(int skillId);
+    public BaseResponse getSkillWaiting(int page);
 }

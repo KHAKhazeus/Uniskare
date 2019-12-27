@@ -37,6 +37,7 @@ public class Skill {
 
     private User user;
     private List<SkillPic> skillPics = new ArrayList<>();
+    private List<SkillOrder> skillOrders = new ArrayList<>();
 
     //只在返回技能详情的一个接口用到，comment不能用此方法，缺少信息
     @OneToMany
@@ -48,7 +49,10 @@ public class Skill {
         this.skillPics = skillPics;
     }
 
-
+    @OneToMany
+    @JoinColumn(name = "skill_id")
+    public List<SkillOrder> getSkillOrders() {return skillOrders;}
+    public void setSkillOrders(List<SkillOrder> skillOrders) {this.skillOrders = skillOrders;}
 
     @ManyToOne
     @JoinColumn(name ="user_id",referencedColumnName="uni_uuid", insertable=false, updatable=false)

@@ -6,14 +6,12 @@ import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.SkillDTO;
-import com.uniskare.eureka_skill.entity.Comment;
-import com.uniskare.eureka_skill.entity.Skill;
-import com.uniskare.eureka_skill.entity.SkillPic;
-import com.uniskare.eureka_skill.entity.StarSkill;
+import com.uniskare.eureka_skill.entity.*;
 import com.uniskare.eureka_skill.repository.CommentRepo;
 import com.uniskare.eureka_skill.repository.SkillPicRepo;
 import com.uniskare.eureka_skill.repository.SkillRepo;
 import com.uniskare.eureka_skill.repository.StarSkillRepo;
+import com.uniskare.eureka_skill.service.Helper.Const;
 import com.uniskare.eureka_skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -82,7 +80,8 @@ public class SkillServiceImpl implements SkillService {
             insertSkill.setSubtype(subType);
             insertSkill.setDate(date);
             insertSkill.setContent(content);
-
+            //状态为未审核
+            insertSkill.setStatus((byte)1);
 
             Skill result = skillRepo.save(insertSkill);
             SkillPic skillPic = new SkillPic();
@@ -110,7 +109,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse findAll(int page) {
         try {
-            Page<SkillDTO> result =  skillRepo.findAllProjectedBy(PageRequest.of(page, pageSize, Sort.by("date").descending()));
+            Page<SkillDTO> result =  skillRepo.findByStatus(PageRequest.of(page, pageSize, Sort.by("date").descending()),(byte)2);
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE
@@ -192,7 +191,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse findByFullType(String fullType, int page) {
         try {
-            Page<SkillDTO> result = skillRepo.findByFullType(fullType,PageRequest.of(page,pageSize));
+            Page<SkillDTO> result = skillRepo.findByFullTypeAndStatus(fullType,PageRequest.of(page,pageSize),(byte)2);
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
@@ -212,7 +211,7 @@ public class SkillServiceImpl implements SkillService {
     public BaseResponse findByFullTypeAndSubtype(String fullType,String subtype, int page) {
         try {
 
-            Page<SkillDTO> result = skillRepo.findByFullTypeAndSubtype(fullType,subtype,PageRequest.of(page,pageSize));
+            Page<SkillDTO> result = skillRepo.findByFullTypeAndSubtypeAndStatus(fullType,subtype,PageRequest.of(page,pageSize),(byte)2);
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
@@ -231,7 +230,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse searchSkillByTitle(String title, int page) {
         try {
-            Page<SkillDTO> result = skillRepo.findByTitleLike("%"+title+"%",PageRequest.of(page,pageSize));
+            Page<SkillDTO> result = skillRepo.findByTitleLikeAndStatus("%"+title+"%",PageRequest.of(page,pageSize),(byte)2);
 
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
@@ -257,6 +256,125 @@ public class SkillServiceImpl implements SkillService {
                     , Code.NO_ERROR_MESSAGE
                     , ResponseMessage.QUERY_SUCCESS
                     , "/search"
+                    , result);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse passSkill(int skillId) {
+        try {
+            //这里如果没有找到skillId对应的技能的话需要区分返回吗？
+            Optional<Skill> oldSkillOpt = skillRepo.findById(skillId);
+
+            boolean flag;
+            if(oldSkillOpt.isPresent()) {
+                Skill oldSkill = oldSkillOpt.get();
+                if(oldSkill.getStatus() == (byte)1)
+                    oldSkill.setStatus((byte)2);
+                skillRepo.save(oldSkill);
+                flag = true;
+            }   else {
+                flag = false;
+            }
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.UPDATE_SUCCESS
+                    , ""
+                    , null);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse notPassSkill(int skillId) {
+        try {
+            //这里如果没有找到skillId对应的技能的话需要区分返回吗？
+            Optional<Skill> oldSkillOpt = skillRepo.findById(skillId);
+
+            boolean flag;
+            if(oldSkillOpt.isPresent()) {
+                Skill oldSkill = oldSkillOpt.get();
+                if(oldSkill.getStatus() == (byte)1)
+                    oldSkill.setStatus((byte)0);
+                skillRepo.save(oldSkill);
+                flag = true;
+            }   else {
+                flag = false;
+            }
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.UPDATE_SUCCESS
+                    , ""
+                    , null);
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse cancelSkill(int skillId) {
+        try {
+            //这里如果没有找到skillId对应的技能的话需要区分返回吗？
+            Optional<Skill> oldSkillOpt = skillRepo.findById(skillId);
+
+            boolean flag = true;
+            if(oldSkillOpt.isPresent()) {
+                Skill oldSkill = oldSkillOpt.get();
+                if(oldSkill.getStatus() != (byte)2) {
+                    flag = false;
+                } else {
+                    List<SkillOrder> skillOrders = oldSkill.getSkillOrders();
+                    for (int i = 0; i < skillOrders.size(); i++) {
+                        Byte state = skillOrders.get(i).getState();
+                        if (state == Const.ORDER_STATUS_PLACED || state == Const.ORDER_STATUS_PAID || state == Const.ORDER_STATUS_TAKEN) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+                if(flag == true) {
+                    oldSkill.setStatus((byte) 3);
+                    skillRepo.save(oldSkill);
+                }
+
+            }
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.UPDATE_SUCCESS
+                    , ""
+                    , new JSONObject().fluentPut("IsOK",flag));
+            return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse getSkillWaiting(int page) {
+        try {
+            Page<SkillDTO> result =  skillRepo.findByStatus(PageRequest.of(page, pageSize, Sort.by("date").descending()),(byte)1);
+            BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.QUERY_SUCCESS
+                    , "/skill/all"
                     , result);
             return baseResponse;
         }

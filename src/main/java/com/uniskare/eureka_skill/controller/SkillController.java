@@ -54,7 +54,7 @@ public class SkillController {
         return skillService.findByFullType(fullType,page);
     }
 
-    @GetMapping("all/fullType/subType)")
+    @GetMapping("all/fullType/subType")
     public BaseResponse getSkillBySubType(@RequestParam("fullType") String fullType,
                                           @RequestParam("subtype") String subtype,@RequestParam("page") int page) {
         return skillService.findByFullTypeAndSubtype(fullType,subtype,page);
@@ -101,4 +101,23 @@ public class SkillController {
     public BaseResponse getCommentBySkillId(@PathVariable("skillId") int skillId) {
         return commentService.getCommentBySkillId(skillId);
     }
+
+    //通过审核
+    @PutMapping("/pass/{skillId}")
+    public BaseResponse passSkill(@PathVariable("skillId") int skillId) {
+        return skillService.passSkill(skillId);
+    }
+    @PutMapping("/notPass/{skillId}")
+    public BaseResponse notPassSkill(@PathVariable("skillId") int skillId) {
+        return skillService.notPassSkill(skillId);
+    }
+    @PutMapping("/cancel/{skillId}")
+    public BaseResponse cancelSkill(@PathVariable("skillId") int skillId) {
+        return skillService.cancelSkill(skillId);
+    }
+    @GetMapping("/waitConfirm")
+    public BaseResponse getSkillWaiting(@RequestParam("page") int page) {
+        return skillService.getSkillWaiting(page);
+    }
+
 }
