@@ -10,7 +10,9 @@ import com.uniskare.eureka_skill.service.Helper.BackendException;
 import com.uniskare.eureka_skill.service.OrderService;
 import com.uniskare.eureka_skill.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,6 +75,8 @@ public class RefundServiceImpl implements RefundService {
     }
 
     @Override
+    @Modifying
+    @Transactional
     public BaseResponse AgreeRefund(JSONObject body) {
         int refundId = body.getIntValue(REFUND_ID);
 
@@ -109,6 +113,8 @@ public class RefundServiceImpl implements RefundService {
     }
 
     @Override
+    @Modifying
+    @Transactional
 //    删除相关退款表项，更改订单状态为 ORDER_STATUS_TAKEN
     public BaseResponse WorkerReject(JSONObject body) {
         int refundId = body.getIntValue(REFUND_ID);
