@@ -93,7 +93,7 @@ public class SkillController {
     }
     //评论：
     @PostMapping("/comment/insert")
-    public BaseResponse insertComment (@RequestBody Comment comment) {
+    public BaseResponse insertComment (@RequestBody JSONObject comment) {
         return commentService.insertComment(comment);
     }
     //未使用dto

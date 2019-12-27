@@ -1,8 +1,6 @@
 package com.uniskare.eureka_skill.entity;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +25,12 @@ public class Comment {
 
     //只在返回技能详情的一个接口用到，comment不能用此方法，缺少信息
     @OneToMany
-    @JoinColumn(name = "skill_id")
+    @JoinColumn(name = "comment_id", insertable=false, updatable=false)
     public List<CommentPic> getCommentPics() {
         return commentPics;
     }
     public void setCommentPics(List<CommentPic> commentPics) {
-        this.commentPics = this.commentPics;
+        this.commentPics = commentPics;
     }
 
 
@@ -47,6 +45,7 @@ public class Comment {
 
     @javax.persistence.Id
     @javax.persistence.Column(name = "comment_id")
+    @javax.persistence.GeneratedValue(strategy = GenerationType.AUTO)
     public int getCommentId() {
         return commentId;
     }
