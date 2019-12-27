@@ -24,6 +24,9 @@ public class Const {
 
     public final static String SKILL_ID = "skill_id";
 
+    public final static String FAN_ID = "fan_id";
+    public final static String FOLLOW_ID = "follow_id";
+
     public final static int NUM_PER_PAGE = 10;
 
     //订单的状态， enum不太好用

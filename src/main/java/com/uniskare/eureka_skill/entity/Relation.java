@@ -1,5 +1,7 @@
 package com.uniskare.eureka_skill.entity;
 
+import lombok.AllArgsConstructor;
+
 import java.util.Objects;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Objects;
  */
 @javax.persistence.Entity
 @javax.persistence.IdClass(RelationPK.class)
+@AllArgsConstructor
 public class Relation {
     private String followId;
     private String fanId;

@@ -29,6 +29,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.uniskare.eureka_skill.controller.Response.BaseResponse.ErrResponse;
+import static com.uniskare.eureka_skill.controller.Response.BaseResponse.SucResponse;
 import static com.uniskare.eureka_skill.service.Helper.Const.*;
 
 /**
@@ -172,6 +174,21 @@ public class MomentServiceImpl implements MomentService {
         userLikeMomRepo.save(userLikeMoment);
 
         return new BaseResponse(null);
+    }
+
+    @Override
+    public BaseResponse unstarMoment(JSONObject body) {
+        try {
+            String user_id = body.getString(USER_ID);
+            int mom_id = body.getIntValue(MOM_ID);
+
+            userLikeMomRepo.deleteByMomentIdAndUserId(mom_id,user_id);
+            return SucResponse(null);
+        }
+        catch (Exception e)
+        {
+            return ErrResponse(e.getMessage());
+        }
     }
 
 
