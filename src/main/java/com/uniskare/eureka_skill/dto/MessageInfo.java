@@ -18,7 +18,7 @@ public class MessageInfo {
     String content;
     String timeStr;
     int unread;
-    boolean isTouchMove;
+//    boolean isTouchMove;
     Byte onTop;
 
     public MessageInfo(int conversationId,String friendId,String friendName,String friendHeadUrl,String content,
@@ -30,7 +30,8 @@ public class MessageInfo {
         this.content = content;
         this.timeStr = timeStr;
         this.unread = unread;
-        isTouchMove = false;
+//        isTouchMove = false;
+        this.onTop = onTop;
     }
 
     public MessageInfo(User friend, Message message, Conversation conversation)

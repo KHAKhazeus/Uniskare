@@ -9,7 +9,9 @@ import com.uniskare.eureka_skill.repository.FollowRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,8 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Modifying
+    @Transactional
     public BaseResponse unfollow(JSONObject body) {
         String fan_id = body.getString(FAN_ID);
         String follow_id = body.getString(FOLLOW_ID);
