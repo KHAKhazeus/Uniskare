@@ -14,4 +14,6 @@ public interface ConversationRepo extends JpaRepository<Conversation, Integer> {
     List<Conversation> findByUserId(String id);
 
     List<Conversation> findByUserIdOrOtherId(String userId, String otherId);
+
+//    List<Conversation> findByOtherId(String otherId);
 }
