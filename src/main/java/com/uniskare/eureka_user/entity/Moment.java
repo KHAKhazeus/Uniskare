@@ -1,10 +1,9 @@
 package com.uniskare.eureka_user.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +13,13 @@ public class Moment {
     private String content;
     private Byte canSee;
     private Timestamp time;
+    private List<UserLikeMoment> userLikeMoments = new ArrayList<>();
+
+
+    @OneToMany
+    @JoinColumn(name="moment_id")
+    public List<UserLikeMoment> getUserLikeMoments(){return this.userLikeMoments;}
+    public void setUserLikeMoments(List<UserLikeMoment> userLikeMoments){this.userLikeMoments = userLikeMoments;}
 
     @Id
     @Column(name = "moment_id")

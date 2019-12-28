@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.controller.Response.Code;
 import com.uniskare.eureka_user.controller.Response.ResponseMessage;
+import com.uniskare.eureka_user.dto.CertificationDTO;
+import com.uniskare.eureka_user.entity.User;
 import com.uniskare.eureka_user.entity.UserPic;
 import com.uniskare.eureka_user.repository.UserPicRepo;
 import com.uniskare.eureka_user.repository.UserRepo;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.uniskare.eureka_user.service.Helper.Const.*;
 @Service
@@ -74,12 +78,69 @@ public class CertificationServiceImpl implements CertificationService {
     }
 
     @Override
-    public BaseResponse getCertificatio() {
-        return null;
+    public BaseResponse getCertifications() {
+        try{
+            List<CertificationDTO> certificationDTOS = new ArrayList<>();
+            List<User> users = userRepo.findAllByUniIsStu(1);
+            if(users != null){
+                for(User user:users){
+                    List<UserPic> userPics = userPicRepo.findAllByUserId(user.getUniUuid());
+                    CertificationDTO certificationDTO = new CertificationDTO(user,userPics);
+                    certificationDTOS.add(certificationDTO);
+                }
+            }
+            return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
+                    Code.OK,
+                    Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.QUERY_SUCCESS,
+                    "/user/getUserInfo",
+                    certificationDTOS);
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.CONFLICT, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
     }
 
     @Override
-    public BaseResponse changeState(String id, int state) {
-        return null;
+    public BaseResponse acceptCertification(String userId) {
+        try{
+            User user = userRepo.findByUniUuid(userId);
+            userPicRepo.deleteAllByUserId(userId);
+            user.setUniIsStu(2);
+            userRepo.save(user);
+            return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
+                    Code.OK,
+                    Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.UPDATE_SUCCESS,
+                    "/user/getUserInfo",
+                    null);
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.CONFLICT, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
     }
+
+    @Override
+    public BaseResponse denyCertification(String userId) {
+        try{
+            User user = userRepo.findByUniUuid(userId);
+            userPicRepo.deleteAllByUserId(userId);
+            user.setUniIsStu(0);
+            userRepo.save(user);
+            return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
+                    Code.OK,
+                    Code.NO_ERROR_MESSAGE,
+                    ResponseMessage.UPDATE_SUCCESS,
+                    "/user/getUserInfo",
+                    null);
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.CONFLICT, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+
 }

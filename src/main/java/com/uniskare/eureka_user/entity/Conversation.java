@@ -1,9 +1,6 @@
 package com.uniskare.eureka_user.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +13,7 @@ public class Conversation {
 
     @Id
     @Column(name = "conversation_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getConversationId() {
         return conversationId;
     }

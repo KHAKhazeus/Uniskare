@@ -10,4 +10,8 @@ import lombok.Data;
 public class CodeResponse {
     String session_key;
     String openid;
+
+    public String getOpenid(){
+        return openid;
+    }
 }

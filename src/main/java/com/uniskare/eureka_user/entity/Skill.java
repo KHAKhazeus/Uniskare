@@ -1,11 +1,10 @@
 package com.uniskare.eureka_user.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +24,14 @@ public class Skill {
     private Byte status;
     private BigDecimal score;
     private Timestamp date;
+
+    private List<SkillOrder> skillOrders = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "skill_id")
+    public List<SkillOrder> getSkillOrders(){return this.skillOrders;}
+    public void setSkillOrders(List<SkillOrder> skillOrders){this.skillOrders = skillOrders;}
+
 
     @Id
     @Column(name = "skill_id")

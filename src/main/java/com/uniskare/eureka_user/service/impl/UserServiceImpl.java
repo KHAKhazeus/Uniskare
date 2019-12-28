@@ -4,14 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.controller.Response.Code;
 import com.uniskare.eureka_user.controller.Response.ResponseMessage;
-import com.uniskare.eureka_user.entity.User;
-import com.uniskare.eureka_user.repository.UserRepo;
+import com.uniskare.eureka_user.dto.UserInfo;
+import com.uniskare.eureka_user.entity.*;
+import com.uniskare.eureka_user.repository.*;
 import com.uniskare.eureka_user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static com.uniskare.eureka_user.service.Helper.Const.*;
 
@@ -21,6 +25,14 @@ import static com.uniskare.eureka_user.service.Helper.Const.*;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private MomentRepo momentRepo;
+    @Autowired
+    private RelationRepo relationRepo;
+    @Autowired
+    private ConversationRepo conversationRepo;
+    @Autowired
+    private MessageRepo messageRepo;
 
     @Override
     public void register(String open_id) {
@@ -30,6 +42,21 @@ public class UserServiceImpl implements UserService {
             user.setUniUuid(open_id);
             userRepo.save(user);
         }
+        Conversation conversation = new Conversation();
+        conversation.setUserId(open_id);
+        conversation.setOtherId("kefu");
+        conversation.setOnTop((byte) 1);
+        conversation.setUnread(1);
+        conversationRepo.save(conversation);
+        Message message = new Message();
+        message.setConversationId(conversation.getConversationId());
+        message.setContent("欢迎来到优技享!");
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
+        Date date = new Date();
+        message.setDate(sdf.format(date));
+        messageRepo.save(message);
+
     }
 
     @Override
@@ -68,12 +95,32 @@ public class UserServiceImpl implements UserService {
     public BaseResponse getUserInfo(String id) {
         try{
             User user = userRepo.findByUniUuid(id);
+            List<Moment> moments = momentRepo.findByUserId(id);
+            List<Relation> fans = relationRepo.findAllByFollowId(id);
+            List<Relation> follows = relationRepo.findAllByFanId(id);
+            int momNum = 0;
+            int fansNum = 0;
+            int followersNum = 0;
+            if(moments != null){
+                momNum = moments.size();
+            }
+            if(fans != null){
+                fansNum = fans.size();
+            }
+            if(follows != null){
+                followersNum = follows.size();
+            }
+            UserInfo userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
+                    user.getUniNickName(),user.getUniSex(),user.getUniIndiSign(),user.getUniIsStu(),
+                    user.getUniSchool(),user.getUniPhoneNum(),user.getChangeNickName(),user.getChangeAvatar(),
+                    user.getUniPassPhone(),momNum,followersNum,fansNum);
+
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
                     ResponseMessage.QUERY_SUCCESS,
                     "/user/getUserInfo",
-                    user);
+                    userInfo);
         }catch (Exception e){
             System.out.println(e.toString());
             return new BaseResponse(

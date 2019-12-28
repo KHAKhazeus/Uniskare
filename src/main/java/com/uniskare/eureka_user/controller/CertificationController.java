@@ -27,4 +27,22 @@ public class CertificationController {
     public BaseResponse upLoadCertification(@RequestBody JSONObject jsonObject){
         return certificationService.upLoadCertification(jsonObject);
     }
+
+    @RequestMapping(value = "/certification/all",method = RequestMethod.GET)
+    public BaseResponse getCertifications(){
+        return certificationService.getCertifications();
+    }
+
+    @RequestMapping(value = "/certification/accept/{userId}",method = RequestMethod.POST)
+    public BaseResponse acceptCertification(@PathVariable("userId") String userId){
+        return certificationService.acceptCertification(userId);
+    }
+
+    @RequestMapping(value = "/certification/deny/{userId}",method = RequestMethod.POST)
+    public BaseResponse denyCertification(@PathVariable("userId") String userId){
+        return certificationService.denyCertification(userId);
+    }
+
+
+
 }
