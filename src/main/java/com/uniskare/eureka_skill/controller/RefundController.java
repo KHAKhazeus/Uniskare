@@ -29,21 +29,21 @@ public class RefundController {
 
     //技客或者工作人员同意退款
     @RequestMapping(value = "/agree", method = RequestMethod.POST)
-    public BaseResponse agreeRefund(JSONObject body)
+    public BaseResponse agreeRefund(@RequestBody JSONObject body)
     {
         return refundService.AgreeRefund(body);
     }
 
 //    技客拒绝退款
     @RequestMapping(value = "/skiller_reject", method = RequestMethod.POST)
-    public BaseResponse skillerReject(JSONObject body)
+    public BaseResponse skillerReject(@RequestBody JSONObject body)
     {
         return refundService.SkillerReject(body);
     }
 
 //    工作人员拒绝退款
     @RequestMapping(value = "/worker_reject", method = RequestMethod.POST)
-    public BaseResponse workerReject(JSONObject body)
+    public BaseResponse workerReject(@RequestBody JSONObject body)
     {
         return refundService.WorkerReject(body);
     }
@@ -53,7 +53,7 @@ public class RefundController {
 //行为: (只返回  ORDER_STATUS_TAKEN，ORDER_STATUS_CONFIRMED，
 // ORDER_STATUS_FINISHED，ORDER_STATUS_CANCELED 这四个状态的
     @RequestMapping(value = "/skiller_order", method = RequestMethod.POST)
-    public BaseResponse getSkillerOrder(JSONObject body)
+    public BaseResponse getSkillerOrder(@RequestBody JSONObject body)
     {
         return refundService.getSkillerOrder(body);
     }

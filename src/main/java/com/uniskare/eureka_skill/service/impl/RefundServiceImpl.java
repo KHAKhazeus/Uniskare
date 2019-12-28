@@ -27,6 +27,7 @@ import static com.uniskare.eureka_skill.service.Helper.Const.*;
  * @description :
  */
 @Service
+@Transactional
 public class RefundServiceImpl implements RefundService {
     @Autowired
     RefundRepo refundRepo;
@@ -137,7 +138,7 @@ public class RefundServiceImpl implements RefundService {
 
     @Override
     public BaseResponse getSkillerOrder(JSONObject body) {
-        int skiller_id = body.getIntValue(USER_ID);
+        String skiller_id = body.getString(USER_ID);
         //Order -> Skill -> User
         //获取所有订单，再做过滤
         List<SkillOrder> orders = orderRepo.findAllByState(ORDER_STATUS_TAKEN);
@@ -149,12 +150,20 @@ public class RefundServiceImpl implements RefundService {
         try {
             for(SkillOrder order:orders)
             {
-                if(skiller_id != order.getOrderId())
+//                //如果不是这个技客的
+//                if(skiller_id.equals(order.getUserId()))
+//                {
+//                    continue;
+//                }
+                int skill_id = order.getSkillId();
+                Skill skill = skillRepo.findBySkillId(skill_id);
+
+                //当前技能对应的   **技客**
+                String skiller_id1 = skill.getUserId();
+                if(!skiller_id.equals(skiller_id1))
                 {
                     continue;
                 }
-                int skill_id = order.getSkillId();
-                Skill skill = skillRepo.findBySkillId(skill_id);
 
                 User user = userRepo.findByUniUuid(order.getUserId());
 
