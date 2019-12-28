@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
 import com.uniskare.eureka_skill.dto.OrderDTO;
 import com.uniskare.eureka_skill.dto.RefundRequestDTO;
+import com.uniskare.eureka_skill.dto.SkillerOrderDTO;
 import com.uniskare.eureka_skill.entity.*;
 import com.uniskare.eureka_skill.repository.*;
 import com.uniskare.eureka_skill.service.Helper.BackendException;
@@ -27,6 +28,7 @@ import static com.uniskare.eureka_skill.service.Helper.Const.*;
  * @description :
  */
 @Service
+@Transactional
 public class RefundServiceImpl implements RefundService {
     @Autowired
     RefundRepo refundRepo;
@@ -63,7 +65,7 @@ public class RefundServiceImpl implements RefundService {
 
                 RefundRequestDTO dto = new RefundRequestDTO(skill.getTitle(),
                         refund.getRefundId(),refund.getReason(),urls,
-                        customer.getUniAvatarUrl(),customer.getUniNickName()
+                        customer.getUniAvatarUrl(),customer.getUniNickName(),customer.getUniUuid()
                 );
                 dtos.add(dto);
             }
@@ -137,7 +139,7 @@ public class RefundServiceImpl implements RefundService {
 
     @Override
     public BaseResponse getSkillerOrder(JSONObject body) {
-        int skiller_id = body.getIntValue(USER_ID);
+        String skiller_id = body.getString(USER_ID);
         //Order -> Skill -> User
         //获取所有订单，再做过滤
         List<SkillOrder> orders = orderRepo.findAllByState(ORDER_STATUS_TAKEN);
@@ -145,22 +147,32 @@ public class RefundServiceImpl implements RefundService {
         orders.addAll(orderRepo.findAllByState(ORDER_STATUS_FINISHED));
         orders.addAll(orderRepo.findAllByState(ORDER_STATUS_CANCELED));
 
-        List<OrderDTO> dtos = new ArrayList<>();
+        List<SkillerOrderDTO> dtos = new ArrayList<>();
         try {
             for(SkillOrder order:orders)
             {
-                if(skiller_id != order.getOrderId())
-                {
-                    continue;
-                }
+//                //如果不是这个技客的
+//                if(skiller_id.equals(order.getUserId()))
+//                {
+//                    continue;
+//                }
                 int skill_id = order.getSkillId();
                 Skill skill = skillRepo.findBySkillId(skill_id);
 
+                //当前技能对应的   **技客**
+                String skiller_id1 = skill.getUserId();
+                if(!skiller_id.equals(skiller_id1))
+                {
+                    continue;
+                }
+
                 User user = userRepo.findByUniUuid(order.getUserId());
 
-                OrderDTO dto = new OrderDTO(skill,user,order);
+                SkillerOrderDTO skillerOrderDTO = new SkillerOrderDTO(skill.getTitle(),skill.getPrice().doubleValue(),
+                        skill.getUnit(),order.getOrderId(),user.getUniAvatarUrl(),user.getUniUuid(),user.getUniNickName(),
+                        order.getState());
 
-                dtos.add(dto);
+                dtos.add(skillerOrderDTO);
             }
 
             return SucResponse(dtos);

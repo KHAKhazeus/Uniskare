@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin //跨域
-@RequestMapping("/order") //基路径
+@RequestMapping("/orders") //基路径
 public class RefundController {
     @Autowired
     RefundService refundService;

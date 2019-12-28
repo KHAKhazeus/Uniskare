@@ -204,6 +204,7 @@ public class OrderServiceImpl implements OrderService {
             refund.setReason(content);
             refund.setStatus((byte)WAIT_FOR_SKILLER_CONFIRM);
             refund.setTime(date);
+            refund.setStatus((byte) 0);
             refundRepo.save(refund);
             RefundPic refundPic = new RefundPic();
             refundPic.setRefundId(refund.getRefundId());
@@ -232,7 +233,7 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse getOrderRequestDTOs(String userId,int page, Boolean isRefund) {
         try{
 
-            List<SkillOrder> skillOrders;
+            List<SkillOrder> skillOrders = new ArrayList<>();
             if(!isRefund){
                 skillOrders = orderRepo.findAllByState(ORDER_STATUS_PAID);
             }else{
@@ -242,16 +243,22 @@ public class OrderServiceImpl implements OrderService {
             List<OrderRequestDTO> jsonArray = new ArrayList<>();
             for(SkillOrder skillOrder: skillOrders)
             {
+                Refund refund = null;
+                if(isRefund){
+                    refund = refundRepo.findByOrderId(skillOrder.getOrderId());
+                    if(refund.getStatus()!=WAIT_FOR_SKILLER_CONFIRM){
+                        continue;
+                    }
+                }
+
                 Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
                 String skillerId = skill.getUserId();
                 if(!skillerId.equals(userId)){
                     continue;
                 }
                 User user = userRepo.findByUniUuid(skillOrder.getUserId());
-                Refund refund = null;
-                if(isRefund){
-                    refund = refundRepo.findByOrderId(skillOrder.getOrderId());
-                }
+
+
                 OrderRequestDTO orderRequestDTO = new OrderRequestDTO(skill.getTitle(),
                         skill.getPrice().doubleValue(),skill.getUnit(),skillOrder.getOrderId(),
                         user.getUniAvatarUrl(),user.getUniUuid(),user.getUniNickName(),
@@ -259,16 +266,10 @@ public class OrderServiceImpl implements OrderService {
                 jsonArray.add(orderRequestDTO);
             }
 
-            //index & size
-            //todo: 前端好像需要发页码
-            //这里可以自己撸一个分页器
-            //这里直接0
+
             Pageable pageable = PageRequest.of(page, 5);
             List<OrderRequestDTO> dtoPage = MyPageHelper.convert2Page(jsonArray, pageable);
-//            int start = (int)pageable.getOffset();
-//            int end = Math.min((start + pageable.getPageSize()), jsonArray.size());
-//            Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(
-//                    jsonArray.subList(start, end), pageable, jsonArray.size()
+
 //            );
 
             OrderRequestPageDTO ret = new OrderRequestPageDTO(dtoPage, NUM_PER_PAGE,(jsonArray.size()-1)/NUM_PER_PAGE);

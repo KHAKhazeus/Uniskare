@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,6 +21,8 @@ public class SkillOrder {
     private Timestamp orderTime;
     private double value;
 
+
+
     public SkillOrder(int skillId, String userId, Byte state, Timestamp orderTime, double value) {
         this.skillId = skillId;
         this.userId = userId;
@@ -32,6 +35,8 @@ public class SkillOrder {
 
     public SkillOrder() {
     }
+
+
 
     @Id
     @Column(name = "order_id")

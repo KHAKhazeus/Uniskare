@@ -20,4 +20,5 @@ public class RefundRequestDTO {
     List<String> refund_images;
     String customer_avatar;
     String customer_name;
+    String user_id;
 }
