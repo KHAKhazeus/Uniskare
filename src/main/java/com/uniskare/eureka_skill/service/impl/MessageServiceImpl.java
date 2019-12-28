@@ -36,6 +36,9 @@ public class MessageServiceImpl implements MessageService {
 
         System.out.println(userId + " "+otherId);
         Conversation conversation = conversationRepo.findByUserIdAndOtherId(userId, otherId);
+        if(conversation == null){
+            conversation = conversationRepo.findByUserIdAndOtherId(otherId,userId);
+        }
         if(conversation == null)
         {
             //新建对话
