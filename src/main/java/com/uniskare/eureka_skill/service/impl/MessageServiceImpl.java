@@ -70,6 +70,9 @@ public class MessageServiceImpl implements MessageService {
         {
             int con_id = conversation.getConversationId();
             String other_id = conversation.getOtherId();
+            if(other_id.equals(id)){
+                other_id = conversation.getUserId();
+            }
 
             Message message = messageRepo.findByConversationId(con_id);
             User friend = userRepo.findByUniUuid(other_id);

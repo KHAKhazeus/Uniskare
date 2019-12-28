@@ -10,8 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class FollowInfo {
-    private String avatar;
-    private String nick_name;
-
-    private String user_id;
+    private String userAvatar;
+    private String userName;
+    private String userMotto;
+    private String userId;
+    private boolean isFollow;
 }

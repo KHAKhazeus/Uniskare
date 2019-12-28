@@ -6,6 +6,7 @@ import com.uniskare.eureka_skill.dto.FollowInfo;
 import com.uniskare.eureka_skill.entity.Relation;
 import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.FollowRepo;
+import com.uniskare.eureka_skill.repository.RelationRepo;
 import com.uniskare.eureka_skill.repository.UserRepo;
 import com.uniskare.eureka_skill.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class FollowServiceImpl implements FollowService {
     FollowRepo followRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    RelationRepo relationRepo;
 
     @Override
     public BaseResponse follow(JSONObject body) {
@@ -74,7 +77,13 @@ public class FollowServiceImpl implements FollowService {
             {
                 String fan_id = relation.getFanId();
                 User user = userRepo.findByUniUuid(fan_id);
-                FollowInfo info = new FollowInfo(user.getUniAvatarUrl(),user.getUniNickName(),fan_id);
+                Relation relation1 = relationRepo.findByFollowIdAndFanId(fan_id,user_id);
+                boolean isFollow=false;
+                if(relation1!=null){
+                    isFollow=true;
+                }
+                FollowInfo info = new FollowInfo(user.getUniAvatarUrl(),user.getUniNickName(),user.getUniIndiSign(),
+                        fan_id,isFollow);
 
                 followInfos.add(info);
             }
@@ -96,7 +105,8 @@ public class FollowServiceImpl implements FollowService {
             {
                 String follow_id = relation.getFollowId();
                 User user = userRepo.findByUniUuid(follow_id);
-                FollowInfo info = new FollowInfo(user.getUniAvatarUrl(),user.getUniNickName(),follow_id);
+                FollowInfo info = new FollowInfo(user.getUniAvatarUrl(),user.getUniNickName(),user.getUniIndiSign(),
+                        follow_id,true);
 
                 followInfos.add(info);
             }

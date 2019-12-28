@@ -26,7 +26,7 @@ public class MomentController {
         return momentService.starMoment(body);
     }
 
-    @RequestMapping(value = "moment/unstar_moment", method = RequestMethod.POST)
+    @RequestMapping(value = "/moment/unstar_moment", method = RequestMethod.POST)
     public BaseResponse unstarMoment(@RequestBody JSONObject body)
     {
         return momentService.unstarMoment(body);
