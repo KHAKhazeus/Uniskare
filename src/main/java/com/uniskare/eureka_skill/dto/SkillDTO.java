@@ -12,6 +12,7 @@ public interface SkillDTO {
     String getTitle();
     String getCover();
     String getSubtype();
+    Byte getStatus();
     //获得头像必须这样，没有办法直接调用Skill的getUserAvatar的接口
     UserAvatar getUser();
     interface UserAvatar {

@@ -71,12 +71,14 @@ public class SkillServiceImpl implements SkillService {
                 insertSkill.setScore(BigDecimal.valueOf(5.0));
             }else{
                 insertSkill = skillRepo.findBySkillId(skill_id);
+                skillPicRepo.deleteAllBySkillId(skill_id);
             }
             insertSkill.setUnit(unit);
             insertSkill.setCover(cover);
             insertSkill.setTitle(title);
             insertSkill.setFullType(fullType);
             insertSkill.setPrice(price);
+            insertSkill.setStatus((byte)1);
             insertSkill.setSubtype(subType);
             insertSkill.setDate(date);
             insertSkill.setContent(content);
@@ -369,7 +371,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public BaseResponse getSkillWaiting(int page) {
         try {
-            Page<SkillDTO> result =  skillRepo.findByStatus(PageRequest.of(page, pageSize, Sort.by("date").descending()),(byte)1);
+            Page<Skill> result =  skillRepo.findByStatusOrderByDate(PageRequest.of(page, pageSize, Sort.by("date").descending()),(byte)1);
             BaseResponse baseResponse = new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                     , Code.OK
                     , Code.NO_ERROR_MESSAGE
@@ -377,6 +379,25 @@ public class SkillServiceImpl implements SkillService {
                     , "/skill/all"
                     , result);
             return baseResponse;
+        }
+        catch (Exception e)
+        {
+            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+        }
+    }
+
+    @Override
+    public BaseResponse onSkill(int skillId) {
+        try {
+            Skill skill = skillRepo.findBySkillId(skillId);
+            skill.setStatus((byte)1);
+            skillRepo.save(skill);
+            return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
+                    , Code.OK
+                    , Code.NO_ERROR_MESSAGE
+                    , ResponseMessage.UPDATE_SUCCESS
+                    , ""
+                    , null);
         }
         catch (Exception e)
         {

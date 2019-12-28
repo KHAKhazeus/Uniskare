@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @description ：
  */
 @RestController
+@CrossOrigin //跨域
 @RequestMapping(path="/skill")
 public class SkillController {
 
@@ -115,6 +116,8 @@ public class SkillController {
     public BaseResponse cancelSkill(@PathVariable("skillId") int skillId) {
         return skillService.cancelSkill(skillId);
     }
+    @PutMapping("/on/{skillId}")
+    public BaseResponse onSkill(@PathVariable("skillId") int skillId){return skillService.onSkill(skillId);}
     @GetMapping("/waitConfirm")
     public BaseResponse getSkillWaiting(@RequestParam("page") int page) {
         return skillService.getSkillWaiting(page);
