@@ -18,5 +18,7 @@ public interface MomentService {
 
     public BaseResponse starMoment(JSONObject body);
 
+    public BaseResponse unstarMoment(JSONObject body);
+
     public BaseResponse getMomentInfo(int momentId);
 }

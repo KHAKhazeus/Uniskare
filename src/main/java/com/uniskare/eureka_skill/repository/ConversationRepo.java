@@ -12,4 +12,6 @@ import java.util.List;
 public interface ConversationRepo extends JpaRepository<Conversation, Integer> {
     Conversation findByUserIdAndOtherId(String user_id, String other_id);
     List<Conversation> findByUserId(String id);
+
+    List<Conversation> findByUserIdOrOtherId(String userId, String otherId);
 }

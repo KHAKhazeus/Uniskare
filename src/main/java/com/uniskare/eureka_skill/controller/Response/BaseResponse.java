@@ -48,4 +48,14 @@ public class BaseResponse {
         status = Code.BAD_REQUEST;
         error = errorMsg;
     }
+
+    public static BaseResponse ErrResponse(String errMsg)
+    {
+        return new BaseResponse(Code.BAD_REQUEST,null,errMsg,null);
+    }
+
+    public static BaseResponse SucResponse(Object data)
+    {
+        return new BaseResponse(Code.OK, null, null, data);
+    }
 }

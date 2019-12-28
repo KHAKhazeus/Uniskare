@@ -18,10 +18,11 @@ public class MessageInfo {
     String content;
     String timeStr;
     int unread;
-    boolean isTouchMove;
+//    boolean isTouchMove;
+    Byte onTop;
 
     public MessageInfo(int conversationId,String friendId,String friendName,String friendHeadUrl,String content,
-                       String timeStr,int unread){
+                       String timeStr,int unread, Byte onTop){
         this.conversationId = conversationId;
         this.friendId = friendId;
         this.friendName = friendName;
@@ -29,13 +30,14 @@ public class MessageInfo {
         this.content = content;
         this.timeStr = timeStr;
         this.unread = unread;
-        isTouchMove = false;
+//        isTouchMove = false;
+        this.onTop = onTop;
     }
 
     public MessageInfo(User friend, Message message, Conversation conversation)
     {
         this(conversation.getConversationId(),friend.getUniUuid(),friend.getUniNickName(),friend.getUniAvatarUrl(),
-                message.getContent(),message.getDate(),conversation.getUnread()
+                message.getContent(),message.getDate(),conversation.getUnread(), conversation.getOnTop()
                 );
     }
 }

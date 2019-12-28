@@ -61,7 +61,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageInfo> getChatInfo(String id) {
-        List<Conversation> conversations = conversationRepo.findByUserId(id);
+        //会话可能是自己或者其他人发起的
+        List<Conversation> conversations = conversationRepo.findByUserIdOrOtherId(id, id);
 
         List<MessageInfo> ret = new ArrayList<>();
 
@@ -74,8 +75,24 @@ public class MessageServiceImpl implements MessageService {
             User friend = userRepo.findByUniUuid(other_id);
             //Message Conversation Other
             MessageInfo messageInfo = new MessageInfo(friend,message,conversation);
+
             ret.add(messageInfo);
         }
+
+        //先根据置顶
+        //后根据时间排序
+        ret.sort(
+                (x,y) ->
+                {
+                    int top_ = y.getOnTop() - x.getOnTop();
+                    if(top_ == 0)
+                    {
+                        return y.getTimeStr().compareTo(x.getTimeStr());
+                    }else{
+                        return top_;
+                    }
+                }
+        );
 
         return ret;
     }
