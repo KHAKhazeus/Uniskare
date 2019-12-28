@@ -67,9 +67,11 @@ public class MessageServiceImpl implements MessageService {
         {
             int con_id = conversation.getConversationId();
             String other_id = conversation.getOtherId();
+            String user_id = conversation.getUserId();
 
             Message message = messageRepo.findByConversationId(con_id);
-            User friend = userRepo.findByUniUuid(other_id);
+            //选不是自己的那个用户，因为会话可能是自己或者其他人发起的
+            User friend = userRepo.findByUniUuid(other_id.equals(id) ? user_id:other_id);
             //Message Conversation Other
             MessageInfo messageInfo = new MessageInfo(friend,message,conversation);
 
