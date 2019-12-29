@@ -2,10 +2,13 @@ server:
   port: 8991
 
 
+
 spring:
   application:
     name: Uniskare-Eureka-Server
 eureka:
+  server:
+    renewalPercentThreshold: 0.6
   client:
     register-with-eureka: true
     fetch-registry: true
