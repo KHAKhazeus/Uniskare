@@ -17,7 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
-        <docker.image.prefix>eureka_order</docker.image.prefix>
+        <docker.image.prefix>uniskare_eureka_order</docker.image.prefix>
     </properties>
 
     <dependencies>
