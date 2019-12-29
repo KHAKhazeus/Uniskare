@@ -36,7 +36,7 @@ node {
             echo '========停止并删除旧的容器成功============='
             sudo docker login --username=柠檬一起啊啊啊啊啊 --password=woshi123 registry.cn-shanghai.aliyuncs.com
             sudo docker pull registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0
-            sudo docker run -itd -p 8928:8928 --rm --network=host --name=user-container registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0
+            sudo docker run -itd -p 8928:8928 --rm --network=host --name=user-container registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0 --spring.profiles.active=peer1
             echo 'finished!'
             exit
             remotessh
@@ -52,7 +52,7 @@ node {
             echo '========停止并删除旧的容器成功============='
             sudo docker login --username=柠檬一起啊啊啊啊啊 --password=woshi123 registry.cn-shanghai.aliyuncs.com
             sudo docker pull registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0
-            sudo docker run -itd -p 8928:8928 --rm --network=host --name=user-container registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0
+            sudo docker run -itd -p 8928:8928 --rm --network=host --name=user-container registry.cn-shanghai.aliyuncs.com/uniskare/user:1.0 --spring.profiles.active=peer2
             echo 'finished!'
             exit
             remotessh
