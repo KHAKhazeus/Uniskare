@@ -46,8 +46,8 @@ node {
         sh """
             ssh ubuntu@49.234.96.26 -tt << remotessh
             cd /usr/src/doc
-            sudo docker stop server-container
-            sudo docker rm server-container
+            sudo docker stop skill-container
+            sudo docker rm skill-container
             echo '========停止并删除旧的容器成功============='
             sudo docker login --username=柠檬一起啊啊啊啊啊 --password=woshi123 registry.cn-shanghai.aliyuncs.com
             sudo docker pull registry.cn-shanghai.aliyuncs.com/uniskare/skill:1.0
