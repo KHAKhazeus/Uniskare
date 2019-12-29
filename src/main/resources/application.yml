@@ -32,4 +32,22 @@ spring:
       - id: user_module
         uri: lb:http://user-provider
         predicates:
-        - Path=/test/**
+        - Path=/user/**
+
+      - id: order_module
+          uri: lb:http://order-provider
+          predicates:
+          - Path=/order/**
+
+      - id: skill_module
+          uri: lb:http://skill-provider
+          predicates:
+          - Path=/skill/**
+
+      - id: comm_module
+          uri: lb:http://communication-provider
+          predicates:
+          - Path=/comm/**
+
+
+
