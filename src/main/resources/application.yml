@@ -1,15 +1,15 @@
 server:
   port: 8899
-  ssl:
-    key-store: classpath:1913993_www.uniskare.xyz.pfx
-    key-store-password: nlKLbOq3
-    key-store-type: PKCS12
-    enabled: true
+#  ssl:
+#    key-store: classpath:1913993_www.uniskare.xyz.pfx
+#    key-store-password: nlKLbOq3
+#    key-store-type: PKCS12
+#    enabled: true
 
 eureka:
-  instance:
-    ip-address: 47.102.158.185
-    prefer-ip-address: true
+#  instance:
+#    ip-address: 47.102.158.185
+#    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
@@ -25,29 +25,26 @@ spring:
     name: api-gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
-      - id: user_module
+      - id: user-module
         uri: lb:http://user-provider
         predicates:
         - Path=/user/**
 
-      - id: order_module
-          uri: lb:http://order-provider
-          predicates:
-          - Path=/order/**
+      - id: order-module
+        uri: lb:http://order-provider
+        predicates:
+        - Path=/order/**
 
-      - id: skill_module
-          uri: lb:http://skill-provider
-          predicates:
-          - Path=/skill/**
+      - id: skill-module
+        uri: lb:http://skill-provider
+        predicates:
+        - Path=/skill/**
 
-      - id: comm_module
-          uri: lb:http://communication-provider
-          predicates:
-          - Path=/comm/**
+      - id: comm-module
+        uri: lb:http://communication-provider
+        predicates:
+        - Path=/comm/**
 
 
 
