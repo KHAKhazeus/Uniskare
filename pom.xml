@@ -9,15 +9,15 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.uniskare</groupId>
-    <artifactId>eureka_order</artifactId>
-    <version>0.0.1</version>
-    <name>eureka_order</name>
+    <artifactId>eureka_skill</artifactId>
+    <version>1.0.0</version>
+    <name>eureka_skill</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
-        <docker.image.prefix>eureka_order</docker.image.prefix>
+        <docker.image.prefix>uniskare_eureka_skill</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -67,6 +67,14 @@
             <version>1.18.10</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>ebfbb63dc1d5-releases</name>
+            <url>http://khakhazeus.cn:8081/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
