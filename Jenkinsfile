@@ -5,7 +5,7 @@ node {
     }
 
     stage('Build') {
-        withMaven(jdk: 'default', maven: 'Default') {
+        withMaven(jdk: 'default', maven: 'default') {
             sh 'mvn clean package deploy docker:build'
         }
     }
