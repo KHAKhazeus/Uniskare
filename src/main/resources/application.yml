@@ -1,5 +1,4 @@
-server:
-  port: 7954
+
 
 spring:
   application:
@@ -15,8 +14,30 @@ spring:
       simple:
         acknowledge-mode: MANUAL
 eureka:
+  instance:
+    ip-address: 121.199.0.20
+    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://49.235.255.145:8761/eureka/
+      defaultZone: http://49.235.255.145:8991/eureka/,http://49.234.96.26:8991/eureka/
+
+
+---
+spring:
+  profiles: peer1
+server:
+  port: 8909
+
+---
+spring:
+  profiles: peer2
+server:
+  port: 8910
+
+---
+spring:
+  profiles: peer3
+server:
+  port: 8911
