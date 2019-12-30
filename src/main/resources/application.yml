@@ -25,9 +25,6 @@ spring:
     name: api-gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
       - id: user-module
         uri: lb:http://user-provider
@@ -48,6 +45,10 @@ spring:
         uri: lb:http://communication-provider
         predicates:
         - Path=/comm/**
+      discovery:
+        locator:
+          enabled: true
+
 
 
 
