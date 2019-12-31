@@ -42,12 +42,21 @@ public class UserServiceImpl implements UserService {
             user.setUniUuid(open_id);
             userRepo.save(user);
         }
-        Conversation conversation = new Conversation();
-        conversation.setUserId(open_id);
-        conversation.setOtherId("kefu");
-        conversation.setOnTop((byte) 1);
-        conversation.setUnread(1);
-        conversationRepo.save(conversation);
+
+        Conversation conversation = conversationRepo.findByUserIdAndOtherId(open_id,"kefu");
+        if(conversation == null){
+            conversation = conversationRepo.findByUserIdAndOtherId("kefu",open_id);
+        }
+        if(conversation == null){
+            conversation = new Conversation();
+            conversation.setUserId(open_id);
+            conversation.setOtherId("kefu");
+            conversation.setOnTop((byte) 1);
+            conversation.setUnread(1);
+            conversationRepo.save(conversation);
+        }
+
+
         Message message = new Message();
         message.setConversationId(conversation.getConversationId());
         message.setContent("欢迎来到优技享!");
