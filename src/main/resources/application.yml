@@ -34,7 +34,7 @@ spring:
       - id: order-module
         uri: lb:http://order-provider
         predicates:
-        - Path=/order/**
+        - Path=/orders/**
 
       - id: skill-module
         uri: lb:http://skill-provider
