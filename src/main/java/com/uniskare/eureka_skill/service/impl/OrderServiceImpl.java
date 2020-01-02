@@ -34,8 +34,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
@@ -183,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
             sendMsgToRMQ(skillOrder.getOrderId());
 
             return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
-                    ResponseMessage.INSERT_SUCCESS, null);
+                    ResponseMessage.INSERT_SUCCESS, skillOrder.getOrderId());
         } catch (Exception e) {
             return new BaseResponse(Code.NOT_ACCEPTABLE, e.toString(),
                     ResponseMessage.OPERATION_FAIL, null);
