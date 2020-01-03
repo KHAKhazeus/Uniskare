@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
         if(user == null){
             user = new User();
             user.setUniUuid(open_id);
+            user.setUniIsStu(0);
             userRepo.save(user);
         }
 
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
             if(fans != null){
                 fansNum = fans.size();
             }
-            if(follows != null){
+            if(follows != null) {
                 followersNum = follows.size();
             }
             UserInfo userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
