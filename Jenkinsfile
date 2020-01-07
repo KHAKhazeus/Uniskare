@@ -64,7 +64,7 @@ node {
         echo '================lk_sever_end=============='
 
 
-        echo '================lk_host_server================'
+        echo '================bhy_host_server================'
             sh """
                 ssh ubuntu@49.234.96.26 -tt << remotessh
                 cd /usr/src/doc
@@ -80,7 +80,7 @@ node {
                 exit
                 remotessh
             """
-        echo '================lk_sever_end=============='
+        echo '================bhy_sever_end=============='
 
 
         echo '================eureka_order_success=============='
