@@ -14,9 +14,6 @@ spring:
       simple:
         acknowledge-mode: MANUAL
 eureka:
-  instance:
-    ip-address: 121.199.0.20
-    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
@@ -29,15 +26,27 @@ spring:
   profiles: peer1
 server:
   port: 8909
+eureka:
+  instance:
+    ip-address: 121.199.0.20
+    prefer-ip-address: true
 
 ---
 spring:
   profiles: peer2
 server:
   port: 8910
+eureka:
+  instance:
+    ip-address: 49.235.255.145
+    prefer-ip-address: true
 
 ---
 spring:
   profiles: peer3
 server:
   port: 8911
+eureka:
+  instance:
+    ip-address: 49.234.96.26
+    prefer-ip-address: true
