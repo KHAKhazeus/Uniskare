@@ -42,13 +42,17 @@ Contract.make {
                         "error": "No error",
                         "message": "insert success",
                         "path": null,
-                        "data": null
+                        "data": 66
                     }
                 """
         )
+        bodyMatchers {
+            jsonPath('$.data', byRegex("[0-9]*"))
+        }
         headers {
             contentType(applicationJson())
         }
+
     }
 }
 //[
