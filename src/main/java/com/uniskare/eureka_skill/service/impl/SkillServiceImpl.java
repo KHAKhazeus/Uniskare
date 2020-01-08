@@ -90,7 +90,7 @@ public class SkillServiceImpl implements SkillService {
             skillPic.setSkillId(result.getSkillId());        
             for(int i =0;i < images.size();i++){
                 skillPic.setPindex(i);
-                skillPic.setUrl(images.getString(0));
+                skillPic.setUrl(images.getString(i));
                 skillPicRepo.save(skillPic);
             }
 
