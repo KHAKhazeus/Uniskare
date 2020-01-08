@@ -49,6 +49,8 @@ public class SkillController {
     }
 
 
+
+
     @GetMapping("all/fullType")
     public BaseResponse getSkillByFullType(@RequestParam("fullType") String fullType,
                                            @RequestParam("page") int page) {

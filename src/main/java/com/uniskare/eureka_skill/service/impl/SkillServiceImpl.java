@@ -401,9 +401,11 @@ public class SkillServiceImpl implements SkillService {
         }
         catch (Exception e)
         {
-            return new BaseResponse(Code.OK, e.toString(), ResponseMessage.OPERATION_FAIL, null);
+            return new BaseResponse(Code.BAD_REQUEST, e.toString(), ResponseMessage.OPERATION_FAIL, null);
         }
     }
+
+
 
     //skill详情，返回图片和评论，评论需要连接User表
     //由于是详情，没有任何dto有关操作，全部内容都返回了

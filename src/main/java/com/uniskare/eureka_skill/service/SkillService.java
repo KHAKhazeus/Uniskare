@@ -24,4 +24,5 @@ public interface SkillService {
     public BaseResponse cancelSkill(int skillId);
     public BaseResponse getSkillWaiting(int page);
     public BaseResponse onSkill(int skillId);
+
 }
