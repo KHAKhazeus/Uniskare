@@ -9,25 +9,25 @@ spring:
 spring:
   profiles: peer1
 eureka:
-  instance:
-    ip-address: 49.235.255.145
-    prefer-ip-address: true
+#  instance:
+#    ip-address: 49.235.255.145
+#    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone:  http://49.235.255.145:8991/eureka/,http://49.234.96.26:8991/eureka/
+      defaultZone:  http://49.235.255.145:8991/eureka/
 
 
----
-spring:
-  profiles: peer2
-eureka:
-  instance:
-    ip-address: 49.234.96.26
-    prefer-ip-address: true
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone:  http://49.235.255.145:8991/eureka/,http://49.234.96.26:8991/eureka/
+#---
+#spring:
+#  profiles: peer2
+#eureka:
+#  instance:
+#    ip-address: 49.234.96.26
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone:  http://49.235.255.145:8991/eureka/,http://49.234.96.26:8991/eureka/
