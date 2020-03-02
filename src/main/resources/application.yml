@@ -23,6 +23,8 @@ spring:
         - lo
       preferredNetworks:
         - 49.235.255.145
+server:
+  port: 8991
 eureka:
   instance:
     hostname: Uniskare1
@@ -31,7 +33,7 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://49.235.255.145:8991/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 
 
