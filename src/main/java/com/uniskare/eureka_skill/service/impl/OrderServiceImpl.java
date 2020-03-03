@@ -59,9 +59,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RefundPicRepo refundPicRepo;
 
-    //RMQ
-    @Autowired
-    RabbitTemplate rabbitTemplate;
+//    //RMQ
+//    @Autowired
+//    RabbitTemplate rabbitTemplate;
 
     @Override
     public JSONArray getAllOrders() {
@@ -178,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
             skillOrder = orderRepo.save(skillOrder);
             //向RMQ队列发送订单号
             System.out.println(skillOrder.getOrderId());
-            sendMsgToRMQ(skillOrder.getOrderId());
+//            sendMsgToRMQ(skillOrder.getOrderId());
 
             return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
                     ResponseMessage.INSERT_SUCCESS, skillOrder.getOrderId());
@@ -315,17 +315,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    //todo
-    //新建订单时会发一条消息
-    public void sendMsgToRMQ(int order_id) {
-        // 通过广播模式发布延时消息 延时 持久化消息 消费后销毁 这里无需指定路由，会广播至每个绑定此交换机的队列
-        rabbitTemplate.convertAndSend(RMQConfig.Delay_Exchange_Name, "", order_id, message -> {
-            System.out.println("正在向RMQ发送请求 " + order_id);
-            message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-            message.getMessageProperties().setDelay(ORDER_TIME_OUT);   // 毫秒为单位，指定此消息的延时时长
-            return message;
-        });
-    }
+//    //todo
+//    //新建订单时会发一条消息
+//    public void sendMsgToRMQ(int order_id) {
+//        // 通过广播模式发布延时消息 延时 持久化消息 消费后销毁 这里无需指定路由，会广播至每个绑定此交换机的队列
+//        rabbitTemplate.convertAndSend(RMQConfig.Delay_Exchange_Name, "", order_id, message -> {
+//            System.out.println("正在向RMQ发送请求 " + order_id);
+//            message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+//            message.getMessageProperties().setDelay(ORDER_TIME_OUT);   // 毫秒为单位，指定此消息的延时时长
+//            return message;
+//        });
+//    }
 
     //消费者调用
     //判断是否已经付款
