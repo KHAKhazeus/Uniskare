@@ -27,23 +27,23 @@ node {
 
 
         echo '================开始远程启动================'
-        echo '================sch_host_server================'
-        sh """
-            ssh root@121.199.0.20 -tt << remotessh
-            cd /usr/src/doc
-            sudo docker stop order-container-1
+     //   echo '================sch_host_server================'
+     //   sh """
+     //       ssh root@121.199.0.20 -tt << remotessh
+     //       cd /usr/src/doc
+      //      sudo docker stop order-container-1
 
-            sudo docker rm order-container-1
+     //       sudo docker rm order-container-1
 
-            echo '========停止并删除旧的容器成功============='
-            sudo docker login --username=柠檬一起啊啊啊啊啊 --password=woshi123 registry.cn-shanghai.aliyuncs.com
-            sudo docker pull registry.cn-shanghai.aliyuncs.com/uniskare/order:1.0
-            sudo docker run -itd -p 8909:8909 --rm --network=host --name=order-container-1 registry.cn-shanghai.aliyuncs.com/uniskare/order:1.0 --spring.profiles.active=peer1
-            echo 'finished!'
-            exit
-            remotessh
-        """
-        echo '================sch_sever_end=============='
+      //      echo '========停止并删除旧的容器成功============='
+      //      sudo docker login --username=柠檬一起啊啊啊啊啊 --password=woshi123 registry.cn-shanghai.aliyuncs.com
+      //      sudo docker pull registry.cn-shanghai.aliyuncs.com/uniskare/order:1.0
+      //      sudo docker run -itd -p 8909:8909 --rm --network=host --name=order-container-1 registry.cn-shanghai.aliyuncs.com/uniskare/order:1.0 --spring.profiles.active=peer1
+      //      echo 'finished!'
+      //      exit
+       //     remotessh
+      //  """
+      //  echo '================sch_sever_end=============='
 
         echo '================lk_host_server================'
             sh """
