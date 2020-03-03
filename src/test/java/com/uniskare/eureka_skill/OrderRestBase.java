@@ -30,47 +30,47 @@ import java.util.List;
 @SpringBootTest(classes = { EurekaSkillApplication.class, MockServletContext.class })
 public abstract class OrderRestBase {
     //remove::start[]
-
-    @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
-    TestUserRepo testUserRepo;
-
-    @Autowired
-    OrderRepo orderRepo;
-
-    @Autowired
-    TestSkillRepo skillRepo;
-
-    @Before
-    public void setup() {
-//        MockMvcBuilders.webAppContextSetup(this.context).build()
-        RestAssuredMockMvc.webAppContextSetup(this.context);
-        insertTestData();
-    }
-
-    @Transactional
-    public void insertTestData(){
-        User user = new User();
-        user.setUniUuid("901");
-        testUserRepo.save(user);
-        Skill skill = new Skill();
-        skill.setUserId("901");
-        skill.setSkillId(901);
-        skillRepo.save(skill);
-    }
-    //remove::end[]
-    @After
-    @Transactional
-    public void end(){
-
-        List<SkillOrder> deleteOrders = orderRepo.findAllByUserId("901");
-        orderRepo.deleteInBatch(deleteOrders);
-        List<Skill> deleteSkills = skillRepo.findAllBySkillId(901);
-        skillRepo.deleteInBatch(deleteSkills);
-        List<User> deleteUsers = testUserRepo.findAllByUniUuid("901");
-        testUserRepo.deleteInBatch(deleteUsers);
-
-    }
+//
+//    @Autowired
+//    private WebApplicationContext context;
+//
+//    @Autowired
+//    TestUserRepo testUserRepo;
+//
+//    @Autowired
+//    OrderRepo orderRepo;
+//
+//    @Autowired
+//    TestSkillRepo skillRepo;
+//
+//    @Before
+//    public void setup() {
+////        MockMvcBuilders.webAppContextSetup(this.context).build()
+//        RestAssuredMockMvc.webAppContextSetup(this.context);
+//        insertTestData();
+//    }
+//
+//    @Transactional
+//    public void insertTestData(){
+//        User user = new User();
+//        user.setUniUuid("901");
+//        testUserRepo.save(user);
+//        Skill skill = new Skill();
+//        skill.setUserId("901");
+//        skill.setSkillId(901);
+//        skillRepo.save(skill);
+//    }
+//    //remove::end[]
+//    @After
+//    @Transactional
+//    public void end(){
+//
+//        List<SkillOrder> deleteOrders = orderRepo.findAllByUserId("901");
+//        orderRepo.deleteInBatch(deleteOrders);
+//        List<Skill> deleteSkills = skillRepo.findAllBySkillId(901);
+//        skillRepo.deleteInBatch(deleteSkills);
+//        List<User> deleteUsers = testUserRepo.findAllByUniUuid("901");
+//        testUserRepo.deleteInBatch(deleteUsers);
+//
+//    }
 }
