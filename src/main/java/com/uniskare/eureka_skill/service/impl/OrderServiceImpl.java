@@ -25,9 +25,6 @@ import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.UserRepo;
 
 import com.uniskare.eureka_skill.service.Helper.BackendException;
-import com.uniskare.eureka_skill.service.impl.RMQ.RMQConfig;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
