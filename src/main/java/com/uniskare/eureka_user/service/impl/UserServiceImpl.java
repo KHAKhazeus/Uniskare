@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService {
         if(user == null){
             user = new User();
             user.setUniUuid(open_id);
-            user.setUniIsStu(0);
+            user.setUniSchool("同济大学");
+            user.setUniIsStu(2); // no certification
             userRepo.save(user);
         }
 
