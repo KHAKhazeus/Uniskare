@@ -1,8 +1,8 @@
 server:
   port: 8899
   ssl:
-    key-store: classpath:1913993_www.uniskare.xyz.pfx
-    key-store-password: nlKLbOq3
+    key-store: classpath:3541481_www.uniskare.xyz.pfx
+    key-store-password: WkfrAKOh
     key-store-type: PKCS12
     enabled: true
 
