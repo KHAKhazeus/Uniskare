@@ -78,12 +78,12 @@ public class SkillServiceImpl implements SkillService {
             insertSkill.setTitle(title);
             insertSkill.setFullType(fullType);
             insertSkill.setPrice(price);
-            insertSkill.setStatus((byte)1);
+            insertSkill.setStatus((byte)2);
             insertSkill.setSubtype(subType);
             insertSkill.setDate(date);
             insertSkill.setContent(content);
             //状态为未审核
-            insertSkill.setStatus((byte)1);
+            insertSkill.setStatus((byte)2);
 
             Skill result = skillRepo.save(insertSkill);
             SkillPic skillPic = new SkillPic();
