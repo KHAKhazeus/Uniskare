@@ -145,31 +145,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse getUserInfo(String id) {
         try{
-            User user = userRepo.findByUniUuid(id);
-            List<Moment> moments = momentRepo.findByUserId(id);
-            List<Relation> fans = relationRepo.findAllByFollowId(id);
-            List<Relation> follows = relationRepo.findAllByFanId(id);
-            int momNum = 0;
-            int fansNum = 0;
-            int followersNum = 0;
-            if(moments != null){
-                momNum = moments.size();
+
+            String returnMessage = "";
+            UserInfo userInfo = null;
+            if(id.equals("")){
+                returnMessage = "不合法的id";
+            }else{
+                User user = userRepo.findByUniUuid(id);
+                if(user == null){
+                    returnMessage = "id不存在";
+                }else{
+                    List<Moment> moments = momentRepo.findByUserId(id);
+                    List<Relation> fans = relationRepo.findAllByFollowId(id);
+                    List<Relation> follows = relationRepo.findAllByFanId(id);
+                    int momNum = 0;
+                    int fansNum = 0;
+                    int followersNum = 0;
+                    if(moments != null){
+                        momNum = moments.size();
+                    }
+                    if(fans != null){
+                        fansNum = fans.size();
+                    }
+                    if(follows != null) {
+                        followersNum = follows.size();
+                    }
+                    userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
+                            user.getUniNickName(),user.getUniSex(),user.getUniIndiSign(),user.getUniIsStu(),
+                            user.getUniSchool(),user.getUniPhoneNum(),user.getChangeNickName(),user.getChangeAvatar(),
+                            user.getUniPassPhone(),momNum,followersNum,fansNum);
+
+                }
             }
-            if(fans != null){
-                fansNum = fans.size();
-            }
-            if(follows != null) {
-                followersNum = follows.size();
-            }
-            UserInfo userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
-                    user.getUniNickName(),user.getUniSex(),user.getUniIndiSign(),user.getUniIsStu(),
-                    user.getUniSchool(),user.getUniPhoneNum(),user.getChangeNickName(),user.getChangeAvatar(),
-                    user.getUniPassPhone(),momNum,followersNum,fansNum);
+
+
 
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
-                    ResponseMessage.QUERY_SUCCESS,
+                    returnMessage,
                     "/user/getUserInfo",
                     userInfo);
         }catch (Exception e){
@@ -183,31 +197,53 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse updateUserInfo(JSONObject json) {
         try{
+            boolean judge = false;
+            String returnMessage = ResponseMessage.QUERY_SUCCESS;
             String userId = json.getString(USER_ID);
             String avatar = json.getString(AVATAR);
             String phone = json.getString(PHONE);
             String indiSign = json.getString(INDI_SIGN);
             String nickName = json.getString(NICK_NAME);
+            if(userId.equals("")){
+                returnMessage = "不合法的id";
+            }else if(nickName.equals("")){
+                returnMessage = "昵称不能为空";
+            }else if(avatar.equals("")){
+                returnMessage = "头像不能为空";
+            }else if(phone.equals("")){
+                returnMessage = "手机号不能为空";
+            }else{
+                User user = userRepo.findByUniUuid(userId);
+                if(user == null){
+                    returnMessage = "id不存在";
+                }else if(phone.length()!=11){
+                    returnMessage = "手机号不符合要求";
+                }else{
+                    if(avatar != null && (user.getChangeAvatar()==0) && !(user.getUniAvatarUrl().equals(avatar))){
+                        user.setChangeAvatar((byte)1);
+                    }
+                    if(nickName!=null && (user.getChangeNickName()==0) && !(user.getUniNickName().equals(nickName))){
+                        user.setChangeNickName((byte)1);
+                    }
+                    user.setUniNickName(nickName);
+                    user.setUniIndiSign(indiSign);
+                    user.setUniPhoneNum(phone);
+                    user.setUniAvatarUrl(avatar);
+                    userRepo.save(user);
+                    judge = true;
+                }
 
-            User user = userRepo.findByUniUuid(userId);
-            if(avatar != null && (user.getChangeAvatar()==0) && !(user.getUniAvatarUrl().equals(avatar))){
-                user.setChangeAvatar((byte)1);
+
             }
-            if(nickName!=null && (user.getChangeNickName()==0) && !(user.getUniNickName().equals(nickName))){
-                user.setChangeNickName((byte)1);
-            }
-            user.setUniNickName(nickName);
-            user.setUniIndiSign(indiSign);
-            user.setUniPhoneNum(phone);
-            user.setUniAvatarUrl(avatar);
-            userRepo.save(user);
+
+
 
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
-                    ResponseMessage.QUERY_SUCCESS,
+                    returnMessage,
                     "/user/getUserInfo",
-                    null);
+                    judge);
         }catch (Exception e){
             System.out.println(e.toString());
             return new BaseResponse(
