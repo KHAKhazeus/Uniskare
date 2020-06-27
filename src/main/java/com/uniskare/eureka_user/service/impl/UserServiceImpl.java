@@ -298,9 +298,14 @@ public class UserServiceImpl implements UserService {
         try{
             User user = userRepo.findByUniUuid(id);
             user.setUniIsStu(status);
-            if(school != null){
-                user.setUniSchool(school);
+            if(school.equals("")){
+                throw new Exception();
             }
+            if(status < 0 || status > 2){
+                throw new Exception();
+            }
+            user.setUniSchool(school);
+
             userRepo.save(user);
             return true;
         }catch (Exception e){
