@@ -9,6 +9,7 @@ import com.uniskare.eureka_user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,6 +29,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper mapper;
+
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private String wxAppid = "wxc9c276e49f2795b7";
@@ -35,14 +42,16 @@ public class UserController {
 
     @RequestMapping(value = "/getLoginCode",method = RequestMethod.POST)
     public BaseResponse verityLoginCode(@RequestParam("code") String code) throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-        String params = "appid=" + wxAppid +"&secret="+wxSecret+"&js_code="+code+"&grant_type=authorization_code";
-        String url = "https://api.weixin.qq.com/sns/jscode2session?"+params;
-        String response = restTemplate.getForObject(url,String.class);
-        logger.info("response:" + response);
-        ObjectMapper mapper = new ObjectMapper();
-        CodeResponse codeResponse = mapper.readValue(response,CodeResponse.class);
-        userService.register(codeResponse.getOpenid());
+        CodeResponse codeResponse = null;
+        if(!code.equals("")){
+            String params = "appid=" + wxAppid +"&secret="+wxSecret+"&js_code="+code+"&grant_type=authorization_code";
+            String url = "https://api.weixin.qq.com/sns/jscode2session?"+params;
+            String response = restTemplate.getForObject(url,String.class);
+            logger.info("response:" + response);
+            codeResponse = mapper.readValue(response,CodeResponse.class);
+            userService.register(codeResponse.getOpenid());
+        }
+
         return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString()
                 , Code.OK
                 , Code.NO_ERROR_MESSAGE
