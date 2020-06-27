@@ -37,44 +37,55 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse register(String open_id) {
         Boolean judge = false;
+        String returnMessage = ResponseMessage.LOGIN_SUCCESS;
 
-        User user = userRepo.findByUniUuid(open_id);
-        if(user == null){
-            user = new User();
-            user.setUniUuid(open_id);
-            user.setUniSchool("同济大学");
-            user.setUniIsStu(2); // no certification
-            userRepo.save(user);
-            judge = true;
+        if(!open_id.equals("")){
+            User user = userRepo.findByUniUuid(open_id);
+            if(user == null){
+                user = new User();
+                user.setUniUuid(open_id);
+                user.setUniSchool("同济大学");
+                user.setUniIsStu(2); // no certification
+                userRepo.save(user);
+                judge = true;
+
+                Conversation conversation = conversationRepo.findByUserIdAndOtherId(open_id,"kefu");
+                if(conversation == null){
+                    conversation = conversationRepo.findByUserIdAndOtherId("kefu",open_id);
+                }
+                if(conversation == null){
+                    conversation = new Conversation();
+                    conversation.setUserId(open_id);
+                    conversation.setOtherId("kefu");
+                    conversation.setOnTop((byte) 1);
+                    conversation.setUnread(1);
+                    conversationRepo.save(conversation);
+                }
+
+
+                Message message = new Message();
+                message.setConversationId(conversation.getConversationId());
+                message.setContent("欢迎来到优技享!");
+                SimpleDateFormat sdf = new SimpleDateFormat();
+                sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
+                Date date = new Date();
+                message.setDate(sdf.format(date));
+                messageRepo.save(message);
+            }else{
+                returnMessage = "id已存在";
+            }
+        }else{
+            returnMessage = "不合法的id";
         }
 
-        Conversation conversation = conversationRepo.findByUserIdAndOtherId(open_id,"kefu");
-        if(conversation == null){
-            conversation = conversationRepo.findByUserIdAndOtherId("kefu",open_id);
-        }
-        if(conversation == null){
-            conversation = new Conversation();
-            conversation.setUserId(open_id);
-            conversation.setOtherId("kefu");
-            conversation.setOnTop((byte) 1);
-            conversation.setUnread(1);
-            conversationRepo.save(conversation);
-        }
 
 
-        Message message = new Message();
-        message.setConversationId(conversation.getConversationId());
-        message.setContent("欢迎来到优技享!");
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
-        Date date = new Date();
-        message.setDate(sdf.format(date));
-        messageRepo.save(message);
+
 
         return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                 Code.OK,
                 Code.NO_ERROR_MESSAGE,
-                ResponseMessage.LOGIN_SUCCESS,
+                returnMessage,
                 "/user/register",
                 judge);
     }
@@ -85,23 +96,43 @@ public class UserServiceImpl implements UserService {
             String user_id = json.getString(USER_ID);
             String nick_name = json.getString(NICK_NAME);
             String avatar = json.getString(AVATAR);
-            User user = userRepo.findByUniUuid(user_id);
-            if(user.getChangeNickName() == null || user.getChangeNickName()==0){
-                user.setUniNickName(nick_name);
+            String returnMessage = "";
+            boolean judge = false;
+            if(user_id.equals("")){
+                returnMessage = "不合法的id";
             }
-            if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
-                user.setUniAvatarUrl(avatar);
+            else if(nick_name.equals("")){
+                returnMessage = "昵称不能为空";
             }
-            user.setChangeNickName((byte) 0);
-            user.setChangeAvatar((byte) 0);
-            user.setUniIndiSign("这个人很懒,什么都不想说");
-            userRepo.save(user);
+            else if(avatar.equals("")){
+                returnMessage = "头像不能为空";
+            }else{
+                User user = userRepo.findByUniUuid(user_id);
+                if(user == null){
+                    returnMessage = "id不存在";
+                }else{
+                    if(user.getChangeNickName() == null || user.getChangeNickName()==0){
+                        user.setUniNickName(nick_name);
+                    }
+                    if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
+                        user.setUniAvatarUrl(avatar);
+                    }
+                    user.setChangeNickName((byte) 0);
+                    user.setChangeAvatar((byte) 0);
+                    user.setUniIndiSign("这个人很懒,什么都不想说");
+                    userRepo.save(user);
+                    judge = true;
+                }
+
+            }
+
+
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
-                    ResponseMessage.LOGIN_SUCCESS,
+                    returnMessage,
                     "/user/login",
-                    true);
+                    judge);
         }catch (Exception e){
             System.out.println(e.toString());
             return new BaseResponse(
