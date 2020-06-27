@@ -219,10 +219,10 @@ public class UserServiceImpl implements UserService {
                 }else if(phone.length()!=11){
                     returnMessage = "手机号不符合要求";
                 }else{
-                    if(avatar != null && (user.getChangeAvatar()==0) && !(user.getUniAvatarUrl().equals(avatar))){
+                    if(avatar != null && (user.getChangeAvatar()==null ||user.getChangeAvatar()==0) && !(user.getUniAvatarUrl().equals(avatar))){
                         user.setChangeAvatar((byte)1);
                     }
-                    if(nickName!=null && (user.getChangeNickName()==0) && !(user.getUniNickName().equals(nickName))){
+                    if(nickName!=null && (user.getChangeNickName()==null || user.getChangeNickName()==0) && !(user.getUniNickName().equals(nickName))){
                         user.setChangeNickName((byte)1);
                     }
                     user.setUniNickName(nickName);
@@ -255,22 +255,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse loginWithUpdate(JSONObject jsonObject,String id) {
         try{
-            User user = userRepo.findByUniUuid(id);
+            String returnMessage = ResponseMessage.QUERY_SUCCESS;
+            boolean judge = false;
             String avatar = jsonObject.getString(AVATAR);
             String nickName =jsonObject.getString(NICK_NAME);
-            if(user.getChangeNickName() == null || user.getChangeNickName()==0){
-                user.setUniNickName(nickName);
+            if(id.equals("")){
+                returnMessage = "不合法的id";
+            }else if(nickName.equals("")){
+                returnMessage = "昵称不能为空";
+            }else if(avatar.equals("")){
+                returnMessage = "头像不能为空";
+            }else{
+                User user = userRepo.findByUniUuid(id);
+                if(user == null){
+                    returnMessage = "id不存在";
+                }else{
+                    if(user.getChangeNickName() == null || user.getChangeNickName()==0){
+                        user.setUniNickName(nickName);
+                    }
+                    if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
+                        user.setUniAvatarUrl(avatar);
+                    }
+                    userRepo.save(user);
+                    judge = true;
+                }
+
             }
-            if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
-                user.setUniAvatarUrl(avatar);
-            }
-            userRepo.save(user);
+
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
-                    ResponseMessage.QUERY_SUCCESS,
+                    returnMessage,
                     "/user/loginWithUpdate",
-                    null);
+                    judge);
         }catch (Exception e){
             System.out.println(e.toString());
             return new BaseResponse(

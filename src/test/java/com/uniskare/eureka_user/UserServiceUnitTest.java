@@ -298,6 +298,8 @@ public class UserServiceUnitTest {
         String avatar = "dwdw";
         String phone = "18372";
         String indiSign = "fefefef";
+        User user = new User();
+        user.setUniUuid(userId);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(USER_ID,userId);
@@ -305,6 +307,8 @@ public class UserServiceUnitTest {
         jsonObject.put(AVATAR,avatar);
         jsonObject.put(PHONE,phone);
         jsonObject.put(INDI_SIGN,indiSign);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
 
         BaseResponse result = userService.updateUserInfo(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(false);
@@ -316,12 +320,17 @@ public class UserServiceUnitTest {
         String userId = "test153";
         String nickName = "dwdw";
         String avatar = "dwdw";
-        String phone = "18372";
+        String phone = "19287372992";
         String indiSign = "fefefef";
 
         User user = new User();
         user.setUniUuid(userId);
-
+        user.setUniNickName("aa");
+        user.setUniAvatarUrl("BB");
+        user.setUniPhoneNum("3213123");
+        user.setUniIndiSign("");
+        user.setChangeAvatar((byte)0);
+        user.setChangeNickName((byte)0);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(USER_ID,userId);
         jsonObject.put(NICK_NAME,nickName);
