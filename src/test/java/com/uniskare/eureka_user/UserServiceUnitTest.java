@@ -77,8 +77,7 @@ public class UserServiceUnitTest {
 
         Mockito.when(userRepo.findByUniUuid(id)).thenReturn(user);
         BaseResponse result = userService.register(id);
-        Assertions.assertThat(result.getData()).isEqualTo(false);
-        Assertions.assertThat(result.getMessage()).isEqualTo("id已存在");
+        Assertions.assertThat(result.getData()).isEqualTo(true);
         printAfterFinishing();
     }
 
@@ -441,6 +440,11 @@ public class UserServiceUnitTest {
         int status = 0;
         String school = "";
 
+        User user = new User();
+        user.setUniUuid(userId);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(false);
     }
@@ -452,6 +456,11 @@ public class UserServiceUnitTest {
         int status = 1;
         String school = "kdjwk";
 
+        User user = new User();
+        user.setUniUuid(userId);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(null);
+
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(false);
     }
@@ -460,6 +469,11 @@ public class UserServiceUnitTest {
         String userId = "test153";
         int status = -1;
         String school = "dwdw";
+
+        User user = new User();
+        user.setUniUuid(userId);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
 
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(false);
@@ -470,6 +484,11 @@ public class UserServiceUnitTest {
         String userId = "test153";
         int status = 5;
         String school = "dwdw";
+
+        User user = new User();
+        user.setUniUuid(userId);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
 
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(false);

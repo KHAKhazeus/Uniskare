@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
         if(!open_id.equals("")){
             User user = userRepo.findByUniUuid(open_id);
-            if(user == null){
+
                 user = new User();
                 user.setUniUuid(open_id);
                 user.setUniSchool("同济大学");
@@ -71,9 +71,6 @@ public class UserServiceImpl implements UserService {
                 Date date = new Date();
                 message.setDate(sdf.format(date));
                 messageRepo.save(message);
-            }else{
-                returnMessage = "id已存在";
-            }
         }else{
             returnMessage = "不合法的id";
         }
