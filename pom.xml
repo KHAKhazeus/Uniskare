@@ -103,13 +103,13 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>ebfbb63dc1d5-releases</name>
-            <url>http://khakhazeus.cn:8081/artifactory/libs-release-local</url>
-        </repository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>central</id>-->
+<!--            <name>ebfbb63dc1d5-releases</name>-->
+<!--            <url>http://khakhazeus.cn:8081/artifactory/libs-release-local</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
 
     <dependencyManagement>
         <dependencies>

@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
     private MessageRepo messageRepo;
 
     @Override
-    public void register(String open_id) {
+    public BaseResponse register(String open_id) {
+        Boolean judge = false;
+
         User user = userRepo.findByUniUuid(open_id);
         if(user == null){
             user = new User();
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
             user.setUniSchool("同济大学");
             user.setUniIsStu(2); // no certification
             userRepo.save(user);
+            judge = true;
         }
 
         Conversation conversation = conversationRepo.findByUserIdAndOtherId(open_id,"kefu");
@@ -68,6 +71,12 @@ public class UserServiceImpl implements UserService {
         message.setDate(sdf.format(date));
         messageRepo.save(message);
 
+        return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
+                Code.OK,
+                Code.NO_ERROR_MESSAGE,
+                ResponseMessage.LOGIN_SUCCESS,
+                "/user/register",
+                judge);
     }
 
     @Override
@@ -92,7 +101,7 @@ public class UserServiceImpl implements UserService {
                     Code.NO_ERROR_MESSAGE,
                     ResponseMessage.LOGIN_SUCCESS,
                     "/user/login",
-                    null);
+                    true);
         }catch (Exception e){
             System.out.println(e.toString());
             return new BaseResponse(
