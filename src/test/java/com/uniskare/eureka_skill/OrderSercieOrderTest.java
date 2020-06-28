@@ -4,7 +4,9 @@ package com.uniskare.eureka_skill;
 import com.alibaba.fastjson.JSONObject;
 
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
+import com.uniskare.eureka_skill.dto.OrderDTO;
 import com.uniskare.eureka_skill.dto.OrderPageDTO;
+import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillOrder;
 import com.uniskare.eureka_skill.entity.User;
 import com.uniskare.eureka_skill.repository.*;
@@ -55,8 +57,8 @@ public class OrderSercieOrderTest {
 
 
     @Test
-    public void UT_TC_001_001_001_001(){
-        printTestCaseCode("UT_TC_001_001_001_001");
+    public void UT_TC_003_001_001_001(){
+        printTestCaseCode("UT_TC_003_001_001_001");
         String id = "";
 
         JSONObject json = new JSONObject();
@@ -72,8 +74,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_001_002(){
-        printTestCaseCode("UT_TC_001_001_002");
+    public void UT_TC_003_001_001_002(){
+        printTestCaseCode("UT_TC_003_001_001_002");
         String id = "test";
 
         User u = new User();
@@ -87,13 +89,13 @@ public class OrderSercieOrderTest {
         BaseResponse result = orderService.getOrdersByState(json);
 
         OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
+        Assertions.assertThat(obj).isEqualTo(null);
         printAfterFinishing();
     }
 
     @Test
-    public void UT_TC_001_001_001_003(){
-        printTestCaseCode("UT_TC_001_001_001_003");
+    public void UT_TC_003_001_001_003(){
+        printTestCaseCode("UT_TC_003_001_001_003");
         String id = "test";
 
         User u = new User();
@@ -112,8 +114,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_002(){
-        printTestCaseCode("UT_TC_001_001_002");
+    public void UT_TC_003_001_002(){
+        printTestCaseCode("UT_TC_003_001_002");
         // 用户存不存在 在查询订单其实是不用 care 的
         String id = "no_one";
 
@@ -131,8 +133,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_003(){
-        printTestCaseCode("UT_TC_001_001_003");
+    public void UT_TC_003_001_003(){
+        printTestCaseCode("UT_TC_003_001_003");
         String id = "test";
 
         User u = new User();
@@ -151,8 +153,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_004_001(){
-        printTestCaseCode("UT_TC_001_001_004_001");
+    public void UT_TC_003_001_004_001(){
+        printTestCaseCode("UT_TC_003_001_004_001");
         String id = "test";
 
         User u = new User();
@@ -171,8 +173,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_004_002(){
-        printTestCaseCode("UT_TC_001_001_004_001");
+    public void UT_TC_003_001_004_002(){
+        printTestCaseCode("UT_TC_003_001_004_001");
         String id = "test";
 
         User u = new User();
@@ -191,8 +193,8 @@ public class OrderSercieOrderTest {
     }
 
     @Test
-    public void UT_TC_001_001_005(){
-        printTestCaseCode("UT_TC_001_001_005");
+    public void UT_TC_003_001_005(){
+        printTestCaseCode("UT_TC_003_001_005");
         String id = "test";
 
         User u = new User();
@@ -203,10 +205,21 @@ public class OrderSercieOrderTest {
         skillOrder1.setState(ORDER_STATUS_CANCELED);
         skillOrder1.setOrderId(20);
         skillOrder1.setUserId(id);
+        int skillId1 = 0;
+        Skill skill1 = new Skill();
+        skill1.setSkillId(skillId1);
+        skillOrder1.setSkillId(skillId1);
+        Mockito.when(skillRepo.findBySkillId(skillId1)).thenReturn(skill1);
+
         SkillOrder skillOrder2 = new SkillOrder();
         skillOrder2.setState(ORDER_STATUS_CANCELED);
         skillOrder2.setOrderId(21);
         skillOrder1.setUserId(id);
+        int skillId2 = 0;
+        Skill skill2 = new Skill();
+        skill2.setSkillId(skillId2);
+        skillOrder2.setSkillId(skillId2);
+        Mockito.when(skillRepo.findBySkillId(skillId2)).thenReturn(skill2);
 
         List<SkillOrder> orders = new ArrayList<>();
         orders.add(skillOrder1);
@@ -223,7 +236,7 @@ public class OrderSercieOrderTest {
         BaseResponse result = orderService.getOrdersByState(json);
 
         OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders()).isEqualTo(orders);
+        Assertions.assertThat(obj.getOrders()).isEqualTo((orderList2dto(orders)));
         Assertions.assertThat(obj.getTotalPage()).isEqualTo(1);
 
         printAfterFinishing();
@@ -239,4 +252,20 @@ public class OrderSercieOrderTest {
         System.out.println("====================================");
     }
 
+    private List<OrderDTO> orderList2dto(List<SkillOrder> skillOrders)
+    {
+        List<OrderDTO> jsonArray = new ArrayList<>();
+        for (SkillOrder skillOrder : skillOrders) {
+            Skill skill = skillRepo.findBySkillId(skillOrder.getSkillId());
+//                User user = userRepo.getOne(skill.getUserId());
+
+
+            OrderDTO orderDTO = new OrderDTO(skill.getCover(),skill.getPrice(),skill.getUnit(),skill.getUserId(),skillOrder.getOrderTime(),
+                    skill.getContent(),skill.getTitle(),skillOrder.getState(),skillOrder.getOrderId(),skillOrder.getSkillId());
+
+
+            jsonArray.add(orderDTO);
+        }
+        return  jsonArray;
+    }
 }

@@ -60,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
 //    @Autowired
 //    RabbitTemplate rabbitTemplate;
 
+
     @Override
     public JSONArray getAllOrders() {
         List<SkillOrder> orders = orderRepo.findAll();
@@ -81,6 +82,11 @@ public class OrderServiceImpl implements OrderService {
         try{
             String user_id = jsonObject.getString(USER_ID);
             Byte order_state = jsonObject.getByte(ORDER_STATUS);
+
+            if(order_state == null) {
+                throw new BackendException("状态为空");
+            }
+
             int page = jsonObject.getIntValue(PAGE);
 
             List<SkillOrder> skillOrders;
@@ -116,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
 //                    jsonArray.subList(start, end), pageable, jsonArray.size()
 //            );
 
-            OrderPageDTO ret = new OrderPageDTO(dtoPage, NUM_PER_PAGE, (jsonArray.size() - 1) / NUM_PER_PAGE);
+            OrderPageDTO ret = new OrderPageDTO(dtoPage, NUM_PER_PAGE, (jsonArray.size() - 1) / NUM_PER_PAGE + 1);
 
 
             return new BaseResponse(
