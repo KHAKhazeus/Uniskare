@@ -15,4 +15,5 @@ public interface OrderRepo extends JpaRepository<SkillOrder, Integer>{
     public List<SkillOrder> findAllByState(Byte status);
 
     public SkillOrder findByOrderId(int order_id);
+    public SkillOrder getOne(int order_id);
 }
