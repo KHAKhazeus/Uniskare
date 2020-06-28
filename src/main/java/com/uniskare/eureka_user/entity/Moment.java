@@ -21,8 +21,9 @@ public class Moment {
     public List<UserLikeMoment> getUserLikeMoments(){return this.userLikeMoments;}
     public void setUserLikeMoments(List<UserLikeMoment> userLikeMoments){this.userLikeMoments = userLikeMoments;}
 
-    @Id
+    @javax.persistence.Id
     @Column(name = "moment_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getMomentId() {
         return momentId;
     }
