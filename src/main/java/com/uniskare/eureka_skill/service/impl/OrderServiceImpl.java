@@ -256,6 +256,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseResponse getOrderRequestDTOs(String userId,int page, Boolean isRefund) {
         try{
+            if(userRepo.findByUniUuid(userId)==null)
+                throw new Exception("用户id为空不存在");
 
             List<SkillOrder> skillOrders = new ArrayList<>();
             if(!isRefund){
