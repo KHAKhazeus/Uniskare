@@ -16,4 +16,5 @@ public interface OrderRepo extends JpaRepository<SkillOrder, Integer>{
 
     public SkillOrder findByOrderId(int order_id);
     public SkillOrder getOne(int order_id);
+    public SkillOrder save(SkillOrder skillOrder);
 }

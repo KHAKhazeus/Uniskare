@@ -183,7 +183,7 @@ public class OrderServiceImpl implements OrderService {
 
             skillOrder = orderRepo.save(skillOrder);
             //向RMQ队列发送订单号
-            System.out.println(skillOrder.getOrderId());
+//            System.out.println(skillOrder.getOrderId());
 //            sendMsgToRMQ(skillOrder.getOrderId());
 
             return new BaseResponse(Code.OK, Code.NO_ERROR_MESSAGE,
