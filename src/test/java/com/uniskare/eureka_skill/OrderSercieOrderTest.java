@@ -610,6 +610,8 @@ public class OrderSercieOrderTest {
         order.setOrderTime(order_time);
         order.setValue(val);
 
+        Mockito.when(orderRepo.findByOrderId(0)).thenReturn(order);
+
         return order;
     }
     @Test
@@ -638,6 +640,189 @@ public class OrderSercieOrderTest {
 
         Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.INSERT_SUCCESS);
         Assertions.assertThat((int)result.getData()).isEqualTo(0); //
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_001_001() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_001_001");
+
+        // 变量声明
+//        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+        String content = "不是很满意，这个差评我给定了！";
+
+//        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, "");
+        json.put(PICS, pics);
+        json.put(TIME, refund_time);
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_001_002() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_001_002");
+
+        // 变量声明
+        int order_id = 0;
+//        List<String> pics = new ArrayList<>();
+//        pics.add("1.jpg");
+//        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+        String content = "不是很满意，这个差评我给定了！";
+
+        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, "");
+        json.put(TIME, refund_time);
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_001_003() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_001_003");
+
+        // 变量声明
+        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+        String content = "不是很满意，这个差评我给定了！";
+
+        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, pics);
+        json.put(TIME, "");
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_001_004() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_001_004");
+
+        // 变量声明
+        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+//        String content = "不是很满意，这个差评我给定了！";
+
+        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, pics);
+        json.put(TIME, refund_time);
+        json.put(CONTENT, null);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_002() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_002");
+
+        // 变量声明
+        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+        String content = "不是很满意，这个差评我给定了！";
+
+//        fakeOrder("", order_id, null, -1.0);
+        Mockito.when(orderRepo.findByOrderId(order_id)).thenReturn(null);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, pics);
+        json.put(TIME, "");
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_003() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_003");
+
+        // 变量声明
+        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10"; // 时间格式
+        String content = "不是很满意，这个差评我给定了！";
+
+        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, pics);
+        json.put(TIME, refund_time);
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_004_004() throws ParseException {
+        printTestCaseCode("UT_TC_003_004_004");
+
+        // 变量声明
+        int order_id = 0;
+        List<String> pics = new ArrayList<>();
+        pics.add("1.jpg");
+        pics.add("2.jpg");
+        String refund_time = "2019-12-17 10:30:10";
+        String content = "不是很满意，这个差评我给定了！";
+
+        fakeOrder("", order_id, null, -1.0);
+
+        JSONObject json = new JSONObject();
+        json.put(ORDER_ID, order_id);
+        json.put(PICS, pics);
+        json.put(TIME, refund_time);
+        json.put(CONTENT, content);
+
+        BaseResponse result = orderService.applyRefund(json);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.INSERT_SUCCESS);
 
         printAfterFinishing();
     }
