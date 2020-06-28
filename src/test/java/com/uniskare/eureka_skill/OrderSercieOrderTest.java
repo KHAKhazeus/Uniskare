@@ -8,6 +8,8 @@ import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.OrderDTO;
 import com.uniskare.eureka_skill.dto.OrderPageDTO;
+import com.uniskare.eureka_skill.dto.RefundDTO;
+import com.uniskare.eureka_skill.entity.Refund;
 import com.uniskare.eureka_skill.entity.Skill;
 import com.uniskare.eureka_skill.entity.SkillOrder;
 import com.uniskare.eureka_skill.entity.User;
@@ -945,6 +947,53 @@ public class OrderSercieOrderTest {
 
         BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
         Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.QUERY_SUCCESS);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_006_001() {
+        printTestCaseCode("UT_TC_003_006_001");
+
+        // 变量声明
+        int refund_id = 0;
+
+        Mockito.when(refundRepo.findByRefundId(refund_id)).thenReturn(null);
+
+        BaseResponse result = orderService.getRefundInfo(refund_id);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+    private Refund fakeRefund(int refund_id , int order_id)
+    {
+        Refund refund = new Refund();
+        refund.setRefundId(refund_id);
+        refund.setOrderId(order_id);
+
+        Mockito.when(refundRepo.findByRefundId(refund_id)).thenReturn(refund);
+        return refund;
+    }
+
+    @Test
+    public void UT_TC_003_006_002() {
+        printTestCaseCode("UT_TC_003_006_001");
+
+        // 变量声明
+        int refund_id = 0;
+        int skill_id = 0;
+        String user_id = "test";
+
+        User user = fakeUser(user_id);
+        Skill skill = fakeSkill(skill_id);
+        SkillOrder skillOrder = fakeOrder(user_id, skill_id,null,-1.0);
+        Refund refund = fakeRefund(refund_id, skillOrder.getOrderId());
+
+        BaseResponse result = orderService.getRefundInfo(refund_id);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.OK);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.QUERY_SUCCESS);
+//        Assertions.assertThat((RefundDTO)result.getData()).isEqualTo(orderService)
 
         printAfterFinishing();
     }
