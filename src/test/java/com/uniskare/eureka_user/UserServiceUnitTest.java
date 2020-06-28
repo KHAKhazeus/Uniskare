@@ -183,6 +183,8 @@ public class UserServiceUnitTest {
     @Test
     public void UT_TC_001_003_001(){
         String userId= "";
+
+
         BaseResponse result = userService.getUserInfo(userId);
         Assertions.assertThat(result.getData()).isEqualTo(null);
         Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");

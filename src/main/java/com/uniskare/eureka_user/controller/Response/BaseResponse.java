@@ -18,6 +18,8 @@ public class BaseResponse {
 
     private Object data;
 
+    public BaseResponse(){}
+
     public BaseResponse(String timestamp,int status,String error,String message,String path,
                         Object data){
         this.timestamp = timestamp;//时间戳

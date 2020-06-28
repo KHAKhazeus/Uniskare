@@ -65,11 +65,6 @@ public class UserController {
         return userService.login(json);
     }
 
-    @RequestMapping(value = "/{id}/login/update",method = RequestMethod.POST)
-    public BaseResponse loginWithUpdate(@PathVariable("id") String id,@RequestBody JSONObject jsonObject){
-        return userService.loginWithUpdate(jsonObject,id);
-    }
-
     @RequestMapping(value = "/information/{id}",method = RequestMethod.GET)
     public BaseResponse getUserInfo(@PathVariable("id") String id){
         return userService.getUserInfo(id);
@@ -79,6 +74,15 @@ public class UserController {
     public BaseResponse updateUserInfo(@RequestBody JSONObject jsonObject){
         return userService.updateUserInfo(jsonObject);
     }
+
+    @RequestMapping(value = "/{id}/login/update",method = RequestMethod.POST)
+    public BaseResponse loginWithUpdate(@PathVariable("id") String id,@RequestBody JSONObject jsonObject){
+        return userService.loginWithUpdate(jsonObject,id);
+    }
+
+
+
+
 
 
 
