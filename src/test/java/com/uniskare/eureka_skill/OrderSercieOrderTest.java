@@ -4,6 +4,7 @@ package com.uniskare.eureka_skill;
 import com.alibaba.fastjson.JSONObject;
 
 import com.uniskare.eureka_skill.controller.Response.BaseResponse;
+import com.uniskare.eureka_skill.controller.Response.Code;
 import com.uniskare.eureka_skill.controller.Response.ResponseMessage;
 import com.uniskare.eureka_skill.dto.OrderDTO;
 import com.uniskare.eureka_skill.dto.OrderPageDTO;
@@ -823,6 +824,127 @@ public class OrderSercieOrderTest {
 
         BaseResponse result = orderService.applyRefund(json);
         Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.INSERT_SUCCESS);
+
+        printAfterFinishing();
+    }
+
+    // =======================================  getOrderRequestDTOs  ========================================= //
+    @Test
+    public void UT_TC_003_005_001_001() {
+        printTestCaseCode("UT_TC_003_005_001_001");
+
+        // 变量声明
+        String user_id = "";
+        int page = 0;
+        Boolean is_refund = true;
+
+//        fakeUser(user_id);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+//    @Test
+//    public void UT_TC_003_005_001_002() {
+//        printTestCaseCode("UT_TC_003_005_001_002");
+//
+//        // 变量声明
+//        String user_id = "test";
+//        Integer page = null;
+//        Boolean is_refund = true;
+//
+//        fakeUser(user_id);
+//
+//        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+//        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+//
+//        printAfterFinishing();
+//    }
+
+    @Test
+    public void UT_TC_003_005_001_003() {
+        printTestCaseCode("UT_TC_003_005_001_003");
+
+        // 变量声明
+        String user_id = "test";
+        Integer page = 0;
+        Boolean is_refund = null;
+
+        fakeUser(user_id);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_005_002() {
+        printTestCaseCode("UT_TC_003_005_002");
+
+        // 变量声明
+        String user_id = "test";
+        int page = 0;
+        Boolean is_refund = true;
+
+        Mockito.when(userRepo.findByUniUuid(user_id)).thenReturn(null);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+
+    @Test
+    public void UT_TC_003_005_003_001() {
+        printTestCaseCode("UT_TC_003_005_003_001");
+
+        // 变量声明
+        String user_id = "test";
+        int page = -1;
+        Boolean is_refund = true;
+
+        fakeUser(user_id);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_005_003_002() {
+        printTestCaseCode("UT_TC_003_005_003_001");
+
+        // 变量声明
+        String user_id = "test";
+        int page = 999999;
+        Boolean is_refund = true;
+
+        fakeUser(user_id);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+
+        printAfterFinishing();
+    }
+
+    @Test
+    public void UT_TC_003_005_004() {
+        printTestCaseCode("UT_TC_003_005_004");
+
+        // 变量声明
+        String user_id = "test";
+        int page = 0;
+        Boolean is_refund = true;
+
+        fakeUser(user_id);
+
+        BaseResponse result = orderService.getOrderRequestDTOs(user_id, page, is_refund);
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.QUERY_SUCCESS);
 
         printAfterFinishing();
     }
