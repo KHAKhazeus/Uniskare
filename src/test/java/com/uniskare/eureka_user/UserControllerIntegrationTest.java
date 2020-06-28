@@ -131,7 +131,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_002_001_002() throws Exception {
-        String userId= "test153";
+        String userId= "test154";
         String nickname = "";
         String avatarUrl = "wdwdwwd";
         JSONObject jsonObject = new JSONObject();
@@ -155,7 +155,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_002_001_003() throws Exception {
-        String userId= "test153";
+        String userId= "test154";
         String nickname = "test1";
         String avatarUrl = "";
         JSONObject jsonObject = new JSONObject();
@@ -226,7 +226,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_002_004() throws Exception {
-        String userId= "test153";
+        String userId= "test154";
         String nickname = "dwdw";
         String avatarUrl = "dwdw";
         User user = new User();
@@ -283,7 +283,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_003_003() throws Exception {
-        String userId= "test153";
+        String userId= "test154";
         User user = new User();
         user.setUniUuid(userId);
 
@@ -300,15 +300,16 @@ public class UserControllerIntegrationTest {
 
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+        String convertBridge = JSON.toJSONString(result.getData());
+        UserInfo userInfo1 = JSONObject.parseObject(convertBridge,UserInfo.class);
 
-
-        Assertions.assertThat(result.getData()).isEqualTo(userInfo);
+        Assertions.assertThat(userInfo1).isEqualTo(userInfo);
     }
 
 
     @Test
     public void IT_TC_002_003_004() throws Exception {
-        String userId= "test153";
+        String userId= "test154";
         User user = new User();
         user.setUniUuid(userId);
 
@@ -357,10 +358,13 @@ public class UserControllerIntegrationTest {
                 .andReturn().getResponse().getContentAsString();
 
         Reader reader = new StringReader(httpResult);
+
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+        String convertBridge = JSON.toJSONString(result.getData());
+        UserInfo userInfo1 = JSONObject.parseObject(convertBridge,UserInfo.class);
 
 
-        Assertions.assertThat(result.getData()).isEqualTo(userInfo);
+        Assertions.assertThat(userInfo1).isEqualTo(userInfo);
     }
 
 
@@ -400,7 +404,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_004_001_002() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "";
         String avatar = "awdw";
         String phone = "18754128788";
@@ -429,7 +433,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_001_004_001_003() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "nicknick";
         String avatar = "";
         String phone = "18754128788";
@@ -458,7 +462,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_004_001_004() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "nicknick";
         String avatar = "awdw";
         String phone = "";
@@ -516,7 +520,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_004_003() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "dwdw";
         String avatar = "dwdw";
         String phone = "18372";
@@ -549,7 +553,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_004_004() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "dwdw";
         String avatar = "dwdw";
         String phone = "19287372992";
@@ -585,9 +589,9 @@ public class UserControllerIntegrationTest {
         Assertions.assertThat(result.getData()).isEqualTo(true);
     }
 
-
+    @Test
     public void IT_TC_002_004_005() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "dwdw";
         String avatar = "dwdw";
         String phone = "19287372992";
@@ -651,7 +655,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_005_001_002() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "";
         String avatar = "wdwdwwd";
         JSONObject jsonObject = new JSONObject();
@@ -675,7 +679,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_005_001_003() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "kjwd";
         String avatar = "";
 
@@ -724,7 +728,7 @@ public class UserControllerIntegrationTest {
     }
     @Test
     public void IT_TC_002_005_003() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "dwdw";
         String avatar = "dwdw";
 
@@ -753,7 +757,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void IT_TC_002_005_004() throws Exception {
-        String userId = "test153";
+        String userId = "test154";
         String nickName = "dwdw";
         String avatar = "dwdw";
 
