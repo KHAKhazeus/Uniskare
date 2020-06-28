@@ -107,7 +107,7 @@ public class OrderSercieOrderTest {
         BaseResponse result = orderService.getOrdersByState(json);
 
         OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders()).isEqualTo(null);
+        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
         printAfterFinishing();
     }
 
@@ -166,7 +166,7 @@ public class OrderSercieOrderTest {
         BaseResponse result = orderService.getOrdersByState(json);
 
         OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders()).isEqualTo(null);
+        Assertions.assertThat(obj).isEqualTo(null);
         printAfterFinishing();
     }
 
@@ -186,7 +186,7 @@ public class OrderSercieOrderTest {
         BaseResponse result = orderService.getOrdersByState(json);
 
         OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders()).isEqualTo(null);
+        Assertions.assertThat(obj).isEqualTo(null);
         printAfterFinishing();
     }
 
@@ -217,7 +217,7 @@ public class OrderSercieOrderTest {
 
         JSONObject json = new JSONObject();
         json.put(USER_ID, id);
-        json.put(PAGE, Integer.MAX_VALUE); //
+        json.put(PAGE, 0); //
         json.put(ORDER_STATUS, ORDER_STATUS_CANCELED);
 
         BaseResponse result = orderService.getOrdersByState(json);
