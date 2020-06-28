@@ -73,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
         return jsonArray;
     }
 
+    // test 1
     @Override
     public BaseResponse getOrdersByState(JSONObject jsonObject) {
 
@@ -143,6 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    // test 2
     @Override
     public void changeOrderState(int order_id, Byte state) throws BackendException {
         SkillOrder skillOrder = orderRepo.getOne(order_id);
@@ -161,6 +163,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepo.save(skillOrder);
     }
 
+    // test 3
     public BaseResponse newOrder(JSONObject json) {
         try {
             int skill_id = json.getIntValue(Const.SKILL_ID);
@@ -185,6 +188,8 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    // test 4
     @Override
     public BaseResponse applyRefund(JSONObject jsonObject) {
         try{
@@ -224,6 +229,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // test 5
     @Override
     public BaseResponse getOrderRequestDTOs(String userId,int page, Boolean isRefund) {
         try{
@@ -281,6 +287,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // test 6
     @Override
     public BaseResponse getRefundInfo(int refundId) {
         try{

@@ -20,7 +20,7 @@ public interface OrderService {
 
     public BaseResponse newOrder(JSONObject json);
 
-    public void handleOrderWhenTimeOut(int order_id);
+//    public void handleOrderWhenTimeOut(int order_id);
 
     public BaseResponse applyRefund(JSONObject jsonObject);
 
