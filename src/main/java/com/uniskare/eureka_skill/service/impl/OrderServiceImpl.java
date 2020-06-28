@@ -214,6 +214,14 @@ public class OrderServiceImpl implements OrderService {
             Timestamp date = jsonObject.getTimestamp(TIME);
             JSONArray jsonArray = jsonObject.getJSONArray(PICS);
             String content = jsonObject.getString(CONTENT);
+
+            if(date == null) {
+                throw new Exception("没有日期参数或格式不正确");
+            }
+            if(content == null) {
+                throw  new Exception("内容为空");
+            }
+
             Refund refund = new Refund();
             refund.setOrderId(orderId);
             refund.setReason(content);
