@@ -173,9 +173,18 @@ public class OrderServiceImpl implements OrderService {
     public BaseResponse newOrder(JSONObject json) {
         try {
             int skill_id = json.getIntValue(Const.SKILL_ID);
+            if(skillRepo.findBySkillId(skill_id) == null) {
+                throw new Exception("skill_id不存在");
+            }
             String user_id = json.getString(Const.USER_ID);
+            if(userRepo.findByUniUuid(user_id) == null) {
+                throw new Exception("user_id不存在" );
+            }
             //2019-12-17 10:30:10
             Timestamp order_time = json.getTimestamp(Const.ORDER_TIME);
+            if(order_time == null){
+                throw new Exception("日期为空或格式不正确");
+            }
             double val = json.getDouble(Const.ORDER_VALUE);
 
             SkillOrder skillOrder = new SkillOrder(skill_id, user_id, Const.ORDER_STATUS_PLACED,
