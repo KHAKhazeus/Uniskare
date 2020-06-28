@@ -109,9 +109,9 @@ public class UserServiceImpl implements UserService {
                     returnMessage = "id不存在";
                 }else{
                     if(user.getChangeNickName() == null || user.getChangeNickName()==0){
-                        user.setUniNickName(nick_name);
+                            user.setUniNickName(nick_name);
                     }
-                    if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
+                    if(user.getChangeAvatar() == null || user.getChangeAvatar()==0){
                         user.setUniAvatarUrl(avatar);
                     }
                     user.setChangeNickName((byte) 0);
@@ -270,7 +270,7 @@ public class UserServiceImpl implements UserService {
                     if(user.getChangeNickName() == null || user.getChangeNickName()==0){
                         user.setUniNickName(nickName);
                     }
-                    if(user.getChangeNickName() == null || user.getChangeAvatar()==0){
+                    if(user.getChangeAvatar() == null || user.getChangeAvatar()==0){
                         user.setUniAvatarUrl(avatar);
                     }
                     userRepo.save(user);

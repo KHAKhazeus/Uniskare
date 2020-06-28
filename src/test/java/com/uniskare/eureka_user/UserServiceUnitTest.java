@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.inject.internal.cglib.proxy.$Factory;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.dto.UserInfo;
+import com.uniskare.eureka_user.entity.Moment;
+import com.uniskare.eureka_user.entity.Relation;
 import com.uniskare.eureka_user.entity.User;
 import com.uniskare.eureka_user.repository.*;
 import com.uniskare.eureka_user.service.UserService;
@@ -21,6 +23,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.uniskare.eureka_user.service.Helper.Const.*;
 
@@ -154,7 +159,24 @@ public class UserServiceUnitTest {
         Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
         BaseResponse result = userService.login(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+    }
 
+    @Test
+    public void UT_TC_001_002_004(){
+        String userId= "test153";
+        String nickname = "dwdw";
+        String avatarUrl = "dwdw";
+        User user = new User();
+        user.setChangeNickName((byte)1);
+        user.setChangeAvatar((byte)1);
+        user.setUniUuid(userId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(USER_ID,userId);
+        jsonObject.put(NICK_NAME,nickname);
+        jsonObject.put(AVATAR,avatarUrl);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+        BaseResponse result = userService.login(jsonObject);
+        Assertions.assertThat(result.getData()).isEqualTo(true);
     }
 
 
@@ -173,20 +195,66 @@ public class UserServiceUnitTest {
         Assertions.assertThat(result.getData()).isEqualTo(null);
         Assertions.assertThat(result.getMessage()).isEqualTo("id不存在");
     }
+
     @Test
     public void UT_TC_001_003_003(){
         String userId= "test153";
         User user = new User();
         user.setUniUuid(userId);
+
         UserInfo userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
                 user.getUniNickName(),user.getUniSex(),user.getUniIndiSign(),user.getUniIsStu(),
                 user.getUniSchool(),user.getUniPhoneNum(),user.getChangeNickName(),user.getChangeAvatar(),
                 user.getUniPassPhone(),0,0,0);
 
         Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+        Mockito.when(momentRepo.findByUserId(userId)).thenReturn(null);
+        Mockito.when(relationRepo.findAllByFollowId(userId)).thenReturn(null);
+        Mockito.when(relationRepo.findAllByFanId(userId)).thenReturn(null);
+
+
         BaseResponse result = userService.getUserInfo(userId);
         Assertions.assertThat(result.getData()).isEqualTo(userInfo);
     }
+
+
+    @Test
+    public void UT_TC_001_003_004(){
+        String userId= "test153";
+        User user = new User();
+        user.setUniUuid(userId);
+        UserInfo userInfo = new UserInfo(user.getUniUuid(),user.getUniAvatarUrl(),
+                user.getUniNickName(),user.getUniSex(),user.getUniIndiSign(),user.getUniIsStu(),
+                user.getUniSchool(),user.getUniPhoneNum(),user.getChangeNickName(),user.getChangeAvatar(),
+                user.getUniPassPhone(),2,3,4);
+
+        List<Moment> moments = new ArrayList<>();
+        moments.add(new Moment());
+        moments.add(new Moment());
+
+        List<Relation> relations = new ArrayList<>();
+        relations.add(new Relation());
+        relations.add(new Relation());
+        relations.add(new Relation());
+
+        List<Relation> fans = new ArrayList<>();
+        fans.add(new Relation());
+        fans.add(new Relation());
+        fans.add(new Relation());
+        fans.add(new Relation());
+
+        Mockito.when(momentRepo.findByUserId(userId)).thenReturn(moments);
+        Mockito.when(relationRepo.findAllByFollowId(userId)).thenReturn(fans);
+        Mockito.when(relationRepo.findAllByFanId(userId)).thenReturn(relations);
+
+
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+        BaseResponse result = userService.getUserInfo(userId);
+        Assertions.assertThat(result.getData()).isEqualTo(userInfo);
+    }
+
+
 
 
 
@@ -344,6 +412,35 @@ public class UserServiceUnitTest {
     }
 
 
+    public void UT_TC_001_004_005(){
+        String userId = "test153";
+        String nickName = "dwdw";
+        String avatar = "dwdw";
+        String phone = "19287372992";
+        String indiSign = "fefefef";
+
+        User user = new User();
+        user.setUniUuid(userId);
+        user.setUniNickName("aa");
+        user.setUniAvatarUrl("BB");
+        user.setUniPhoneNum("3213123");
+        user.setUniIndiSign("");
+        user.setChangeAvatar((byte)1);
+        user.setChangeNickName((byte)1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(USER_ID,userId);
+        jsonObject.put(NICK_NAME,nickName);
+        jsonObject.put(AVATAR,avatar);
+        jsonObject.put(PHONE,phone);
+        jsonObject.put(INDI_SIGN,indiSign);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
+        BaseResponse result = userService.updateUserInfo(jsonObject);
+        Assertions.assertThat(result.getData()).isEqualTo(true);
+    }
+
+
 
     @Test
     public void UT_TC_001_005_001_001(){
@@ -390,6 +487,8 @@ public class UserServiceUnitTest {
         Assertions.assertThat(result.getMessage()).isEqualTo("头像不能为空");
     }
 
+
+
     @Test
     public void UT_TC_001_005_002(){
         String userId = "765432";
@@ -411,6 +510,28 @@ public class UserServiceUnitTest {
         String avatar = "dwdw";
 
         User user = new User();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(NICK_NAME,nickName);
+        jsonObject.put(AVATAR,avatar);
+
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
+        BaseResponse result = userService.loginWithUpdate(jsonObject,userId);
+        Assertions.assertThat(result.getData()).isEqualTo(true);
+
+    }
+
+    @Test
+    public void UT_TC_001_005_004(){
+        String userId = "test153";
+        String nickName = "dwdw";
+        String avatar = "dwdw";
+
+        User user = new User();
+        user.setUniUuid(userId);
+        user.setChangeAvatar((byte) 1);
+        user.setChangeNickName((byte) 1);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(NICK_NAME,nickName);
