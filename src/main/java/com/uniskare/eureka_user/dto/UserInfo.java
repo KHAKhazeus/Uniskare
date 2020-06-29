@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.dto;
-
+// CHECKSTYLE:OFF
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

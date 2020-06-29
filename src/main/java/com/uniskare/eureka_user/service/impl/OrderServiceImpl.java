@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.service.impl;
-
+// CHECKSTYLE:OFF
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_user.entity.SkillOrder;

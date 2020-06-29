@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.controller.Response;
-
+// CHECKSTYLE:OFF
 /**
  * @author : SCH001
  * @description :

@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.service.impl;
-
+// CHECKSTYLE:OFF
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.controller.Response.Code;
 import com.uniskare.eureka_user.controller.Response.ResponseMessage;

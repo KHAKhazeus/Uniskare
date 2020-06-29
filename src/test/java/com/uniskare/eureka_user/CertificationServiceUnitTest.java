@@ -2,7 +2,6 @@ package com.uniskare.eureka_user;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.corba.se.impl.interceptors.PICurrent;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.controller.Response.ResponseMessage;
 import com.uniskare.eureka_user.dto.CertificationDTO;

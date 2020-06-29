@@ -4,7 +4,7 @@ import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+// CHECKSTYLE:OFF
 @RestController
 @CrossOrigin //跨域
 @RequestMapping("/user") //基路径

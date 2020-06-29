@@ -1,6 +1,6 @@
 package com.uniskare.eureka_user;
 
-
+// CHECKSTYLE:OFF
 import com.alibaba.fastjson.JSONObject;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.dto.UserInfo;

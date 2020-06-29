@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.dto;
-
+// CHECKSTYLE:OFF
 import com.uniskare.eureka_user.entity.User;
 import com.uniskare.eureka_user.entity.UserPic;
 import lombok.AllArgsConstructor;

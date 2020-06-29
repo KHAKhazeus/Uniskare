@@ -1,5 +1,5 @@
 package com.uniskare.eureka_user.entity;
-
+// CHECKSTYLE:OFF
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
