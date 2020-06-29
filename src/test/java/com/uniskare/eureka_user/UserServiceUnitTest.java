@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.uniskare.eureka_user.service.Helper.Const.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,7 +57,10 @@ public class UserServiceUnitTest {
         printTestCaseCode("UT_TC_001_001_001");
         String id = "";
 
+        Mockito.when(conversationRepo.findByUserIdAndOtherId(any(),any())).thenReturn(null);
+
         BaseResponse result = userService.register(id);
+
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");
         printAfterFinishing();
@@ -68,6 +72,7 @@ public class UserServiceUnitTest {
         String id = "7862378";
 
         Mockito.when(userRepo.findByUniUuid(id)).thenReturn(null);
+        Mockito.when(conversationRepo.findByUserIdAndOtherId(any(),any())).thenReturn(null);
         BaseResponse result = userService.register(id);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         printAfterFinishing();
@@ -81,6 +86,7 @@ public class UserServiceUnitTest {
         user.setUniUuid(id);
 
         Mockito.when(userRepo.findByUniUuid(id)).thenReturn(user);
+        Mockito.when(conversationRepo.findByUserIdAndOtherId(any(),any())).thenReturn(null);
         BaseResponse result = userService.register(id);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         printAfterFinishing();

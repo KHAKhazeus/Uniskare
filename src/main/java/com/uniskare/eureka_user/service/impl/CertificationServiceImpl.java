@@ -103,10 +103,18 @@ public class CertificationServiceImpl implements CertificationService {
     @Override
     public BaseResponse acceptCertification(String userId) {
         try{
-            User user = userRepo.findByUniUuid(userId);
-            userPicRepo.deleteAllByUserId(userId);
-            user.setUniIsStu(2);
-            userRepo.save(user);
+            boolean judge =false;
+            if(userId == null){
+                throw new Exception();
+            }
+            if(!userId.equals("")){
+                User user = userRepo.findByUniUuid(userId);
+                userPicRepo.deleteAllByUserId(userId);
+                user.setUniIsStu(2);
+                userRepo.save(user);
+                judge = true;
+            }
+
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
