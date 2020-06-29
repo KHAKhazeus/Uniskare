@@ -63,7 +63,7 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+    
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -84,7 +84,7 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -105,7 +105,7 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -118,6 +118,8 @@ public class CertificationServiceUnitTest {
     public void UT_TC_004_001_004(){
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
+        User user = new User();
+        user.setUniUuid(userId);
         List<String> pics = new ArrayList<>();
 //        pics.add("wwww");
 //        pics.add("wwww");
@@ -126,7 +128,9 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -139,6 +143,8 @@ public class CertificationServiceUnitTest {
     public void UT_TC_004_001_005(){
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
+        User user = new User();
+        user.setUniUuid(userId);
         List<String> pics = new ArrayList<>();
         pics.add("wwww");
         pics.add("wwww");
@@ -148,7 +154,8 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -161,6 +168,8 @@ public class CertificationServiceUnitTest {
     public void UT_TC_004_001_006(){
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
+        User user = new User();
+        user.setUniUuid(userId);
         List<String> pics = new ArrayList<>();
         pics.add("wwww");
         pics.add("wwww");
@@ -169,7 +178,8 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -182,6 +192,8 @@ public class CertificationServiceUnitTest {
     public void UT_TC_004_001_007(){
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
+        User user = new User();
+        user.setUniUuid(userId);
         List<String> pics = new ArrayList<>();
         pics.add("wwww");
         pics.add("wwww");
@@ -190,7 +202,8 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
@@ -203,6 +216,9 @@ public class CertificationServiceUnitTest {
     public void UT_TC_004_001_008(){
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
+        User user = new User();
+        user.setUniUuid(userId);
+
         List<String> pics = new ArrayList<>();
         pics.add("wwww");
         pics.add("wwww");
@@ -211,7 +227,8 @@ public class CertificationServiceUnitTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
-        Mockito.when(userPicRepo.save(any())).thenReturn(true);
+        Mockito.when(userRepo.findByUniUuid(userId)).thenReturn(user);
+
         Mockito.when(userService.upLoadStatus(anyString(),anyInt(),anyString())).thenReturn(true);
         BaseResponse result = certificationService.upLoadCertification(jsonObject);
 
