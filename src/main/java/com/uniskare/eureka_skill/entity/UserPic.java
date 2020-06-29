@@ -10,7 +10,7 @@ public class UserPic {
     private String userId;
     private int picIndex;
     private String url;
-    private int pindex;
+//    private int pindex;
 
     @Id
     @Column(name = "user_id")
@@ -42,15 +42,15 @@ public class UserPic {
         this.url = url;
     }
 
-    @Basic
-    @Column(name = "pindex")
-    public int getPindex() {
-        return pindex;
-    }
+//    @Basic
+//    @Column(name = "pindex")
+//    public int getPindex() {
+//        return pindex;
+//    }
 
-    public void setPindex(int pindex) {
-        this.pindex = pindex;
-    }
+//    public void setPindex(int pindex) {
+//        this.pindex = pindex;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -58,13 +58,13 @@ public class UserPic {
         if (o == null || getClass() != o.getClass()) return false;
         UserPic userPic = (UserPic) o;
         return picIndex == userPic.picIndex &&
-                pindex == userPic.pindex &&
+//                pindex == userPic.pindex &&
                 Objects.equals(userId, userPic.userId) &&
                 Objects.equals(url, userPic.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, picIndex, url, pindex);
+        return Objects.hash(userId, picIndex, url);
     }
 }
