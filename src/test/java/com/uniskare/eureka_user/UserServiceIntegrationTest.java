@@ -147,6 +147,9 @@ public class UserServiceIntegrationTest {
 
         BaseResponse result = userService.login(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        User user1 = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(user1.getUniNickName()).endsWith(nickname);
+        Assertions.assertThat(user1.getUniAvatarUrl()).endsWith(avatarUrl);
     }
 
     @Test
@@ -155,6 +158,8 @@ public class UserServiceIntegrationTest {
         String nickname = "dwdw";
         String avatarUrl = "dwdw";
         User user = new User();
+        user.setUniNickName(nickname);
+        user.setUniAvatarUrl(avatarUrl);
         user.setChangeNickName((byte)1);
         user.setChangeAvatar((byte)1);
         user.setUniUuid(userId);
@@ -166,6 +171,10 @@ public class UserServiceIntegrationTest {
 
         BaseResponse result = userService.login(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        User user1 = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(user1.getUniAvatarUrl()).isEqualTo(avatarUrl);
+        Assertions.assertThat(user1.getUniNickName()).isEqualTo(nickname);
+
     }
 
 
@@ -415,6 +424,14 @@ public class UserServiceIntegrationTest {
 
         BaseResponse result = userService.updateUserInfo(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getUniPhoneNum()).isEqualTo(phone);
+        Assertions.assertThat(check.getUniIndiSign()).isEqualTo(indiSign);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
     }
 
 
@@ -444,6 +461,14 @@ public class UserServiceIntegrationTest {
 
         BaseResponse result = userService.updateUserInfo(jsonObject);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getUniPhoneNum()).isEqualTo(phone);
+        Assertions.assertThat(check.getUniIndiSign()).isEqualTo(indiSign);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
     }
 
 
@@ -515,8 +540,13 @@ public class UserServiceIntegrationTest {
         String nickName = "dwdw";
         String avatar = "dwdw";
 
+
         User user = new User();
         user.setUniUuid(userId);
+        user.setUniNickName("aaa");
+        user.setUniAvatarUrl("bbb");
+        user.setChangeAvatar((byte) 0);
+        user.setChangeNickName((byte) 0);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(NICK_NAME,nickName);
@@ -526,6 +556,12 @@ public class UserServiceIntegrationTest {
 
         BaseResponse result = userService.loginWithUpdate(jsonObject,userId);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)0);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)0);
 
     }
 
@@ -537,6 +573,8 @@ public class UserServiceIntegrationTest {
 
         User user = new User();
         user.setUniUuid(userId);
+        user.setUniNickName("aaa");
+        user.setUniAvatarUrl("bbb");
         user.setChangeAvatar((byte) 1);
         user.setChangeNickName((byte) 1);
 
@@ -549,6 +587,11 @@ public class UserServiceIntegrationTest {
         BaseResponse result = userService.loginWithUpdate(jsonObject,userId);
         Assertions.assertThat(result.getData()).isEqualTo(true);
 
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo("aaa");
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo("bbb");
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
     }
 
 
@@ -635,6 +678,9 @@ public class UserServiceIntegrationTest {
 
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniIsStu()).isEqualTo(status);
     }
 
     @Test
@@ -649,6 +695,9 @@ public class UserServiceIntegrationTest {
 
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniIsStu()).isEqualTo(status);
     }
 
     @Test
@@ -663,6 +712,9 @@ public class UserServiceIntegrationTest {
 
         boolean result = userService.upLoadStatus(userId,status,school);
         Assertions.assertThat(result).isEqualTo(true);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniIsStu()).isEqualTo(status);
     }
 
 }

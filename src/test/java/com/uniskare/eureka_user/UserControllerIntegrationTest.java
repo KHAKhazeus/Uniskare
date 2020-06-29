@@ -229,6 +229,10 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
+
+        User user1 = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(user1.getUniNickName()).endsWith(nickname);
+        Assertions.assertThat(user1.getUniAvatarUrl()).endsWith(avatarUrl);
     }
 
     @Test
@@ -237,6 +241,8 @@ public class UserControllerIntegrationTest {
         String nickname = "dwdw";
         String avatarUrl = "dwdw";
         User user = new User();
+        user.setUniNickName(nickname);
+        user.setUniAvatarUrl(avatarUrl);
         user.setChangeNickName((byte)1);
         user.setChangeAvatar((byte)1);
         user.setUniUuid(userId);
@@ -258,6 +264,10 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
+
+        User user1 = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(user1.getUniAvatarUrl()).isEqualTo(avatarUrl);
+        Assertions.assertThat(user1.getUniNickName()).isEqualTo(nickname);
     }
 
 
@@ -605,6 +615,14 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getUniPhoneNum()).isEqualTo(phone);
+        Assertions.assertThat(check.getUniIndiSign()).isEqualTo(indiSign);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
     }
 
     @Test
@@ -644,6 +662,14 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getUniPhoneNum()).isEqualTo(phone);
+        Assertions.assertThat(check.getUniIndiSign()).isEqualTo(indiSign);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
     }
 
 
@@ -756,6 +782,10 @@ public class UserControllerIntegrationTest {
 
         User user = new User();
         user.setUniUuid(userId);
+        user.setUniNickName("aaa");
+        user.setUniAvatarUrl("bbb");
+        user.setChangeAvatar((byte) 0);
+        user.setChangeNickName((byte) 0);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(NICK_NAME,nickName);
@@ -776,6 +806,11 @@ public class UserControllerIntegrationTest {
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
 
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo(nickName);
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo(avatar);
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)0);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)0);
     }
 
     @Test
@@ -786,6 +821,8 @@ public class UserControllerIntegrationTest {
 
         User user = new User();
         user.setUniUuid(userId);
+        user.setUniNickName("aaa");
+        user.setUniAvatarUrl("bbb");
         user.setChangeAvatar((byte) 1);
         user.setChangeNickName((byte) 1);
 
@@ -807,6 +844,12 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
+
+        User check = userRepo.findByUniUuid(userId);
+        Assertions.assertThat(check.getUniNickName()).isEqualTo("aaa");
+        Assertions.assertThat(check.getUniAvatarUrl()).isEqualTo("bbb");
+        Assertions.assertThat(check.getChangeAvatar()).isEqualTo((byte)1);
+        Assertions.assertThat(check.getChangeNickName()).isEqualTo((byte)1);
 
     }
 

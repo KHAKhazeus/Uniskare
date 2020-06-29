@@ -2,8 +2,6 @@ package com.uniskare.eureka_user;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
-import com.google.inject.internal.cglib.proxy.$Factory;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.dto.UserInfo;
 import com.uniskare.eureka_user.entity.Moment;
@@ -12,7 +10,6 @@ import com.uniskare.eureka_user.entity.User;
 import com.uniskare.eureka_user.repository.*;
 import com.uniskare.eureka_user.service.UserService;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
