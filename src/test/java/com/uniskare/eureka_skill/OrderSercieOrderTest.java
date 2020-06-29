@@ -648,6 +648,33 @@ public class OrderSercieOrderTest {
     }
 
     @Test
+    public void UT_TC_003_003_006() throws ParseException {
+        printTestCaseCode("UT_TC_003_003_006");
+
+        // 变量声明
+        String user_id = "oEHOK5Tzznlf9O8gWenDShxCmz78";
+        int skill_id = 2;
+        Timestamp order_time = new Timestamp(simpleDateFormat.parse("2019-12-17 10:30:10").getTime());
+//        double val = 90.00;
+        User user = fakeUser(user_id);
+        fakeSkill(skill_id);
+        SkillOrder order = fakeOrder(user_id, skill_id, order_time, 0);
+        Mockito.when(orderRepo.save(order)).thenReturn(order);
+
+        JSONObject json = new JSONObject();
+        json.put(USER_ID, user_id);
+        json.put(SKILL_ID, skill_id);
+        json.put(ORDER_TIME, order_time);
+        json.put(ORDER_VALUE, "&90"); // 不合法的格式
+
+        BaseResponse result = orderService.newOrder(json);
+
+        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
+
+        printAfterFinishing();
+    }
+
+    @Test
     public void UT_TC_003_004_001_001() throws ParseException {
         printTestCaseCode("UT_TC_003_004_001_001");
 
@@ -756,7 +783,7 @@ public class OrderSercieOrderTest {
         printTestCaseCode("UT_TC_003_004_002");
 
         // 变量声明
-        int order_id = 0;
+        int order_id = -1;
         List<String> pics = new ArrayList<>();
         pics.add("1.jpg");
         pics.add("2.jpg");
@@ -769,7 +796,7 @@ public class OrderSercieOrderTest {
         JSONObject json = new JSONObject();
         json.put(ORDER_ID, order_id);
         json.put(PICS, pics);
-        json.put(TIME, "");
+        json.put(TIME, refund_time);
         json.put(CONTENT, content);
 
         BaseResponse result = orderService.applyRefund(json);
