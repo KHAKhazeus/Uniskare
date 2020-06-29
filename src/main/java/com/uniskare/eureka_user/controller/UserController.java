@@ -62,8 +62,9 @@ public class UserController {
             codeResponse = mapper.readValue(response,CodeResponse.class);
             if(codeResponse.getSession_key() != null){
                 userService.register(codeResponse.getOpenid());
+                baseResponse.setData(codeResponse);
             }
-            baseResponse.setData(codeResponse);
+
 
         }
 

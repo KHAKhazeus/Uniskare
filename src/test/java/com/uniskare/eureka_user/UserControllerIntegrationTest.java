@@ -79,6 +79,7 @@ public class UserControllerIntegrationTest {
 
 //        BaseResponse result = userService.register(id);
         Assertions.assertThat(result.getData()).isEqualTo(false);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
 
     }
 
@@ -100,6 +101,7 @@ public class UserControllerIntegrationTest {
 
 //        BaseResponse result = userService.register(id);
         Assertions.assertThat(result.getData()).isEqualTo(false);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
 
     }
 
@@ -127,6 +129,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -151,6 +154,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("昵称不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -175,6 +179,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("头像不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -199,6 +204,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("id不存在");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
     @Test
     public void IT_TC_002_002_003() throws Exception {
@@ -222,6 +228,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -250,6 +257,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
@@ -279,6 +287,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(null);
         Assertions.assertThat(result.getMessage()).isEqualTo("id不存在");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -304,6 +313,7 @@ public class UserControllerIntegrationTest {
         UserInfo userInfo1 = JSONObject.parseObject(convertBridge,UserInfo.class);
 
         Assertions.assertThat(userInfo1).isEqualTo(userInfo);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
@@ -365,6 +375,7 @@ public class UserControllerIntegrationTest {
 
 
         Assertions.assertThat(userInfo1).isEqualTo(userInfo);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
@@ -400,6 +411,7 @@ public class UserControllerIntegrationTest {
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -429,6 +441,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("昵称不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -458,6 +471,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("头像不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -487,6 +501,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("手机号不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -516,6 +531,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("id不存在");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -549,6 +565,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("手机号不符合要求");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -587,6 +604,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -625,6 +643,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
@@ -675,6 +694,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("昵称不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -699,6 +719,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("头像不能为空");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
@@ -725,6 +746,7 @@ public class UserControllerIntegrationTest {
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getMessage()).isEqualTo("id不存在");
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
     @Test
     public void IT_TC_002_005_003() throws Exception {
@@ -752,6 +774,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
 
     }
 
@@ -783,6 +806,7 @@ public class UserControllerIntegrationTest {
         Reader reader = new StringReader(httpResult);
         BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
         Assertions.assertThat(result.getData()).isEqualTo(true);
+        Assertions.assertThat(result.getStatus()).isEqualTo(200);
 
     }
 

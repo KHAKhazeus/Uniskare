@@ -61,8 +61,6 @@ public class CertificationServiceImpl implements CertificationService {
             userPic1.setUrl(imageArray[1]);
             userPicRepo.save(userPic1);
 
-
-
             return new BaseResponse((new Timestamp(System.currentTimeMillis())).toString(),
                     Code.OK,
                     Code.NO_ERROR_MESSAGE,
