@@ -3,43 +3,51 @@ package com.uniskare.eureka_user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniskare.eureka_user.controller.Response.BaseResponse;
 import com.uniskare.eureka_user.controller.Response.ResponseMessage;
 import com.uniskare.eureka_user.dto.CertificationDTO;
-import com.uniskare.eureka_user.dto.UserInfo;
 import com.uniskare.eureka_user.entity.User;
 import com.uniskare.eureka_user.entity.UserPic;
+import com.uniskare.eureka_user.repository.MomentRepo;
+import com.uniskare.eureka_user.repository.RelationRepo;
 import com.uniskare.eureka_user.repository.UserPicRepo;
 import com.uniskare.eureka_user.repository.UserRepo;
 import com.uniskare.eureka_user.service.CertificationService;
 import com.uniskare.eureka_user.service.UserService;
-import net.bytebuddy.asm.Advice;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.uniskare.eureka_user.service.Helper.Const.*;
 import static com.uniskare.eureka_user.service.Helper.Const.SCHOOL;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 @Transactional
-public class CertificationServiceIntegrationTest {
-
+public class CertificationControllerIntegrationTest {
     @SpringBootApplication(scanBasePackages = "com.uniskare.eureka_user")
     static class InnerConfig{}
+
+    @Autowired
+    private CertificationService certificationService;
 
     @Autowired
     private UserRepo userRepo;
@@ -47,14 +55,17 @@ public class CertificationServiceIntegrationTest {
     @Autowired
     private UserPicRepo userPicRepo;
 
-    @Autowired
-    private UserService userService;
+
 
     @Autowired
-    private CertificationService certificationService;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @Test
-    public void IT_TC_005_001_001(){
+    public void IT_TC_006_001_001() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "";
         List<String> pics = new ArrayList<>();
@@ -65,9 +76,17 @@ public class CertificationServiceIntegrationTest {
         jsonObject.put(PIC,pics);
         jsonObject.put(SCHOOL,school);
 
+        String requestJson = jsonObject.toJSONString();
 
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -75,7 +94,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_002(){
+    public void IT_TC_006_001_002() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "aaa";
         List<String> pics = new ArrayList<>();
@@ -88,7 +107,16 @@ public class CertificationServiceIntegrationTest {
 
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -96,7 +124,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_003(){
+    public void IT_TC_006_001_003() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = null;
         List<String> pics = new ArrayList<>();
@@ -109,7 +137,16 @@ public class CertificationServiceIntegrationTest {
 
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(null);
         Assertions.assertThat(result.getStatus()).isEqualTo(400);
@@ -117,7 +154,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_004(){
+    public void IT_TC_006_001_004() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
         User user = new User();
@@ -131,7 +168,16 @@ public class CertificationServiceIntegrationTest {
         jsonObject.put(SCHOOL,school);
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -139,7 +185,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_005(){
+    public void IT_TC_006_001_005() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
         User user = new User();
@@ -154,7 +200,16 @@ public class CertificationServiceIntegrationTest {
         jsonObject.put(SCHOOL,school);
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -162,7 +217,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_006(){
+    public void IT_TC_006_001_006() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
         User user = new User();
@@ -176,7 +231,16 @@ public class CertificationServiceIntegrationTest {
         jsonObject.put(SCHOOL,school);
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -184,7 +248,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_007(){
+    public void IT_TC_006_001_007() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "test154";
         User user = new User();
@@ -198,7 +262,16 @@ public class CertificationServiceIntegrationTest {
         jsonObject.put(SCHOOL,school);
 
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(null);
         Assertions.assertThat(result.getStatus()).isEqualTo(400);
@@ -206,7 +279,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_001_008(){
+    public void IT_TC_006_001_008() throws Exception {
         JSONObject jsonObject = new JSONObject();
         String userId = "test155";
         User user = new User();
@@ -222,7 +295,16 @@ public class CertificationServiceIntegrationTest {
 
         userRepo.save(user);
 
-        BaseResponse result = certificationService.upLoadCertification(jsonObject);
+        String requestJson = jsonObject.toJSONString();
+
+        String httpResult = mockMvc.perform(post("/user/certification/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
 
         List<UserPic> userPics = userPicRepo.findAllByUserId(userId);
@@ -236,7 +318,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_002_001(){
+    public void IT_TC_006_002_001() throws Exception {
 //        String user_1_id = "aaa";
 //        String user_2_id = "bbb";
 
@@ -279,22 +361,27 @@ public class CertificationServiceIntegrationTest {
 
 //        Mockito.when(userPicRepo.findAllByUserId(user_1_id)).thenReturn(userPics1);
 //        Mockito.when(userPicRepo.findAllByUserId(user_2_id)).thenReturn(userPics2);
-        BaseResponse result = certificationService.getCertifications();
+        String httpResult = mockMvc.perform(get("/user/certification/all"))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
 
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
+        String convertBridge = JSON.toJSONString(result.getData());
+        List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
 
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
-//        certificationDTOS.add(new CertificationDTO(user1,userPics1));
-//        certificationDTOS.add(new CertificationDTO(user2,userPics2));
 
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+
+        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
 
     @Test
-    public void IT_TC_005_002_002(){
+    public void IT_TC_006_002_002() throws Exception {
         String user_1_id = "aaa";
 //        String user_2_id = "bbb";
 
@@ -342,19 +429,30 @@ public class CertificationServiceIntegrationTest {
 
 
 //        Mockito.when(userPicRepo.findAllByUserId(user_2_id)).thenReturn(userPics2);
-        BaseResponse result = certificationService.getCertifications();
+
+        String httpResult = mockMvc.perform(get("/user/certification/all"))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
 
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
         certificationDTOS.add(new CertificationDTO(user1,userPics1));
 //        certificationDTOS.add(new CertificationDTO(user2,userPics2));
 
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+
+        String convertBridge = JSON.toJSONString(result.getData());
+        List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
+
+        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
     @Test
-    public void IT_TC_005_002_003(){
+    public void IT_TC_006_002_003() throws Exception {
         String user_1_id = "aaa";
         String user_2_id = "bbb";
 
@@ -406,46 +504,56 @@ public class CertificationServiceIntegrationTest {
         userPicRepo.save(userPic_2_1);
         userPicRepo.save(userPic_2_2);
 
-        BaseResponse result = certificationService.getCertifications();
+        String httpResult = mockMvc.perform(get("/user/certification/all"))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+
+        String convertBridge = JSON.toJSONString(result.getData());
+        List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
+
+
 
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
         certificationDTOS.add(new CertificationDTO(user1,userPics1));
         certificationDTOS.add(new CertificationDTO(user2,userPics2));
 
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
 
 
     @Test
-    public void IT_TC_005_003_001(){
+    public void IT_TC_006_003_001() throws Exception {
 
         String userId = "";
         User user = new User();
         user.setUniUuid(userId);
 
+        String result = mockMvc.perform(post("/user/certification/accept/"+userId))
+                .andExpect(status().is(404))
+                .andReturn().getResponse().getContentAsString();
 
 
-
-        BaseResponse result = certificationService.acceptCertification(userId);
-
-        Assertions.assertThat(result.getData()).isEqualTo(false);
-        Assertions.assertThat(result.getStatus()).isEqualTo(200);
-        Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");
     }
 
     @Test
-    public void IT_TC_005_003_002(){
+    public void IT_TC_006_003_002() throws Exception {
 
         String userId = "11111";
         User user = new User();
         user.setUniUuid(userId);
 
 
+        String httpResult = mockMvc.perform(post("/user/certification/accept/"+userId))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
 
-
-        BaseResponse result = certificationService.acceptCertification(userId);
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -453,7 +561,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_003_003(){
+    public void IT_TC_006_003_003() throws Exception {
 
         String userId = "test154";
         User user = new User();
@@ -461,7 +569,12 @@ public class CertificationServiceIntegrationTest {
 
         userRepo.save(user);
 
-        BaseResponse result = certificationService.acceptCertification(userId);
+        String httpResult = mockMvc.perform(post("/user/certification/accept/"+userId))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         User check = userRepo.findByUniUuid(userId);
 
@@ -471,28 +584,12 @@ public class CertificationServiceIntegrationTest {
 
     }
 
-    @Test
-    public void IT_TC_005_003_004(){
 
-        String userId = null;
-        User user = new User();
-        user.setUniUuid(userId);
-
-
-
-
-        BaseResponse result = certificationService.acceptCertification(userId);
-
-        Assertions.assertThat(result.getData()).isEqualTo(null);
-        Assertions.assertThat(result.getStatus()).isEqualTo(409);
-        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
-
-    }
 
 
 
     @Test
-    public void IT_TC_005_004_001(){
+    public void IT_TC_006_004_001() throws Exception {
 
         String userId = "";
         User user = new User();
@@ -500,15 +597,15 @@ public class CertificationServiceIntegrationTest {
 
 
 
-        BaseResponse result = certificationService.denyCertification(userId);
+        String httpResult = mockMvc.perform(post("/user/certification/deny/"+userId))
+                .andExpect(status().is(404))
+                .andReturn().getResponse().getContentAsString();
 
-        Assertions.assertThat(result.getData()).isEqualTo(false);
-        Assertions.assertThat(result.getStatus()).isEqualTo(200);
-        Assertions.assertThat(result.getMessage()).isEqualTo("不合法的id");
+
     }
 
     @Test
-    public void IT_TC_005_004_002(){
+    public void IT_TC_006_004_002() throws Exception {
 
         String userId = "11111";
         User user = new User();
@@ -517,7 +614,12 @@ public class CertificationServiceIntegrationTest {
 
 
 
-        BaseResponse result = certificationService.denyCertification(userId);
+        String httpResult = mockMvc.perform(post("/user/certification/deny/"+userId))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
 
         Assertions.assertThat(result.getData()).isEqualTo(false);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -525,7 +627,7 @@ public class CertificationServiceIntegrationTest {
     }
 
     @Test
-    public void IT_TC_005_004_003(){
+    public void IT_TC_006_004_003() throws Exception {
 
         String userId = "test154";
         User user = new User();
@@ -534,7 +636,13 @@ public class CertificationServiceIntegrationTest {
         userRepo.save(user);
 
 
-        BaseResponse result = certificationService.denyCertification(userId);
+        String httpResult = mockMvc.perform(post("/user/certification/deny/"+userId))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+
+        Reader reader = new StringReader(httpResult);
+        BaseResponse result = objectMapper.readValue(reader,BaseResponse.class);
+
         User check = userRepo.findByUniUuid(userId);
         Assertions.assertThat(result.getData()).isEqualTo(true);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
@@ -542,20 +650,5 @@ public class CertificationServiceIntegrationTest {
 
     }
 
-    @Test
-    public void IT_TC_005_004_004(){
 
-        String userId = null;
-        User user = new User();
-        user.setUniUuid(userId);
-
-
-
-        BaseResponse result = certificationService.denyCertification(userId);
-
-        Assertions.assertThat(result.getData()).isEqualTo(null);
-        Assertions.assertThat(result.getStatus()).isEqualTo(409);
-        Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.OPERATION_FAIL);
-
-    }
 }
