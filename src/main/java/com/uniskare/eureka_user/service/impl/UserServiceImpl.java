@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
 
             user = new User();
             user.setUniUuid(open_id);
-            user.setUniSchool("同济大学");
-            user.setUniIsStu(2); // no certification
+            user.setUniSchool("null");
+            user.setUniIsStu(0); // no certification
             userRepo.save(user);
             judge = true;
 
