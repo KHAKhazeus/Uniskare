@@ -101,6 +101,14 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>5.1</version>
+        </dependency>
+
+
     </dependencies>
 
 <!--    <distributionManagement>-->
@@ -122,6 +130,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
 
     <build>
         <plugins>
@@ -145,6 +155,11 @@
                     </resources>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <version>3.0.0</version>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

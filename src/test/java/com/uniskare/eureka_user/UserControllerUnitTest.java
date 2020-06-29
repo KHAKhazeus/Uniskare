@@ -87,7 +87,7 @@ public class UserControllerUnitTest {
         }
         Mockito.when(userService.register(any())).thenReturn(null);
         BaseResponse result = userController.verityLoginCode(code);
-        Assertions.assertThat(result.getData()).isEqualTo(null);
+        Assertions.assertThat(result.getData()).isEqualTo(false);
     }
 
     @Test

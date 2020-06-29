@@ -63,6 +63,7 @@ public class UserController {
             if(codeResponse.getSession_key() != null){
                 userService.register(codeResponse.getOpenid());
             }
+            baseResponse.setData(codeResponse);
 
         }
 
