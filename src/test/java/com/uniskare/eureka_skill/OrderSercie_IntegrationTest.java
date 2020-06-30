@@ -259,7 +259,7 @@ public class OrderSercie_IntegrationTest {
         Assertions.assertThat(result.getMessage()).isEqualTo(ResponseMessage.QUERY_SUCCESS);
 
         // 不一定成立，因为在测试时我只插入了两条订单，请根据数据库情况更改或注释
-        Assertions.assertThat(obj.getTotalPage()).isEqualTo(1);
+//        Assertions.assertThat(obj.getTotalPage()).isEqualTo(1);
 
         printAfterFinishing();
     }
