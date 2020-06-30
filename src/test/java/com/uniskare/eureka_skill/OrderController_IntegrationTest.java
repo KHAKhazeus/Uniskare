@@ -151,8 +151,9 @@ public class OrderController_IntegrationTest {
 
         BaseResponse result = mockMvcPostJsonFormat(URL_004_001, json, 200);
 
-        OrderPageDTO obj = getOrderDTO (result.getData());
-        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+//        OrderPageDTO obj = getOrderDTO (result.getData());
+//        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
         printAfterFinishing();
     }
 

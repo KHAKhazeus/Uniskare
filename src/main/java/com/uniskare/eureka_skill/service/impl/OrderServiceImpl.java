@@ -87,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 throw new BackendException("状态为空");
             }
 
+            if(jsonObject.get(PAGE).equals("")) throw new Exception("页码不存在");
             int page = jsonObject.getIntValue(PAGE);
 
             List<SkillOrder> skillOrders;

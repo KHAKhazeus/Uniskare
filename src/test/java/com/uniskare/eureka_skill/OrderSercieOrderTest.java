@@ -115,9 +115,9 @@ public class OrderSercieOrderTest {
         json.put(ORDER_STATUS, ORDER_STATUS_CANCELED);
 
         BaseResponse result = orderService.getOrdersByState(json);
-
-        OrderPageDTO obj = (OrderPageDTO) (result.getData());
-        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
+        Assertions.assertThat(result.getStatus()).isEqualTo(Code.BAD_REQUEST);
+//        OrderPageDTO obj = (OrderPageDTO) (result.getData());
+//        Assertions.assertThat(obj.getOrders().size()).isEqualTo(0);
         printAfterFinishing();
     }
 
