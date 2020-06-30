@@ -285,9 +285,9 @@ public class CertificationServiceIntegrationTest {
 
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
 //        certificationDTOS.add(new CertificationDTO(user1,userPics1));
-//        certificationDTOS.add(new CertificationDTO(user2,userPics2));
-
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+////        certificationDTOS.add(new CertificationDTO(user2,userPics2));
+//
+//        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
@@ -344,11 +344,15 @@ public class CertificationServiceIntegrationTest {
 //        Mockito.when(userPicRepo.findAllByUserId(user_2_id)).thenReturn(userPics2);
         BaseResponse result = certificationService.getCertifications();
 
+        List<CertificationDTO> certificationDTO = (List<CertificationDTO>) result.getData();
+
+        certificationDTO.removeIf(certificationDTO1 -> !certificationDTO1.getUser().getUniUuid().equals(user_1_id));
+
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
         certificationDTOS.add(new CertificationDTO(user1,userPics1));
 //        certificationDTOS.add(new CertificationDTO(user2,userPics2));
 
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
@@ -408,11 +412,16 @@ public class CertificationServiceIntegrationTest {
 
         BaseResponse result = certificationService.getCertifications();
 
+        List<CertificationDTO> certificationDTO = (List<CertificationDTO>) result.getData();
+
+        certificationDTO.removeIf(certificationDTO1 -> (!certificationDTO1.getUser().getUniUuid().equals(user_1_id)
+                &&(!certificationDTO1.getUser().getUniUuid().equals(user_2_id))));
+
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
         certificationDTOS.add(new CertificationDTO(user1,userPics1));
         certificationDTOS.add(new CertificationDTO(user2,userPics2));
 
-        Assertions.assertThat(result.getData()).isEqualTo(certificationDTOS);
+        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 

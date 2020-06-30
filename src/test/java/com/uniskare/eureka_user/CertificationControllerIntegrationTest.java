@@ -371,10 +371,9 @@ public class CertificationControllerIntegrationTest {
         String convertBridge = JSON.toJSONString(result.getData());
         List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
 
-        List<CertificationDTO> certificationDTOS = new ArrayList<>();
 
 
-        Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
+
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
 
@@ -446,6 +445,10 @@ public class CertificationControllerIntegrationTest {
         String convertBridge = JSON.toJSONString(result.getData());
         List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
 
+
+        certificationDTO.removeIf(certificationDTO1 -> !certificationDTO1.getUser().getUniUuid().equals(user_1_id));
+
+
         Assertions.assertThat(certificationDTO).isEqualTo(certificationDTOS);
         Assertions.assertThat(result.getStatus()).isEqualTo(200);
     }
@@ -514,7 +517,8 @@ public class CertificationControllerIntegrationTest {
         String convertBridge = JSON.toJSONString(result.getData());
         List<CertificationDTO> certificationDTO = JSONObject.parseArray(convertBridge,CertificationDTO.class);
 
-
+        certificationDTO.removeIf(certificationDTO1 -> (!certificationDTO1.getUser().getUniUuid().equals(user_1_id)
+                                        &&(!certificationDTO1.getUser().getUniUuid().equals(user_2_id))));
 
         List<CertificationDTO> certificationDTOS = new ArrayList<>();
         certificationDTOS.add(new CertificationDTO(user1,userPics1));
